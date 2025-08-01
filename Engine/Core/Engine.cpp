@@ -162,12 +162,12 @@ void Engine::Quit()
     isQuit = true;
 }
 
-int Engine::GetWidth() const
+int Engine::Width() const
 {
     return settings.width;
 }
 
-int Engine::GetHeight() const
+int Engine::Height() const
 {
     return settings.height;
 }
@@ -176,7 +176,7 @@ void Engine::LoadEngineSetting()
 {
     //엔진 설정 파일을 열기
     FILE* settingFile = nullptr;
-    fopen_s(&settingFile, "EngineSettings.txt", "rt");
+    fopen_s(&settingFile, "../Settings/EngineSettings.txt", "rt");
 
     //파일이 존재하지않거나 오류 발생할시 예외처리
     if (settingFile == nullptr)

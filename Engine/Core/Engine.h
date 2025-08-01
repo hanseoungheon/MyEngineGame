@@ -33,8 +33,8 @@ public:
 
 	void Quit();
 
-	int GetWidth() const;
-	int GetHeight() const;
+	int Width() const;
+	int Height() const;
 
 private:
 	void BeginPlay();

@@ -6,6 +6,7 @@
 #include "Utils/Utils.h"
 
 Actor::Actor(const char* image, Color color, const Vector2& position)
+    :color(color), actorPosition(position)
 {
     //액터 생성자로 받은 문자열의 길이를 width 정수형에 저장
     width = (int)strlen(image);
@@ -48,6 +49,41 @@ void Actor::Render()
 void Actor::SetPosition(const Vector2& newPosition)
 {
     //예외 처리 (화면 벗어났는지 확인.)
+
+
+    //액터의 왼쪽 가장자리가 화면 왼쪽을 벗어났는지
+    if (newPosition.x < 0)
+        return;
+
+    //액터의 오른쪽 가장자리가 화면 오른쪽을 벗어났는지
+    if (newPosition.x + width - 1 > Engine::Get().Width())
+        return;
+
+    //액터가 화면 윗쪽을 벗어났는지
+    if (newPosition.y < 0)
+        return;
+
+    //액터가 화면 아래를 벗어났는지
+    if (newPosition.y - 1 > Engine::Get().Height())
+        return;
+   
+    if (actorPosition == newPosition)
+        return;
+
+    //지울 위치 확인
+    Vector2 direction = newPosition - actorPosition; 
+    // 갈 위치 - 현재 위치 = 방향벡터
+
+    actorPosition.x = (direction.x >= 0) ? actorPosition.x : actorPosition.x
+        + width - 1;
+
+    //커서 이동
+    Utils::SetConsolePosition(actorPosition);
+
+    //문자열 길이 고려해서 지울위치 확인
+    std::cout << ' ';
+
+    actorPosition = newPosition;
 }
 
 Vector2 Actor::GetActorPosition() const

@@ -19,6 +19,8 @@ private:
 	void ProcessCollisionPlayerAndEnemyObject();
 private:
 
+	int hp = 92; //플레이어의 체력
+
 	//공격 오브젝트가 생성 시 계산을 위한 타이머 
 	Timer enemyObejctSpawnTimer;
 
