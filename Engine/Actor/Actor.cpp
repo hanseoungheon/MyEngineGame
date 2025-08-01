@@ -107,9 +107,10 @@ bool Actor::TestIntersect(const Actor* const other)
 void Actor::Destroy()
 {
     isExpired = true;
-    owner->
+    owner->DestoryActor(this);
 }
 
 void Actor::QuitGame()
 {
+    Engine::Get().Quit();
 }

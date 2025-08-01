@@ -53,7 +53,7 @@ void Engine::BeginPlay()
     }
 }
 
-void Engine::Tick(float DeltaTime = 0.0f)
+void Engine::Tick(float DeltaTime)
 {
     if (mainLevel)
     {

@@ -1,5 +1,8 @@
 #include "Input.h"
 #include <Windows.h>
+
+Input* Input::instance = nullptr;
+
 Input::Input()
 {
     //싱글톤 함수를 위해 this 키워드 사용!
