@@ -15,7 +15,7 @@ class Engine_API Actor : public RTTI
 
 
 public:
-	Actor(const char* image = " ", Color color = Color::While,
+	Actor(const char* image = " ", Color color = Color::White,
 		const Vector2& position = Vector2::Zero);
 
 	virtual ~Actor();
@@ -84,4 +84,6 @@ protected:
 
 	//객체를 소유한 레벨
 	Level* owner = nullptr;
+
+	const int LeftSide = 40;
 };

@@ -52,15 +52,15 @@ void Actor::SetPosition(const Vector2& newPosition)
 
 
     //액터의 왼쪽 가장자리가 화면 왼쪽을 벗어났는지
-    if (newPosition.x < 0)
+    if (newPosition.x < LeftSide)
         return;
 
     //액터의 오른쪽 가장자리가 화면 오른쪽을 벗어났는지
     if (newPosition.x + width - 1 > Engine::Get().Width())
         return;
 
-    //액터가 화면 윗쪽을 벗어났는지
-    if (newPosition.y < 0)
+    //액터의 윗쪽 가장자리가 화면 윗쪽을 벗어났는지
+    if (newPosition.y < 15)
         return;
 
     //액터가 화면 아래를 벗어났는지

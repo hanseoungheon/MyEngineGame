@@ -29,4 +29,6 @@ private:
 
 	//플레이어 죽은 위치 정보
 	Vector2 PlayerDeadPosition;
+
+
 };
