@@ -10,7 +10,8 @@ GameLevel::GameLevel()
 {
 	ReadMapFile("map.txt");
 	//»÷Áî ·»´õ¸µ
-	AddActor(new MultiLine_Actor("../Assets/sans_unicode.txt", Color::White, Vector2(45, 0)));
+	AddActor(new MultiLine_Actor("../Assets/sans_unicode.txt", 
+		Color::White, Vector2(48, 0)));
 	
 	//ÇÃ·¹ÀÌ¾î ·»´õ¸µ
 	AddActor(new Player());
@@ -117,3 +118,4 @@ void GameLevel::ReadMapFile(const char* fileName)
 void GameLevel::ProcessCollisionPlayerAndEnemyObject()
 {
 }
+

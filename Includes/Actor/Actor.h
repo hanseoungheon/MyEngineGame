@@ -45,6 +45,12 @@ public:
 	void SetOwner(Level* newOwner);
 	Level* GetOwner();
 
+	//색상 반환
+	Color GetColor() const;
+
+	//색상 설정
+	void SetColor(const Color color);
+
 	//충돌 확인 요청 함수 (AABB 로직)
 	bool TestIntersect(const Actor* const other);
 

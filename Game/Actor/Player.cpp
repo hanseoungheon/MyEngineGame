@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Engine.h"
+#include "Utils/Utils.h"
 Player::Player() : Actor("Y",Color::Red)
 {
 	SetSortingOrder(1);
@@ -15,6 +16,15 @@ Player::Player() : Actor("Y",Color::Red)
 void Player::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	JumpTick++;
+	//중력구현
+	if (IsGravity && !Input::GetController().GetKey(VK_UP))
+	{
+		Vector2 playerPosition = GetActorPosition();
+		playerPosition.y += 1;
+		SetPosition(playerPosition);
+		JumpTick = 0;
+	}
 	//입력 처리
 	if (Input::GetController().GetKeyDown(VK_ESCAPE))
 	{
@@ -23,31 +33,61 @@ void Player::Tick(float DeltaTime)
 		return;
 	}
 
-	if (Input::GetController().GetKey(VK_LEFT) && IsTurn == true)
+	if (IsTurn)
 	{
-		Vector2 playerPosition = GetActorPosition();
-		playerPosition.x += -1;
-		SetPosition(playerPosition);
-	}
+		if (Input::GetController().GetKey(VK_LEFT))
+		{
+			Vector2 playerPosition = GetActorPosition();
+			playerPosition.x += -1;
+			SetPosition(playerPosition);
+		}
 
-	if (Input::GetController().GetKey(VK_RIGHT) && IsTurn == true)
-	{
-		Vector2 playerPosition = GetActorPosition();
-		playerPosition.x += 1;
-		SetPosition(playerPosition);
-	}
+		if (Input::GetController().GetKey(VK_RIGHT))
+		{
+			Vector2 playerPosition = GetActorPosition();
+			playerPosition.x += 1;
+			SetPosition(playerPosition);
+		}
 
-	if (Input::GetController().GetKey(VK_UP) && IsTurn == true)
-	{
-		Vector2 playerPosition = GetActorPosition();
-		playerPosition.y += -1;
-		SetPosition(playerPosition);
-	}
+		if (Input::GetController().GetKey(VK_UP) && IsGravity == false
+			&& JumpTick % 2 == 0)
+		{
+			Vector2 playerPosition = GetActorPosition();
+			playerPosition.y += -1;
+			SetPosition(playerPosition);
+		}
 
-	if (Input::GetController().GetKey(VK_DOWN) && IsTurn == true)
-	{
-		Vector2 playerPosition = GetActorPosition();
-		playerPosition.y += 1;
-		SetPosition(playerPosition);
+		if (Input::GetController().GetKey(VK_DOWN) && IsGravity == false
+			&& JumpTick % 2 == 0)
+		{
+			Vector2 playerPosition = GetActorPosition();
+			playerPosition.y += 1;
+			SetPosition(playerPosition);
+		}
+
+		if (Input::GetController().GetKey(VK_UP) && IsGravity == true
+			&& JumpTick % 4 == 0)
+		{
+			Vector2 playerPosition = GetActorPosition();
+			playerPosition.y += -1;
+			SetPosition(playerPosition);
+		}
+
+		if (Input::GetController().GetKeyDown(VK_CONTROL))
+		{
+			ChangeToIsGravity();
+		}
 	}
+	
 }
+
+void Player::ChangeToIsGravity()
+{
+	IsGravity = !IsGravity;
+
+	if (IsGravity)
+		SetColor(Color::Blue);
+	else
+		SetColor(Color::Red);
+}
+

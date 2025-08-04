@@ -111,6 +111,16 @@ Level* Actor::GetOwner()
     return owner;
 }
 
+Color Actor::GetColor() const
+{
+    return color;
+}
+
+void Actor::SetColor(const Color color)
+{
+    this->color = color;
+}
+
 bool Actor::TestIntersect(const Actor* const other)
 {
     //이 액터의 x좌표 정보

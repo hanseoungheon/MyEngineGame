@@ -13,6 +13,10 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
+	void ChangeToIsGravity();
 private:
+	Color PlayerColor = Color::Red;
 	bool IsTurn = true; //샌즈랑 전투중인 턴인지?
+	bool IsGravity = false; //파란색(중력적용) 상태인지?
+	int JumpTick = 0;
 };
