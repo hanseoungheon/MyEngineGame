@@ -8,7 +8,9 @@
 
 GameLevel::GameLevel()
 {
+	//플레이어 맵 파일 리딩
 	ReadMapFile("map.txt");
+
 	//샌즈 렌더링
 	AddActor(new MultiLine_Actor("../Assets/sans_unicode.txt", 
 		Color::White, Vector2(48, 0)));
