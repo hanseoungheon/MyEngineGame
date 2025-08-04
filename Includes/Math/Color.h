@@ -7,4 +7,6 @@ enum class Color :int
 	Red = 4,
 	White = Red | Green | Blue,
 	Intensity = 8,
+	Yellow = 14,
+	Orange = 12,
 };

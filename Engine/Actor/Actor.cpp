@@ -5,8 +5,9 @@
 #include "Level/Level.h"
 #include "Utils/Utils.h"
 
-Actor::Actor(const char* image, Color color, const Vector2& position)
-    :color(color), actorPosition(position)
+Actor::Actor(const char* image, Color color, const Vector2& position,
+    bool IsUI)
+    :color(color), actorPosition(position),IsUI(IsUI)
 {
     //액터 생성자로 받은 문자열의 길이를 width 정수형에 저장
     width = (int)strlen(image);
@@ -50,40 +51,43 @@ void Actor::SetPosition(const Vector2& newPosition)
 {
     //예외 처리 (화면 벗어났는지 확인.)
 
+    if (!IsUI)
+    {
+        //액터의 왼쪽 가장자리가 화면 왼쪽을 벗어났는지
+        if (newPosition.x < LeftSide)
+            return;
 
-    //액터의 왼쪽 가장자리가 화면 왼쪽을 벗어났는지
-    if (newPosition.x < LeftSide)
-        return;
+        //액터의 오른쪽 가장자리가 화면 오른쪽을 벗어났는지
+        if (newPosition.x + width - 1 > Engine::Get().Width())
+            return;
 
-    //액터의 오른쪽 가장자리가 화면 오른쪽을 벗어났는지
-    if (newPosition.x + width - 1 > Engine::Get().Width())
-        return;
+        //액터의 윗쪽 가장자리가 화면 윗쪽을 벗어났는지
+        if (newPosition.y < 16)
+            return;
 
-    //액터의 윗쪽 가장자리가 화면 윗쪽을 벗어났는지
-    if (newPosition.y < 16)
-        return;
+        //액터가 화면 아래를 벗어났는지
+        if (newPosition.y - 1 > Engine::Get().Height())
+            return;
 
-    //액터가 화면 아래를 벗어났는지
-    if (newPosition.y - 1 > Engine::Get().Height())
-        return;
-   
-    if (actorPosition == newPosition)
-        return;
+        if (actorPosition == newPosition)
+            return;
 
-    //지울 위치 확인
-    Vector2 direction = newPosition - actorPosition; 
-    // 갈 위치 - 현재 위치 = 방향벡터
 
-    actorPosition.x = (direction.x >= 0) ? actorPosition.x : actorPosition.x
-        + width - 1;
+        //지울 위치 확인
+        Vector2 direction = newPosition - actorPosition;
+        // 갈 위치 - 현재 위치 = 방향벡터
 
-    //커서 이동
-    Utils::SetConsolePosition(actorPosition);
+        actorPosition.x = (direction.x >= 0) ? actorPosition.x : actorPosition.x
+            + width - 1;
 
-    //문자열 길이 고려해서 지울위치 확인
-    std::cout << ' ';
+        //커서 이동
+        Utils::SetConsolePosition(actorPosition);
 
-    actorPosition = newPosition;
+        //문자열 길이 고려해서 지울위치 확인
+        std::cout << ' ';
+
+        actorPosition = newPosition;
+    }
 }
 
 Vector2 Actor::GetActorPosition() const
@@ -123,31 +127,34 @@ void Actor::SetColor(const Color color)
 
 bool Actor::TestIntersect(const Actor* const other)
 {
-    //이 액터의 x좌표 정보
-    int xMin = actorPosition.x;
-    int xMax = actorPosition.x + width - 1;
-
-    //이 액터의 y 좌표 정보
-
-
-    //충돌비교할 다른 액터의 x좌표 정보
-    int other_xMin = other->actorPosition.x;
-    int other_xMax = other->actorPosition.x + other->width - 1;
-
-    //다른 액터의 y좌표 정보
-
-    //안겹치는 조건 확인
-    if (other_xMin > xMax)
+    if (!IsUI)
     {
-        return false;
-    }
+        //이 액터의 x좌표 정보
+        int xMin = actorPosition.x;
+        int xMax = actorPosition.x + width - 1;
 
-    if (other_xMax < xMin)
-    {
-        return false;
-    }
+        //이 액터의 y 좌표 정보
 
-    return actorPosition.y == other->actorPosition.y;
+
+        //충돌비교할 다른 액터의 x좌표 정보
+        int other_xMin = other->actorPosition.x;
+        int other_xMax = other->actorPosition.x + other->width - 1;
+
+        //다른 액터의 y좌표 정보
+
+        //안겹치는 조건 확인
+        if (other_xMin > xMax)
+        {
+            return false;
+        }
+
+        if (other_xMax < xMin)
+        {
+            return false;
+        }
+
+        return actorPosition.y == other->actorPosition.y;
+    }
 }
 
 void Actor::Destroy()

@@ -133,7 +133,6 @@ void Engine::Render()
     {
         mainLevel->Render();
     }
-        
 }
 
 Engine& Engine::Get()

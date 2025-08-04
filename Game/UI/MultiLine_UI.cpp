@@ -1,9 +1,14 @@
-#include "MultiLine_Actor.h"
+#include "MultiLine_UI.h"
 #include "Utils/Utils.h"
-MultiLine_Actor::MultiLine_Actor(const char* filePath, Color color,
-	const Vector2& position)
-	: Actor("", color, position,false)
+MultiLine_UI::MultiLine_UI(const char* filePath, Color color,
+	const Vector2& position,UI_Type type)
+	: Actor("", color, position,true)
 {
+	SetSortingOrder(2);
+
+	//타입 정의
+	UItype = type;
+
 	FILE* file = nullptr;
 	fopen_s(&file, filePath, "rt");
 
@@ -33,7 +38,7 @@ MultiLine_Actor::MultiLine_Actor(const char* filePath, Color color,
 	fclose(file);
 }
 
-void MultiLine_Actor::Render()
+void MultiLine_UI::Render()
 {
 	Utils::SetConsoleTextColor(color);
 
@@ -44,4 +49,9 @@ void MultiLine_Actor::Render()
 		Utils::SetConsolePosition(Vector2(pos.x, pos.y + static_cast<int>(i)));
 		std::cout << lines[i];
 	}
+}
+
+UI_Type MultiLine_UI::GetUIType()
+{
+	return UItype;
 }

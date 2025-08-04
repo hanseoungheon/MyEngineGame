@@ -16,7 +16,7 @@ class Engine_API Actor : public RTTI
 
 public:
 	Actor(const char* image = " ", Color color = Color::White,
-		const Vector2& position = Vector2::Zero);
+		const Vector2& position = Vector2::Zero,bool IsUI = false);
 
 	virtual ~Actor();
 
@@ -92,4 +92,7 @@ protected:
 	Level* owner = nullptr;
 
 	const int LeftSide = 40;
+
+	//UI면은 맵 크기에 제한 x
+	bool IsUI = false;
 };

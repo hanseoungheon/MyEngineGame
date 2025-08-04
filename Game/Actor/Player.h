@@ -14,7 +14,14 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	void ChangeToIsGravity();
+
+	bool GetIsTurn() const;
+	void SetIsTurn(const bool IsTurn);
+
+	int GetHp() const;
+	void SetHp(const int hp);
 private:
+	int hp;
 	Color PlayerColor = Color::Red;
 	bool IsTurn = true; //샌즈랑 전투중인 턴인지?
 	bool IsGravity = false; //파란색(중력적용) 상태인지?

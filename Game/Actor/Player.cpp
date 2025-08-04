@@ -1,8 +1,9 @@
 #include "Player.h"
 #include "Engine.h"
 #include "Utils/Utils.h"
-Player::Player() : Actor("Y",Color::Red)
+Player::Player() : Actor("Y",Color::Red,false)
 {
+	hp = 92;
 	SetSortingOrder(1);
 	IsTurn = true;
 	//시작 위치(화면의 가운데이면서 살짝 아랫쪽)
@@ -25,12 +26,18 @@ void Player::Tick(float DeltaTime)
 		SetPosition(playerPosition);
 		JumpTick = 0;
 	}
+
 	//입력 처리
 	if (Input::GetController().GetKeyDown(VK_ESCAPE))
 	{
 		//게임 종료
 		QuitGame();
 		return;
+	}
+
+	if (Input::GetController().GetKeyDown(VK_SHIFT))
+	{
+		IsTurn = !IsTurn;
 	}
 
 	if (IsTurn)
@@ -78,7 +85,7 @@ void Player::Tick(float DeltaTime)
 			ChangeToIsGravity();
 		}
 	}
-	
+
 }
 
 void Player::ChangeToIsGravity()
@@ -89,5 +96,25 @@ void Player::ChangeToIsGravity()
 		SetColor(Color::Blue);
 	else
 		SetColor(Color::Red);
+}
+
+bool Player::GetIsTurn() const
+{
+	return IsTurn;
+}
+
+void Player::SetIsTurn(const bool IsTurn)
+{
+	this->IsTurn = IsTurn;
+}
+
+int Player::GetHp() const
+{
+	return hp;
+}
+
+void Player::SetHp(const int hp)
+{
+	this->hp = hp;
 }
 
