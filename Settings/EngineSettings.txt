@@ -1,4 +1,4 @@
 width = 75
-height = 20
+height = 21
 framerate = 120
 

@@ -16,6 +16,8 @@ public:
 	virtual void Render() override;
 
 private:
+	void ReadMapFile(const char* fileName);
+
 	void ProcessCollisionPlayerAndEnemyObject();
 private:
 

@@ -145,6 +145,8 @@
   <ItemGroup>
     <ClCompile Include="Actor\MultiLine_Actor.cpp" />
     <ClCompile Include="Actor\Player.cpp" />
+    <ClCompile Include="Actor\Wall_Length.cpp" />
+    <ClCompile Include="Actor\Wall_Width.cpp" />
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="Level\GameLevel.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -153,6 +155,8 @@
   <ItemGroup>
     <ClInclude Include="Actor\MultiLine_Actor.h" />
     <ClInclude Include="Actor\Player.h" />
+    <ClInclude Include="Actor\Wall_Length.h" />
+    <ClInclude Include="Actor\Wall_Width.h" />
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="Level\GameLevel.h" />
     <ClInclude Include="Utils\Timer.h" />

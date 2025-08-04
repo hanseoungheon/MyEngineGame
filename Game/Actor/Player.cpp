@@ -2,15 +2,14 @@
 #include "Engine.h"
 Player::Player() : Actor("Y",Color::Red)
 {
+	SetSortingOrder(1);
 	IsTurn = true;
 	//시작 위치(화면의 가운데이면서 살짝 아랫쪽)
 	int xPosition = ((Engine::Get().Width()+ LeftSide) / 2);
 	int yPosition = Engine::Get().Height() - 1;
 
-
 	//설정
 	SetPosition(Vector2(xPosition, yPosition));
-
 }
 
 void Player::Tick(float DeltaTime)
