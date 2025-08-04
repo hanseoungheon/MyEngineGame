@@ -53,6 +53,7 @@ GameLevel::GameLevel()
 	//}
 
 	UIcontroller = 1;
+	//testUImode = false;
 }
 
 GameLevel::~GameLevel()
@@ -84,7 +85,7 @@ void GameLevel::Tick(float DeltaTime)
 	{
 		Player* player = actor->As<Player>();
 
-		if (player)
+		if (player != nullptr)
 		{
 			PlayerIsTurn = player->GetIsTurn();
 		}

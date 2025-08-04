@@ -17,6 +17,8 @@ Actor::Actor(const char* image, Color color, const Vector2& position,
 
     //생성자로 받은 문자열을 액터의 이미지 변수에 저장
     strcpy_s(this->image, width + 1, image);
+
+    IsVisible = true;
 }
 
 Actor::~Actor()
@@ -37,14 +39,18 @@ void Actor::Tick(float DeltaTime)
 
 void Actor::Render()
 {
-    //커서 이동
-    Utils::SetConsolePosition(actorPosition);
+    if (IsVisible == true)
+    {
+        //커서 이동
+        Utils::SetConsolePosition(actorPosition);
 
-    //색상 설정
-    Utils::SetConsoleTextColor(color);
+        //색상 설정
+        Utils::SetConsoleTextColor(color);
 
-    //그리기
-    std::cout << image;
+        //그리기
+        std::cout << image;
+
+    }
 }
 
 void Actor::SetPosition(const Vector2& newPosition)

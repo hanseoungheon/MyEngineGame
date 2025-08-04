@@ -95,4 +95,6 @@ protected:
 
 	//UI면은 맵 크기에 제한 x
 	bool IsUI = false;
+
+	bool IsVisible;
 };

@@ -35,9 +35,15 @@ void Player::Tick(float DeltaTime)
 		return;
 	}
 
-	if (Input::GetController().GetKeyDown(VK_SHIFT))
+	if (Input::GetController().GetKeyDown(VK_TAB))
 	{
 		IsTurn = !IsTurn;
+		IsVisible = !IsVisible;
+		Vector2 playerPosition = GetActorPosition();
+		playerPosition.x++;
+		SetPosition(playerPosition);
+		playerPosition.x--;
+		SetPosition(playerPosition);
 	}
 
 	if (IsTurn)
