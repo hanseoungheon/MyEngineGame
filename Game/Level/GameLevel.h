@@ -37,4 +37,7 @@ private:
 
 	//UI컨트롤러
 	int UIcontroller; 
+
+	int PlayerHp;
+
 };

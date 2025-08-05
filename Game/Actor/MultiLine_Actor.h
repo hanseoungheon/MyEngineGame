@@ -9,13 +9,14 @@ class MultiLine_Actor : public Actor
 
 public:
 	MultiLine_Actor(const char* filePath, Color color, const
-		Vector2& position);
+		Vector2& position,const char * Tag = "default");
 
 	virtual void Render() override;
 
+	char* GetTag() const;
 
 private:
 	std::vector<std::string> lines;
-
+	char* NameTag = nullptr;
 
 };

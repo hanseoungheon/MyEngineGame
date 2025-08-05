@@ -67,6 +67,8 @@ protected:
 	//그릴 텍스트
 	char* image = nullptr;
 
+	char SingleImage = ' ';
+
 	//문자열 길이
 	int width = 0;
 
@@ -97,4 +99,6 @@ protected:
 	bool IsUI = false;
 
 	bool IsVisible;
+
+	//int IsString = 1; // 1 이면 True, 0 이면 False
 };

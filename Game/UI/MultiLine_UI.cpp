@@ -1,7 +1,7 @@
 #include "MultiLine_UI.h"
 #include "Utils/Utils.h"
 MultiLine_UI::MultiLine_UI(const char* filePath, Color color,
-	const Vector2& position,UI_Type type)
+	const Vector2& position,UI_Type type,const char* Tag)
 	: Actor("", color, position,true)
 {
 	SetSortingOrder(2);
@@ -15,7 +15,7 @@ MultiLine_UI::MultiLine_UI(const char* filePath, Color color,
 	if (file == nullptr)
 	{
 		std::cout << "FatalError : Can not Read File\n";
-		__debugbreak;
+		__debugbreak();
 		return;
 	}
 
@@ -36,6 +36,13 @@ MultiLine_UI::MultiLine_UI(const char* filePath, Color color,
 		lines.emplace_back(buffer);
 	}
 	fclose(file);
+
+	if (Tag != nullptr)
+	{
+		size_t length = strlen(Tag) + 1;
+		NameTag = new char[length];
+		strcpy_s(NameTag, length, Tag);
+	}
 }
 
 void MultiLine_UI::Render()

@@ -9,17 +9,36 @@ Actor::Actor(const char* image, Color color, const Vector2& position,
     bool IsUI)
     :color(color), actorPosition(position),IsUI(IsUI)
 {
-    //액터 생성자로 받은 문자열의 길이를 width 정수형에 저장
-    width = (int)strlen(image);
+    //문자인지 문자열인지 구분하기
+    if (strlen(image) == 1)
+    {
+        SingleImage = image[0];
+        image = nullptr;
+    }
 
-    //액터를 만들기 위한 메모리 할당
-    this->image = new char[width + 1];
+    if (image != nullptr)
+    {
+        //액터 생성자로 받은 문자열의 길이를 width 정수형에 저장
+        width = (int)strlen(image);
 
-    //생성자로 받은 문자열을 액터의 이미지 변수에 저장
-    strcpy_s(this->image, width + 1, image);
+        //액터를 만들기 위한 메모리 할당
+        this->image = new char[width + 1];
+
+        //생성자로 받은 문자열을 액터의 이미지 변수에 저장
+        strcpy_s(this->image, width + 1, image);
+    }
 
     IsVisible = true;
 }
+
+//Actor::Actor(const Vector2& position, char image
+//    ,bool IsUI)
+//    : SingleImage(image), color(color), actorPosition(position),
+//    IsUI(IsUI)
+//{
+//    color = Color::White;
+//    IsVisible = true;
+//}
 
 Actor::~Actor()
 {
@@ -41,15 +60,31 @@ void Actor::Render()
 {
     if (IsVisible == true)
     {
-        //커서 이동
-        Utils::SetConsolePosition(actorPosition);
-
-        //색상 설정
-        Utils::SetConsoleTextColor(color);
-
         //그리기
-        std::cout << image;
+        if (image != nullptr)
+        {
+            //커서 이동
+            Utils::SetConsolePosition(actorPosition);
 
+            //색상 설정
+            Utils::SetConsoleTextColor(color);
+
+            //만약 문자열로 받았다면 문자열 출력
+            std::cout << image;
+        }
+        else
+        {
+            //아니라면 문자 출력
+            COORD coord;
+            coord.X = (short)actorPosition.x;
+            coord.Y = (short)actorPosition.y;
+
+            Utils::SetConsolePosition(coord);
+
+            Utils::SetConsoleTextColor(color);
+            
+            std::cout << SingleImage;
+        }
     }
 }
 
@@ -83,8 +118,20 @@ void Actor::SetPosition(const Vector2& newPosition)
         Vector2 direction = newPosition - actorPosition;
         // 갈 위치 - 현재 위치 = 방향벡터
 
-        actorPosition.x = (direction.x >= 0) ? actorPosition.x : actorPosition.x
-            + width - 1;
+        if (image != nullptr)
+        {
+            //문자열이면 길이 적용해야되용
+            actorPosition.x = (direction.x >= 0) ? 
+                actorPosition.x : actorPosition.x
+                + width - 1;
+        }
+        else
+        {
+            //문자일경우에는 길이 적용하면 안돼용
+            actorPosition.x = (direction.x >= 0) ? 
+                actorPosition.x : actorPosition.x;
+        }
+    
 
         //커서 이동
         Utils::SetConsolePosition(actorPosition);

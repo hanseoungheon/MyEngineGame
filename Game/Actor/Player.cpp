@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "Engine.h"
 #include "Utils/Utils.h"
+#include <iostream>
 Player::Player() : Actor("Y",Color::Red,false)
 {
 	hp = 92;
@@ -17,6 +18,7 @@ Player::Player() : Actor("Y",Color::Red,false)
 void Player::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	//std::cout << hp;
 	JumpTick++;
 	//중력구현
 	if (IsGravity && !Input::GetController().GetKey(VK_UP))
@@ -44,6 +46,24 @@ void Player::Tick(float DeltaTime)
 		SetPosition(playerPosition);
 		playerPosition.x--;
 		SetPosition(playerPosition);
+	}
+
+	if (Input::GetController().GetKey(VK_BACK))
+	{
+		--hp;
+	}
+
+	if (Input::GetController().GetKey(VK_RETURN))
+	{
+		hp = 80;
+	}
+
+	if (Input::GetController().GetKey(VK_LBUTTON))
+	{
+		if (hp < 92)
+		{
+			++hp;
+		}
 	}
 
 	if (IsTurn)

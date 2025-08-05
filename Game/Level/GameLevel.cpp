@@ -19,8 +19,8 @@ GameLevel::GameLevel()
 	ReadMapFile("map.txt");
 
 	//샌즈 렌더링
-	AddActor(new MultiLine_Actor("../Assets/sans_unicode.txt", 
-		Color::White, Vector2(48, 0)));
+	AddActor(new MultiLine_Actor("../Assets/sans_unicode_3.txt", 
+		Color::White, Vector2(50, 0),"Sans"));
 	
 	//플레이어 렌더링
 	AddActor(new Player());
@@ -28,23 +28,28 @@ GameLevel::GameLevel()
 	//UI
 	//공격 UI
 	AddActor(new MultiLine_UI("../Assets/UI/fight.txt",
-		Color::Yellow, Vector2(39, 25),UI_Type::FIGHT));
+		Color::Yellow, Vector2(39, 25),UI_Type::FIGHT,"MainUI"));
 	//행동 UI
 	AddActor(new MultiLine_UI("../Assets/UI/act.txt",
-		Color::Yellow, Vector2(49, 25),UI_Type::ACTOR));
+		Color::Yellow, Vector2(49, 25),UI_Type::ACTOR,"MainUI"));
 	//아이템 UI
 	AddActor(new MultiLine_UI("../Assets/UI/item.txt",
-		Color::Yellow, Vector2(59, 25),UI_Type::ITEM));
+		Color::Yellow, Vector2(59, 25),UI_Type::ITEM,"MainUI"));
 	//자비 UI
 	AddActor(new MultiLine_UI("../Assets/UI/mercy.txt",
-		Color::Yellow, Vector2(69, 25),UI_Type::MERCY));
+		Color::Yellow, Vector2(69, 25),UI_Type::MERCY,"MainUI"));
 
 	//캐릭터 상태 UI
-	AddActor(new Stat_UI("CHARA",Color::White,Vector2(33,23)));
-	AddActor(new Stat_UI("LV19",Color::White,Vector2(40,23)));
-	AddActor(new Stat_UI("HP ||||||||||||",Color::White,Vector2(46,23)));
+	AddActor(new Stat_UI("CHARA", Color::White, Vector2(33, 23),'C'));
+	AddActor(new Stat_UI("LV19",Color::White,Vector2(40,23),'L'));
+	AddActor(new Stat_UI("HP",Color::White,Vector2(46,23)));
+
+	for (int i = 1; i <= 12; i++)
+		AddActor(new Stat_UI("|", Color::Yellow, Vector2(47 + i, 23),40 + i));
+
 	AddActor(new Stat_UI("KR",Color::White,Vector2(62,23)));
-	AddActor(new Stat_UI("92 / 92",Color::White,Vector2(65,23)));
+	AddActor(new Stat_UI("92", Color::White, Vector2(65, 23), 'H'));
+	AddActor(new Stat_UI("/ 92",Color::White,Vector2(68,23)));
 
 	//for (Actor* actor : actors)
 	//{
@@ -88,6 +93,7 @@ void GameLevel::Tick(float DeltaTime)
 		if (player != nullptr)
 		{
 			PlayerIsTurn = player->GetIsTurn();
+			PlayerHp = player->GetHp();
 		}
 
 		//플레이어가 턴이 아닐때 UI조작하게 설정
@@ -109,6 +115,38 @@ void GameLevel::Tick(float DeltaTime)
 				mainUI->SetColor(Color::Yellow);
 			}
 		}
+
+		Stat_UI* statUI = actor->As<Stat_UI>();
+		if (statUI != nullptr && statUI->GetTag() == 'H')
+		{
+			statUI->SetStringStatImage(PlayerHp);
+		}
+		
+		for (int i = 12; i >0; i--)
+		{
+			if (statUI != nullptr && statUI->GetTag() == 40 + i)
+			{
+				if (PlayerHp > 92 - (13-i) * 8)
+					statUI->SetColor(Color::Yellow);
+				else
+					statUI->SetColor(Color::Red);
+			}
+		}
+		//if (statUI != nullptr && statUI->GetTag() == 40 + 12)
+		//{
+		//	if (PlayerHp > 92)
+		//		statUI->SetColor(Color::Yellow);
+		//	else
+		//		statUI->SetColor(Color::Red);
+		//}
+
+		//if (statUI != nullptr && statUI->GetTag() == 40 + 11)
+		//{
+		//	if (PlayerHp > 82)
+		//		statUI->SetColor(Color::Yellow);
+		//	else
+		//		statUI->SetColor(Color::Red);
+		//}
 	}
 
 	if (!PlayerIsTurn &&Input::GetController().GetKeyDown(VK_LEFT))

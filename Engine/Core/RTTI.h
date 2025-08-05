@@ -1,10 +1,11 @@
 #pragma once
-#pragma once
+
+#include "Core.h"
 
 // 상속 관계에 있는 클래스 간의
 // 동적(실행중에) 형변환을 빠르게 하기 위해 사용하는 클래스.
 // RunTime-Type-Information.
-class RTTI
+class Engine_API RTTI
 {
 public:
 	virtual const size_t& TypeIdInstance() const = 0;

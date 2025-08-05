@@ -1,7 +1,7 @@
 #include "MultiLine_Actor.h"
 #include "Utils/Utils.h"
 MultiLine_Actor::MultiLine_Actor(const char* filePath, Color color,
-	const Vector2& position)
+	const Vector2& position,const char* Tag)
 	: Actor("", color, position,false)
 {
 	FILE* file = nullptr;
@@ -10,7 +10,7 @@ MultiLine_Actor::MultiLine_Actor(const char* filePath, Color color,
 	if (file == nullptr)
 	{
 		std::cout << "FatalError : Can not Read File\n";
-		__debugbreak;
+		__debugbreak();
 		return;
 	}
 
@@ -31,6 +31,13 @@ MultiLine_Actor::MultiLine_Actor(const char* filePath, Color color,
 		lines.emplace_back(buffer);
 	}
 	fclose(file);
+
+	if (Tag != nullptr)
+	{
+		size_t length = strlen(Tag) + 1;
+		NameTag = new char[length];
+		strcpy_s(NameTag, length, Tag);
+	}
 }
 
 void MultiLine_Actor::Render()
@@ -44,4 +51,9 @@ void MultiLine_Actor::Render()
 		Utils::SetConsolePosition(Vector2(pos.x, pos.y + static_cast<int>(i)));
 		std::cout << lines[i];
 	}
+}
+
+char* MultiLine_Actor::GetTag() const
+{
+	return NameTag;
 }
