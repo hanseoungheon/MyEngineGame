@@ -1,5 +1,7 @@
 #include "MultiLine_Actor.h"
 #include "Utils/Utils.h"
+#include "Input.h"
+#include "Engine.h"
 MultiLine_Actor::MultiLine_Actor(const char* filePath, Color color,
 	const Vector2& position,const char* Tag)
 	: Actor("", color, position,false,IsString::STR_TRUE)
@@ -20,8 +22,9 @@ MultiLine_Actor::MultiLine_Actor(const char* filePath, Color color,
 	while (fgets(buffer, sizeof(buffer), file))
 	{
 		size_t length = strlen(buffer);
-		if (length > 0 && (buffer[length -1] == '\n') ||
-			buffer[length - 1] == '\r')
+		if (length > 0 && 
+			(buffer[length -1] == '\n' ||buffer[length - 1] == '\r')
+			)
 		{
 			buffer[length] = '\0';
 			if (length > 1 && buffer[length - 2] == '\r')
@@ -46,11 +49,47 @@ MultiLine_Actor::MultiLine_Actor(const char* filePath, Color color,
 		width = 1;
 
 	height = static_cast<int>(lines.size());
+	//¾ÈÁö¿öÁü? 
+
+	for (auto& line : lines) {
+		while (!line.empty() && (line.back() == '\n' || line.back() == '\r')) {
+			line.pop_back();
+		}
+	}
+
+	JumpTick = 0;
+}
+
+
+void MultiLine_Actor::Tick(float DeltaTime)
+{
+	if (actorPosition.x < 40 || actorPosition.x > Engine::Get().Width() - width + 2)
+	{
+		Destroy();
+		return;
+	}
+
+	JumpTick++;
+	if (Input::GetController().GetKey(VK_NUMPAD4) && JumpTick % 2 == 0)
+	{
+		Vector2 newPosition = actorPosition + Vector2(-1, 0);
+		SetPosition(newPosition);
+	}
+
+	if (Input::GetController().GetKey(VK_NUMPAD5))
+	{
+		Destroy();
+	}
+	if (Input::GetController().GetKey(VK_NUMPAD6) && JumpTick % 2 == 0)
+	{
+		Vector2 newPosition = actorPosition + Vector2(1, 0);
+		SetPosition(newPosition);
+	}
+
 }
 
 void MultiLine_Actor::Render()
 {
-	std::cout << width;
 	Utils::SetConsoleTextColor(color);
 
 	Vector2 pos = GetActorPosition();
@@ -61,6 +100,34 @@ void MultiLine_Actor::Render()
 		std::cout << lines[i];
 	}
 }
+
+void MultiLine_Actor::SetPosition(const Vector2& newPosition)
+{
+	Vector2 oldPosition = actorPosition;
+
+	int maxlength = 0;
+
+	for (auto& line : lines)
+	{
+		int len = static_cast<int>(line.length());
+
+		if (len > maxlength)
+			maxlength = len;
+	}
+
+	for (int i = 0; i < height; ++i)
+	{
+		Utils::SetConsolePosition(Vector2((short)oldPosition.x, (short)(oldPosition.y + i)));
+
+		for (int j = 0; j <= maxlength; ++j)
+		{
+			std::cout << ' ';
+		}
+	}
+
+	actorPosition = newPosition;
+}
+
 
 char* MultiLine_Actor::GetTag() const
 {

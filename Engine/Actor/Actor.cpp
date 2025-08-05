@@ -66,7 +66,7 @@ void Actor::Tick(float DeltaTime)
 {
     //기본형이라 없음
     if (height > 1)
-        IsHasHeight == true;
+        IsHasHeight = true;
 }
 
 void Actor::Render()
@@ -103,56 +103,71 @@ void Actor::Render()
 
 void Actor::SetPosition(const Vector2& newPosition)
 {
+    //Vector2 oldPosition = actorPosition;
     //예외 처리 (화면 벗어났는지 확인.)
 
     if (!IsUI)
     {
+        //std::cout << "MainTest";
         //액터의 왼쪽 가장자리가 화면 왼쪽을 벗어났는지
-        if (newPosition.x < LeftSide)
+        if (CheckString == IsString::STR_FALSE && newPosition.x < LeftSide)
             return;
 
         //액터의 오른쪽 가장자리가 화면 오른쪽을 벗어났는지
-        if (newPosition.x + width - 1 > Engine::Get().Width())
+        if (CheckString == IsString::STR_FALSE && 
+            newPosition.x + width - 1 > Engine::Get().Width())
             return;
 
         //액터의 윗쪽 가장자리가 화면 윗쪽을 벗어났는지
-        if (newPosition.y < 16)
+        if (CheckString == IsString::STR_FALSE && newPosition.y < 16)
             return;
 
         //액터가 화면 아래를 벗어났는지
-        if (newPosition.y - 1 > Engine::Get().Height())
+        if (CheckString == IsString::STR_FALSE && newPosition.y - 1 > Engine::Get().Height())
             return;
 
-        if (actorPosition == newPosition)
+        if (CheckString == IsString::STR_FALSE && actorPosition == newPosition)
             return;
 
 
-        //지울 위치 확인
-        Vector2 direction = newPosition - actorPosition;
-        // 갈 위치 - 현재 위치 = 방향벡터
+      
 
-        if (image != nullptr && this->CheckString == IsString::STR_TRUE)
+
+
+        if (CheckString == IsString::STR_FALSE)
         {
+            //지울 위치 확인
+            Vector2 direction = newPosition - actorPosition;
+            //std::cout << direction.x;
+            // 갈 위치 - 현재 위치 = 방향벡터
+
+
             //문자열이면 길이 적용해야되용
-            actorPosition.x = (direction.x >= 0) ? 
-                actorPosition.x : actorPosition.x
-                + width - 1;
+            actorPosition.x = (direction.x >= 0) ?
+                actorPosition.x : actorPosition.x + width - 1;
+            //커서 이동
+            //std::cout << "[SetPosition] CheckString: " << static_cast<int>(CheckString) << "\n";
+
+            Utils::SetConsolePosition(actorPosition);
+
+            //문자열 길이 고려해서 지울위치 확인
+            std::cout << ' ';
+
+            actorPosition = newPosition;
         }
-        else
-        {
-            //문자일경우에는 길이 적용하면 안돼용
-            actorPosition.x = (direction.x >= 0) ? 
-                actorPosition.x : actorPosition.x;
-        }
-    
 
-        //커서 이동
-        Utils::SetConsolePosition(actorPosition);
-
-        //문자열 길이 고려해서 지울위치 확인
-        std::cout << ' ';
-
-        actorPosition = newPosition;
+        //if (CheckString == IsString::STR_TRUE)
+        //{
+        //    //std::cout << "BoneTest";
+        //    for (int i = 0; i < height; ++i)
+        //    {
+        //        Utils::SetConsolePosition(Vector2(actorPosition.x, actorPosition.y + i));
+        //        for (int j = 0; j <= width; ++j)
+        //        {
+        //            std::cout << ' ';
+        //        }
+        //    }
+        //}
     }
 }
 

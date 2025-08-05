@@ -128,7 +128,7 @@ void Engine::Render()
 {
     Utils::SetConsoleTextColor
     (FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
-
+    //std::cout << "Render Called\n";
     if (mainLevel)
     {
         mainLevel->Render();

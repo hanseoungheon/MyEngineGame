@@ -1,6 +1,7 @@
 #include "GameLevel.h"
 
 #include "Actor/Player.h"
+#include "Actor/Monster.h"
 #include "Actor/MultiLine_Actor.h"
 #include "Actor/Wall_Length.h"
 #include "Actor/Wall_Width.h"
@@ -11,6 +12,8 @@
 #include "Input.h"
 #include <Windows.h>
 #include <iostream>
+#include <mmsystem.h>
+#pragma comment(lib,"winmm.lib")
 
 GameLevel::GameLevel()
 {
@@ -18,11 +21,27 @@ GameLevel::GameLevel()
 	//플레이어 맵 파일 리딩
 	ReadMapFile("map.txt");
 
+	PlaySound(L"../Assets/Sounds/sans_megalovania.wav", 0, SND_FILENAME | SND_ASYNC | SND_LOOP);
+	//PlaySound(L"../Assets/Sounds/Sans-Talking-_Sound-Effect_.wav", 0, SND_FILENAME | SND_ASYNC);
+	//mciSendStringW(
+	//	L"open \"../Assets/Sounds/sans_megalovania.wav\" type waveaudio alias bgm shareable",
+	//	NULL, 0, NULL);
+	//mciSendStringW(L"play bgm from 0 repeat", NULL, 0, NULL);
+
+	//// 효과음용
+	//mciSendStringW(
+	//	L"open \"../Assets/Sounds/Sans-Talking-_Sound-Effect_.wav\" type waveaudio alias se shareable",
+	//	NULL, 0, NULL);
+	//mciSendStringW(L"play se from 0", NULL, 0, NULL);
+
+	//플레이어 렌더링
+	AddActor(new Player());
+
 	//샌즈 렌더링
-	AddActor(new MultiLine_Actor("../Assets/Actor/sans_unicode_3.txt", 
+	AddActor(new Monster("../Assets/Actor/sans_unicode_3.txt", 
 		Color::White, Vector2(50, 0),"Sans"));
 	AddActor(new MultiLine_Actor("../Assets/Actor/bone.txt", 
-		Color::White, Vector2(70, 18),"Sans"));
+		Color::White, Vector2(70, 18),"Sans_Bone"));
 	AddActor(new MultiLine_Actor("../Assets/Actor/bone.txt", 
 		Color::White, Vector2(71, 18),"Sans"));
 	AddActor(new MultiLine_Actor("../Assets/Actor/bone.txt", 
@@ -32,9 +51,6 @@ GameLevel::GameLevel()
 	AddActor(new MultiLine_Actor("../Assets/Actor/bone.txt", 
 		Color::White, Vector2(74, 18),"Sans"));
 	
-	//플레이어 렌더링
-	AddActor(new Player());
-
 	//UI
 	//공격 UI
 	AddActor(new MultiLine_UI("../Assets/UI/fight.txt",
@@ -61,19 +77,23 @@ GameLevel::GameLevel()
 	AddActor(new Stat_UI("92", Color::White, Vector2(65, 23), 'H'));
 	AddActor(new Stat_UI("/ 92",Color::White,Vector2(68,23)));
 
-	//for (Actor* actor : actors)
-	//{
-	//	Player* player = actor->As<Player>();
-	//	player->SetHp(92);	
-	//}
+	for (Actor* actor : actors)
+	{
+		Player* player = actor->As<Player>();
+		player->SetHp(92);	
+	}
 
 	UIcontroller = 1;
 	//testUImode = false;
+	//levelTimer.SetTargetTime(2.0f);
 }
 
 GameLevel::~GameLevel()
 {
-	
+	mciSendStringW(L"stop bgm", NULL, 0, NULL);
+	mciSendStringW(L"close bgm", NULL, 0, NULL);
+	mciSendStringW(L"stop se", NULL, 0, NULL);
+	mciSendStringW(L"close se", NULL, 0, NULL);
 }
 
 void GameLevel::BeginPlay()
@@ -86,12 +106,30 @@ void GameLevel::BeginPlay()
 	//{
 	//	std::cout << "Fatal_Error: Cannot Read FILE -> sans_unicode.txt\n";
 	//}
+
 }
 
 void GameLevel::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	//LevelTest(DeltaTime);
+
+	if (Input::GetController().GetKeyDown(VK_CONTROL))
+	{
+		std::cout << "Working?";
+		levelTimer.SetTargetTime(2.0f);
+		levelTimer.Reset();
+	}
+
+	if (levelTimer.Update(DeltaTime))
+	{
+		for (Actor* actor : actors) {
+			if (auto* player = actor->As<Player>()) {
+				player->ChangeToIsGravity();
+			}
+		}
+	}
 	//테스트 용도
 	//std::cout << UIcontroller;
 
@@ -123,13 +161,31 @@ void GameLevel::ControllMainUI(MultiLine_UI* mainUI)
 	}
 }
 
-void GameLevel::SpawnEnemies(float DeltaTime)
-{
-}
-
 void GameLevel::Render()
 {
 	Super::Render();
+}
+
+void GameLevel::LevelTest(float DeltaTime)
+{
+	levelTimer.Tick(DeltaTime);
+
+	if (!levelTimer.IsTimeOut())
+	{
+		return;
+	}
+
+	/*levelTimer.Reset();*/
+
+	for (Actor* actor : actors)
+	{
+		Player* player = actor->As<Player>();
+
+		if (player != nullptr)
+		{
+			player->ChangeToIsGravity();
+		}
+	}
 }
 
 void GameLevel::ReadMapFile(const char* fileName)
@@ -314,8 +370,9 @@ void GameLevel::ProcessCollisionPlayerAndEnemyObject()
 	for (auto* EnemyObject : EnemyObject_Actor)
 	{
 		//충돌했다면?
-		if (player != nullptr && player->TestIntersect(EnemyObject))
+		if (player->GetIsTurn() && player->TestIntersect(EnemyObject))
 		{
+			
 			//std::cout << "IsDameged";
 			int PlayerCurrentHp = player->GetHp();
 			player->SetHp(PlayerCurrentHp - 1);

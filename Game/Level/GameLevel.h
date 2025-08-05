@@ -14,9 +14,10 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 	void ControllMainUI(MultiLine_UI* mainUI);
-	void SpawnEnemies(float DeltaTime);
+	//void SpawnEnemies(float DeltaTime);
 	virtual void Render() override;
 
+	void LevelTest(float DeltaTime);
 private:
 	void ReadMapFile(const char* fileName);
 
@@ -26,6 +27,9 @@ private:
 	bool PlayerIsTurn = true;
 	int UI_OperateNumber = 0;
 	int hp = 92; //플레이어의 체력
+
+	//레벨 시작을 위한 타이머
+	Timer levelTimer;
 
 	//공격 오브젝트가 생성 시 계산을 위한 타이머 
 	Timer enemyObejctSpawnTimer;

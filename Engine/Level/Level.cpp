@@ -137,10 +137,26 @@ void Level::ProcessAddAndDestroyActors()
 		//액터가 그려져있으면 지우기
 		Utils::SetConsolePosition(actor->actorPosition);
 
-		for (int ix = 0; ix < actor->width; ++ix)
+		if (actor->CheckString == IsString::STR_FALSE)
 		{
-			// " "로 바꿔서 지워버리기.
-			std::cout << " ";
+		
+			for (int ix = 0; ix < actor->width; ++ix)
+			{
+				// " "로 바꿔서 지워버리기.
+				std::cout << " ";
+			}
+
+		}
+		else if(actor->CheckString == IsString::STR_TRUE)
+		{
+			for (int ix = 0; ix < actor->height; ++ix)
+			{
+				for (int jx = 0; jx < actor->width; ++jx)
+				{
+					// " "로 바꿔서 지워버리기.
+					std::cout << " ";
+				}
+			}
 		}
 
 		SafeDelete(actor);

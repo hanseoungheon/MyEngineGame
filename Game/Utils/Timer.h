@@ -11,6 +11,9 @@ public:
 	//초시계의 시간이 흘러가도록 하기 위해 필수적인 장치 
 	void Tick(float DeltaTime);
 
+	//한번 작동하고 멈추는 타이머
+	bool Update(float DeltaTime);
+
 	//타이머 리셋시키는 함수
 	void Reset();
 
@@ -23,4 +26,5 @@ public:
 private:
 	float elaspedTime = 0.0f; //경과시간
 	float targetTime = 0.0f; //목표 시간 (설정한 시간)
+	bool IsComplete = false;
 };

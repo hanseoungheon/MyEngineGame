@@ -1,14 +1,10 @@
-#include "MultiLine_UI.h"
+#include "Monster.h"
 #include "Utils/Utils.h"
-MultiLine_UI::MultiLine_UI(const char* filePath, Color color,
-	const Vector2& position,UI_Type type,const char* Tag)
-	: Actor("", color, position,true,IsString::STR_TRUE)
+#include "Input.h"
+Monster::Monster(const char* filePath, Color color,
+	const Vector2& position, const char* Tag)
+	: Actor("", color, position, false, IsString::STR_TRUE)
 {
-	SetSortingOrder(1);
-
-	//타입 정의
-	UItype = type;
-
 	FILE* file = nullptr;
 	fopen_s(&file, filePath, "rt");
 
@@ -21,11 +17,11 @@ MultiLine_UI::MultiLine_UI(const char* filePath, Color color,
 
 	char buffer[4000] = {};
 
+
 	while (fgets(buffer, sizeof(buffer), file))
 	{
 		size_t length = strlen(buffer);
-
-		if (length > 0 && (buffer[length -1] == '\n') ||
+		if (length > 0 && (buffer[length - 1] == '\n') ||
 			buffer[length - 1] == '\r')
 		{
 			buffer[length] = '\0';
@@ -34,6 +30,7 @@ MultiLine_UI::MultiLine_UI(const char* filePath, Color color,
 		}
 
 		lines.emplace_back(buffer);
+		width += length;
 	}
 	fclose(file);
 
@@ -43,9 +40,32 @@ MultiLine_UI::MultiLine_UI(const char* filePath, Color color,
 		NameTag = new char[length];
 		strcpy_s(NameTag, length, Tag);
 	}
+
+	width = width / static_cast<int>(lines.size());
+
+	if (width < 1)
+		width = 1;
+
+	height = static_cast<int>(lines.size());
+	//안지워짐? 
 }
 
-void MultiLine_UI::Render()
+void Monster::Tick(float DeltaTime)
+{
+	//if (Input::GetController().GetKey(VK_NUMPAD4))
+	//{
+	//	actorPosition.x += -1;
+	//	SetPosition(actorPosition);
+	//}
+
+	//if (Input::GetController().GetKey(VK_NUMPAD6))
+	//{
+	//	actorPosition.x += 1;
+	//	SetPosition(actorPosition);
+	//}
+}
+
+void Monster::Render()
 {
 	Utils::SetConsoleTextColor(color);
 
@@ -58,7 +78,13 @@ void MultiLine_UI::Render()
 	}
 }
 
-UI_Type MultiLine_UI::GetUIType()
+void Monster::SetPosition(const Vector2& newPosition)
 {
-	return UItype;
+	return;
+}
+
+
+char* Monster::GetTag() const
+{
+	return NameTag;
 }

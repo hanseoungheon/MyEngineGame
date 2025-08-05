@@ -11,9 +11,26 @@ void Timer::Tick(float DeltaTime)
 	elaspedTime += DeltaTime; 
 }
 
+bool Timer::Update(float DeltaTime)
+{
+	if(IsComplete == true)
+		return false;
+
+	elaspedTime += DeltaTime;
+
+	if (IsTimeOut())
+	{
+		IsComplete = true;
+		return true;
+	}
+
+	return false;
+}
+
 void Timer::Reset()
 {
 	elaspedTime = 0.0f;
+	IsComplete = false;
 }
 
 bool Timer::IsTimeOut() const

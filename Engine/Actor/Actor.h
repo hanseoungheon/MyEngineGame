@@ -24,7 +24,7 @@ class Engine_API Actor : public RTTI
 public:
 	Actor(const char* image = " ", Color color = Color::White,
 		const Vector2& position = Vector2::Zero, 
-		bool IsUI = false,IsString CheckString = IsString::STR_TRUE);
+		bool IsUI = false,IsString CheckString = IsString::DEFAULT);
 
 	virtual ~Actor();
 
@@ -40,7 +40,7 @@ public:
 	//BeginPlay 호출여부 확인
 	inline bool HasBeganPlay() const { return hasBeganPlay; }
 
-	void SetPosition(const Vector2& newPosition);
+	virtual void SetPosition(const Vector2& newPosition);
 	Vector2 GetActorPosition() const;
 
 	//문자열 길이 반환
@@ -58,6 +58,8 @@ public:
 
 	//색상 설정
 	void SetColor(const Color color);
+
+	//bool GetIsUI() const;
 
 	//충돌 확인 요청 함수 (AABB 로직)
 	bool TestIntersect(const Actor* const other);

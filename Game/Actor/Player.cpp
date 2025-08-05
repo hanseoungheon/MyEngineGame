@@ -5,7 +5,7 @@
 Player::Player() : Actor("Y",Color::Red,Vector2::Zero,false,IsString::STR_FALSE)
 {
 	hp = 92;
-	SetSortingOrder(1);
+	SetSortingOrder(2);
 	IsTurn = true;
 	//시작 위치(화면의 가운데이면서 살짝 아랫쪽)
 	int xPosition = ((Engine::Get().Width()+ LeftSide) / 2);
@@ -46,6 +46,10 @@ void Player::Tick(float DeltaTime)
 		SetPosition(playerPosition);
 		playerPosition.x--;
 		SetPosition(playerPosition);
+		playerPosition.x--;
+		SetPosition(playerPosition);
+		playerPosition.x++;
+		SetPosition(playerPosition);
 	}
 
 	if (Input::GetController().GetKey(VK_BACK))
@@ -68,14 +72,14 @@ void Player::Tick(float DeltaTime)
 
 	if (IsTurn)
 	{
-		if (Input::GetController().GetKey(VK_LEFT))
+		if (Input::GetController().GetKey(VK_LEFT) && JumpTick % 4 == 0)
 		{
 			Vector2 playerPosition = GetActorPosition();
 			playerPosition.x += -1;
 			SetPosition(playerPosition);
 		}
 
-		if (Input::GetController().GetKey(VK_RIGHT))
+		if (Input::GetController().GetKey(VK_RIGHT) && JumpTick % 4 == 0)
 		{
 			Vector2 playerPosition = GetActorPosition();
 			playerPosition.x += 1;
@@ -83,7 +87,7 @@ void Player::Tick(float DeltaTime)
 		}
 
 		if (Input::GetController().GetKey(VK_UP) && IsGravity == false
-			&& JumpTick % 2 == 0)
+			&& JumpTick % 4 == 0)
 		{
 			Vector2 playerPosition = GetActorPosition();
 			playerPosition.y += -1;
@@ -91,7 +95,7 @@ void Player::Tick(float DeltaTime)
 		}
 
 		if (Input::GetController().GetKey(VK_DOWN) && IsGravity == false
-			&& JumpTick % 2 == 0)
+			&& JumpTick % 4 == 0)
 		{
 			Vector2 playerPosition = GetActorPosition();
 			playerPosition.y += 1;
@@ -106,10 +110,10 @@ void Player::Tick(float DeltaTime)
 			SetPosition(playerPosition);
 		}
 
-		if (Input::GetController().GetKeyDown(VK_CONTROL))
-		{
-			ChangeToIsGravity();
-		}
+		//if (Input::GetController().GetKeyDown(VK_CONTROL))
+		//{
+		//	ChangeToIsGravity();
+		//}
 	}
 
 }

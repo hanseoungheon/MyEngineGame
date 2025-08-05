@@ -1,15 +1,16 @@
 #pragma once
+#pragma once
 #include <vector>
 #include <iostream>
 #include "Actor/Actor.h"
 
-class MultiLine_Actor : public Actor
+class Monster : public Actor
 {
-	RTTI_DECLARATIONS(MultiLine_Actor,Actor)
+	RTTI_DECLARATIONS(Monster, Actor)
 
 public:
-	MultiLine_Actor(const char* filePath, Color color, const
-		Vector2& position,const char * Tag = "default");
+	Monster(const char* filePath, Color color, const
+		Vector2& position, const char* Tag = "default");
 
 	virtual void Tick(float DeltaTime) override;
 
@@ -19,11 +20,11 @@ public:
 
 	char* GetTag() const;
 
-	
+
 
 private:
 	std::vector<std::string> lines;
 	char* NameTag = nullptr;
 	//int checkWidth;
-	int JumpTick;
+
 };
