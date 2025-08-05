@@ -7,6 +7,13 @@
 
 class Level;
 
+enum class IsString : int
+{
+	STR_FALSE = 0,
+	STR_TRUE = 1,
+	DEFAULT =2,
+};
+
 class Engine_API Actor : public RTTI
 {
 	friend class Level;
@@ -16,7 +23,8 @@ class Engine_API Actor : public RTTI
 
 public:
 	Actor(const char* image = " ", Color color = Color::White,
-		const Vector2& position = Vector2::Zero,bool IsUI = false);
+		const Vector2& position = Vector2::Zero, 
+		bool IsUI = false,IsString CheckString = IsString::STR_TRUE);
 
 	virtual ~Actor();
 
@@ -60,6 +68,8 @@ public:
 	//게임 종료 요청
 	void QuitGame();
 
+
+
 protected:
 	//객체의 위치
 	Vector2 actorPosition;
@@ -71,7 +81,6 @@ protected:
 
 	//문자열 길이
 	int width = 0;
-
 	//문자열 높이
 	int height = 0;
 
@@ -100,5 +109,11 @@ protected:
 
 	bool IsVisible;
 
-	//int IsString = 1; // 1 이면 True, 0 이면 False
+	bool IsHasHeight = false;
+
+	IsString CheckString = IsString::DEFAULT;
+
+
+private:
+	void SettingWidthAndHeight(int width, int height);
 };

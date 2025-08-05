@@ -18,5 +18,6 @@ public:
 private:
 	std::vector<std::string> lines;
 	char* NameTag = nullptr;
+	//int checkWidth;
 
 };

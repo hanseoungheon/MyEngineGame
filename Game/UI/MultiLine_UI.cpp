@@ -2,7 +2,7 @@
 #include "Utils/Utils.h"
 MultiLine_UI::MultiLine_UI(const char* filePath, Color color,
 	const Vector2& position,UI_Type type,const char* Tag)
-	: Actor("", color, position,true)
+	: Actor("", color, position,true,IsString::STR_TRUE)
 {
 	SetSortingOrder(2);
 

@@ -19,8 +19,18 @@ GameLevel::GameLevel()
 	ReadMapFile("map.txt");
 
 	//샌즈 렌더링
-	AddActor(new MultiLine_Actor("../Assets/sans_unicode_3.txt", 
+	AddActor(new MultiLine_Actor("../Assets/Actor/sans_unicode_3.txt", 
 		Color::White, Vector2(50, 0),"Sans"));
+	AddActor(new MultiLine_Actor("../Assets/Actor/bone.txt", 
+		Color::White, Vector2(70, 18),"Sans"));
+	AddActor(new MultiLine_Actor("../Assets/Actor/bone.txt", 
+		Color::White, Vector2(71, 18),"Sans"));
+	AddActor(new MultiLine_Actor("../Assets/Actor/bone.txt", 
+		Color::White, Vector2(72, 18),"Sans"));
+	AddActor(new MultiLine_Actor("../Assets/Actor/bone.txt", 
+		Color::White, Vector2(73, 18),"Sans"));
+	AddActor(new MultiLine_Actor("../Assets/Actor/bone.txt", 
+		Color::White, Vector2(74, 18),"Sans"));
 	
 	//플레이어 렌더링
 	AddActor(new Player());
@@ -84,86 +94,10 @@ void GameLevel::Tick(float DeltaTime)
 
 	//테스트 용도
 	//std::cout << UIcontroller;
-	
-	//플레이어가 턴인지 가져와서 레벨에 저장
-	for (Actor* actor : actors)
-	{
-		Player* player = actor->As<Player>();
 
-		if (player != nullptr)
-		{
-			PlayerIsTurn = player->GetIsTurn();
-			PlayerHp = player->GetHp();
-		}
+	UIController();
 
-		//플레이어가 턴이 아닐때 UI조작하게 설정
-		if (PlayerIsTurn == false)
-		{
-			MultiLine_UI* mainUI = actor->As<MultiLine_UI>();
-
-			if (mainUI != nullptr)
-			{
-				ControllMainUI(mainUI);
-			}
-		}
-
-		if (PlayerIsTurn == true)
-		{
-			MultiLine_UI* mainUI = actor->As<MultiLine_UI>();
-			if (mainUI != nullptr)
-			{
-				mainUI->SetColor(Color::Yellow);
-			}
-		}
-
-		Stat_UI* statUI = actor->As<Stat_UI>();
-		if (statUI != nullptr && statUI->GetTag() == 'H')
-		{
-			statUI->SetStringStatImage(PlayerHp);
-		}
-		
-		for (int i = 12; i >0; i--)
-		{
-			if (statUI != nullptr && statUI->GetTag() == 40 + i)
-			{
-				if (PlayerHp > 92 - (13-i) * 8)
-					statUI->SetColor(Color::Yellow);
-				else
-					statUI->SetColor(Color::Red);
-			}
-		}
-		//if (statUI != nullptr && statUI->GetTag() == 40 + 12)
-		//{
-		//	if (PlayerHp > 92)
-		//		statUI->SetColor(Color::Yellow);
-		//	else
-		//		statUI->SetColor(Color::Red);
-		//}
-
-		//if (statUI != nullptr && statUI->GetTag() == 40 + 11)
-		//{
-		//	if (PlayerHp > 82)
-		//		statUI->SetColor(Color::Yellow);
-		//	else
-		//		statUI->SetColor(Color::Red);
-		//}
-	}
-
-	if (!PlayerIsTurn &&Input::GetController().GetKeyDown(VK_LEFT))
-	{
-		if (UIcontroller < 1)
-			return;
-
-		UIcontroller--;
-	}
-
-	if (!PlayerIsTurn && Input::GetController().GetKeyDown(VK_RIGHT))
-	{
-		if (UIcontroller > 3)
-			return;
-
-		UIcontroller++;
-	}
+	ProcessCollisionPlayerAndEnemyObject();
 }
 
 void GameLevel::ControllMainUI(MultiLine_UI* mainUI)
@@ -265,7 +199,127 @@ void GameLevel::ReadMapFile(const char* fileName)
 	fclose(mapFile);
 }
 
+void GameLevel::UIController()
+{
+	//플레이어가 턴인지 가져와서 레벨에 저장
+
+	for (Actor* actor : actors)
+	{
+		Player* player = actor->As<Player>();
+
+		if (player != nullptr)
+		{
+			PlayerIsTurn = player->GetIsTurn();
+			PlayerHp = player->GetHp();
+		}
+
+		//플레이어가 턴이 아닐때 UI조작하게 설정
+		if (PlayerIsTurn == false)
+		{
+			MultiLine_UI* mainUI = actor->As<MultiLine_UI>();
+
+			if (mainUI != nullptr)
+			{
+				ControllMainUI(mainUI);
+			}
+		}
+
+		if (PlayerIsTurn == true)
+		{
+			MultiLine_UI* mainUI = actor->As<MultiLine_UI>();
+			if (mainUI != nullptr)
+			{
+				mainUI->SetColor(Color::Yellow);
+			}
+		}
+
+		Stat_UI* statUI = actor->As<Stat_UI>();
+		if (statUI != nullptr && statUI->GetTag() == 'H')
+		{
+			statUI->SetStringStatImage(PlayerHp);
+		}
+
+		for (int i = 12; i > 0; i--)
+		{
+			if (statUI != nullptr && statUI->GetTag() == 40 + i)
+			{
+				if (PlayerHp > 92 - (13 - i) * 8)
+					statUI->SetColor(Color::Yellow);
+				else
+					statUI->SetColor(Color::Red);
+			}
+		}
+		//if (statUI != nullptr && statUI->GetTag() == 40 + 12)
+		//{
+		//	if (PlayerHp > 92)
+		//		statUI->SetColor(Color::Yellow);
+		//	else
+		//		statUI->SetColor(Color::Red);
+		//}
+
+		//if (statUI != nullptr && statUI->GetTag() == 40 + 11)
+		//{
+		//	if (PlayerHp > 82)
+		//		statUI->SetColor(Color::Yellow);
+		//	else
+		//		statUI->SetColor(Color::Red);
+		//}
+	}
+
+	if (!PlayerIsTurn && Input::GetController().GetKeyDown(VK_LEFT))
+	{
+		if (UIcontroller < 1)
+			return;
+
+		UIcontroller--;
+	}
+
+	if (!PlayerIsTurn && Input::GetController().GetKeyDown(VK_RIGHT))
+	{
+		if (UIcontroller > 3)
+			return;
+
+		UIcontroller++;
+	}
+}
+
 void GameLevel::ProcessCollisionPlayerAndEnemyObject()
 {
+	Player* player = nullptr;
+	std::vector<MultiLine_Actor*>EnemyObject_Actor;
+	for (Actor* actor : actors)
+	{
+		MultiLine_Actor* EnemyObject = actor->As<MultiLine_Actor>();
+
+		if (EnemyObject != nullptr) //적 오브젝트 발견
+		{
+			EnemyObject_Actor.emplace_back(EnemyObject); // 배열에 추가
+			continue;
+		}
+
+		if (player == nullptr) //플레이어를 못찾았을시
+		{
+			player = actor->As<Player>(); // 찾기
+		}
+	}
+
+	//적 오브젝트를 담은 배열의 크기가 0이거나 플레이어를 못찾았을시
+	if (EnemyObject_Actor.size() == 0 || !player)
+	{
+		return;
+	}
+
+	//적 오브젝트포인터를 스택에 할당한 후 힙에 할당된
+	// 적 오브젝트를 담은 배열의 주소를 가르켜 순환하며 탐색하기
+	for (auto* EnemyObject : EnemyObject_Actor)
+	{
+		//충돌했다면?
+		if (player != nullptr && player->TestIntersect(EnemyObject))
+		{
+			//std::cout << "IsDameged";
+			int PlayerCurrentHp = player->GetHp();
+			player->SetHp(PlayerCurrentHp - 1);
+		}
+	}
 }
 

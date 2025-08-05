@@ -4,7 +4,7 @@
 #include <string>
 Stat_UI::Stat_UI(const char* name,Color color
 	,const Vector2& position,char Tag) 
-	: Actor(name, color, position, true)
+	: Actor(name, color, position, true,IsString::STR_TRUE)
 {
 	SetSortingOrder(1);
 

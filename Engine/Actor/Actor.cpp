@@ -6,26 +6,37 @@
 #include "Utils/Utils.h"
 
 Actor::Actor(const char* image, Color color, const Vector2& position,
-    bool IsUI)
-    :color(color), actorPosition(position),IsUI(IsUI)
+    bool IsUI,IsString CheckString)
+    :color(color), actorPosition(position),IsUI(IsUI),CheckString(CheckString)
 {
     //문자인지 문자열인지 구분하기
-    if (strlen(image) == 1)
+    if (strlen(image) == 1 && this->CheckString == IsString::STR_FALSE)
     {
         SingleImage = image[0];
         image = nullptr;
+
+        //기본 높이 및 너비 1 1 부여
+        SettingWidthAndHeight(1, 1);
+
+        //width = 1;
+        //height = 1;
     }
 
-    if (image != nullptr)
+    if (image != nullptr && this->CheckString == IsString::STR_TRUE)
     {
+        //width = (int)strlen(image);
+        //height = 1;
+
         //액터 생성자로 받은 문자열의 길이를 width 정수형에 저장
-        width = (int)strlen(image);
+        //그리고 기본 높이 1 부여
+        SettingWidthAndHeight((int)strlen(image), 1);
 
         //액터를 만들기 위한 메모리 할당
         this->image = new char[width + 1];
 
         //생성자로 받은 문자열을 액터의 이미지 변수에 저장
         strcpy_s(this->image, width + 1, image);
+
     }
 
     IsVisible = true;
@@ -54,6 +65,8 @@ void Actor::BeginPlay()
 void Actor::Tick(float DeltaTime)
 {
     //기본형이라 없음
+    if (height > 1)
+        IsHasHeight == true;
 }
 
 void Actor::Render()
@@ -61,7 +74,7 @@ void Actor::Render()
     if (IsVisible == true)
     {
         //그리기
-        if (image != nullptr)
+        if (image != nullptr && this->CheckString == IsString::STR_TRUE)
         {
             //커서 이동
             Utils::SetConsolePosition(actorPosition);
@@ -118,7 +131,7 @@ void Actor::SetPosition(const Vector2& newPosition)
         Vector2 direction = newPosition - actorPosition;
         // 갈 위치 - 현재 위치 = 방향벡터
 
-        if (image != nullptr)
+        if (image != nullptr && this->CheckString == IsString::STR_TRUE)
         {
             //문자열이면 길이 적용해야되용
             actorPosition.x = (direction.x >= 0) ? 
@@ -186,16 +199,16 @@ bool Actor::TestIntersect(const Actor* const other)
         int xMin = actorPosition.x;
         int xMax = actorPosition.x + width - 1;
 
+
         //이 액터의 y 좌표 정보
-
-
+        
         //충돌비교할 다른 액터의 x좌표 정보
         int other_xMin = other->actorPosition.x;
         int other_xMax = other->actorPosition.x + other->width - 1;
 
         //다른 액터의 y좌표 정보
 
-        //안겹치는 조건 확인
+        //안겹치는 조건 확인 
         if (other_xMin > xMax)
         {
             return false;
@@ -206,7 +219,27 @@ bool Actor::TestIntersect(const Actor* const other)
             return false;
         }
 
-        return actorPosition.y == other->actorPosition.y;
+        int yMin = actorPosition.y;
+        int yMax = actorPosition.y + height - 1;
+
+        int other_yMin = other->actorPosition.y;
+        int other_yMax = other->actorPosition.y + other->height - 1;
+
+        if (other_yMin > yMax)
+        {
+            return false;
+        }
+
+        if (other_yMax < yMin)
+        {
+            return false;
+        }
+
+        //return actorPosition.y == other->actorPosition.y;
+ 
+
+
+        return true;
     }
 }
 
@@ -219,4 +252,10 @@ void Actor::Destroy()
 void Actor::QuitGame()
 {
     Engine::Get().Quit();
+}
+
+void Actor::SettingWidthAndHeight(int width, int height)
+{
+    this->width = width;
+    this->height = height;
 }

@@ -2,7 +2,7 @@
 #include "Utils/Utils.h"
 MultiLine_Actor::MultiLine_Actor(const char* filePath, Color color,
 	const Vector2& position,const char* Tag)
-	: Actor("", color, position,false)
+	: Actor("", color, position,false,IsString::STR_TRUE)
 {
 	FILE* file = nullptr;
 	fopen_s(&file, filePath, "rt");
@@ -16,10 +16,10 @@ MultiLine_Actor::MultiLine_Actor(const char* filePath, Color color,
 
 	char buffer[4000] = {};
 
+
 	while (fgets(buffer, sizeof(buffer), file))
 	{
 		size_t length = strlen(buffer);
-
 		if (length > 0 && (buffer[length -1] == '\n') ||
 			buffer[length - 1] == '\r')
 		{
@@ -29,6 +29,7 @@ MultiLine_Actor::MultiLine_Actor(const char* filePath, Color color,
 		}
 
 		lines.emplace_back(buffer);
+		width += length;
 	}
 	fclose(file);
 
@@ -38,10 +39,18 @@ MultiLine_Actor::MultiLine_Actor(const char* filePath, Color color,
 		NameTag = new char[length];
 		strcpy_s(NameTag, length, Tag);
 	}
+
+	width = width / static_cast<int>(lines.size());
+
+	if (width < 1)
+		width = 1;
+
+	height = static_cast<int>(lines.size());
 }
 
 void MultiLine_Actor::Render()
 {
+	std::cout << width;
 	Utils::SetConsoleTextColor(color);
 
 	Vector2 pos = GetActorPosition();

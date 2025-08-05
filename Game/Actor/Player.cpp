@@ -2,7 +2,7 @@
 #include "Engine.h"
 #include "Utils/Utils.h"
 #include <iostream>
-Player::Player() : Actor("Y",Color::Red,false)
+Player::Player() : Actor("Y",Color::Red,Vector2::Zero,false,IsString::STR_FALSE)
 {
 	hp = 92;
 	SetSortingOrder(1);

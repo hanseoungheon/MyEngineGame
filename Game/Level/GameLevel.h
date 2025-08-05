@@ -20,6 +20,7 @@ public:
 private:
 	void ReadMapFile(const char* fileName);
 
+	void UIController();
 	void ProcessCollisionPlayerAndEnemyObject();
 private:
 	bool PlayerIsTurn = true;
