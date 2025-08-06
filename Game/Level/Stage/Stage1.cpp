@@ -3,6 +3,7 @@
 #include "Actor/Player.h"
 #include "Actor/ActorWall_Width.h"
 #include "Actor/MultiLine_Actor.h"
+#include "Actor/BreathActor.h"
 void GameLevel::Stage1_1(float DeltaTime)
 {
 	TStage_1_1.Tick(DeltaTime);
@@ -175,8 +176,26 @@ void GameLevel::Stage1_5_3(float DeltaTime)
 	}
 	TimerArrayCount = 1;
 	TimerEndCount++;
-	if(TimerEndCount < 6)
+	if (TimerEndCount < 6)
 		TStage_1_5_Array.Reset();
+	else
+		TStage_1_6.Reset();
+}
+
+void GameLevel::Stage1_6(float DeltaTime)
+{
+	TStage_1_6.Tick(DeltaTime);
+
+	if (!TStage_1_6.IsTimeOut())
+	{
+		return;
+	}
+
+	if (TStage_1_6.Update(DeltaTime))
+	{
+		AddActor(new BreathActor("../Assets/Actor/bless90and270.txt",
+			Color::White, Vector2(55, 15), "breath"));
+	}
 }
 
 

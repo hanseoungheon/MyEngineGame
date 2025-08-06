@@ -3,8 +3,8 @@
 #include "Input.h"
 #include <Windows.h>
 
-class Level; //전방선언
 
+class Level; //전방선언
 struct EngineSetting
 {
 	//콘솔화면 가로 크기

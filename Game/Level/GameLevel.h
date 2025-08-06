@@ -61,6 +61,7 @@ public:
 	void Stage1_5_1(float DeltaTime);
 	void Stage1_5_2(float DeltaTime);
 	void Stage1_5_3(float DeltaTime);
+	void Stage1_6(float DeltaTime);
 
 private:
 
@@ -84,6 +85,7 @@ private:
 	Timer TStage_1_4;
 	Timer TStage_1_5;
 	Timer TStage_1_5_Array;
+	Timer TStage_1_6;
 
 
 };

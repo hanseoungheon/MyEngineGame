@@ -77,3 +77,22 @@ void BreathActor::SetPosition(const Vector2& newPosition)
 {
 	return;
 }
+
+char* BreathActor::GetTag() const
+{
+	return NameTag;
+}
+
+bool BreathActor::CheckTag(const char* name)
+{
+	if (NameTag != nullptr)
+	{
+		if (std::strcmp(NameTag, name) == 0)
+			return true;
+	}
+
+	return false;
+}
+
+
+

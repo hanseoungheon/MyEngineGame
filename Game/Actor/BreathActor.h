@@ -20,6 +20,7 @@ public:
 
 	char* GetTag() const;
 
+	bool CheckTag(const char* name);
 
 
 private:

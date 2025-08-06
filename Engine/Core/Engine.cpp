@@ -17,7 +17,7 @@ BOOL WINAPI ConsoleMessageProcedure(DWORD CtrlType)
     }
 
     //예외처리
-    return false;
+    return false;   
 }
 
 Engine::Engine()
@@ -37,6 +37,8 @@ Engine::Engine()
     );
 
     LoadEngineSetting("EngineSettings.txt");
+
+ 
 }
 
 Engine::~Engine()

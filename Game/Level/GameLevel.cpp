@@ -49,13 +49,24 @@ GameLevel::GameLevel()
 	//AddActor(new Monster("../Assets/Actor/gasterblader0.txt", 
 	//	Color::White, Vector2(0, 0),"GasterBlaster"));
 
-	AddActor(new Monster("../Assets/Actor/bless0and180.txt", 
-		Color::White, Vector2(0, 6),"breath"));
-	AddActor(new Monster("../Assets/Actor/bless90and270.txt", 
-		Color::White, Vector2(20, 15),"breath"));
+	//AddActor(new Monster("../Assets/Actor/bless0and180.txt", 
+	//	Color::White, Vector2(0, 6),"breath"));
+	//AddActor(new BreathActor("../Assets/Actor/bless45.txt",
+	//	Color::White, Vector2(42, 12),"breath"));
+
+
+	AddActor(new BreathActor("../Assets/Actor/doublebless.txt",
+		Color::White, Vector2(53, 16), "breath"));
+	//AddActor(new BreathActor("../Assets/Actor/bless90and270.txt",
+	//	Color::White, Vector2(55, 15), "breath"));
+
+
+
+	//AddActor(new Monster("../Assets/Actor/bless135.txt", 
+	//	Color::White, Vector2(42, 12),"breath"));
 
 	//AddActor(new MultiLine_Actor("../Assets/Actor/bless90and270.txt",
-	//	Color::White, Vector2(0, 12),"Sans"));
+	//	Color::White, Vector2(0, 12),""));
 
 
 	//AddActor(new BreathActor("../Assets/Actor/bless45.txt",
@@ -125,7 +136,7 @@ GameLevel::GameLevel()
 
 
 	//인트로
-	IntroTimer.SetTargetTime(1.0f);
+	IntroTimer.SetTargetTime(100.0f);
 	BurningToHell.SetTargetTime(1.0f);
 
 	//스테이지1
@@ -135,6 +146,7 @@ GameLevel::GameLevel()
 	TStage_1_4.SetTargetTime(0.5f);
 	TStage_1_5.SetTargetTime(0.5f);
 	TStage_1_5_Array.SetTargetTime(0.3f);
+	TStage_1_6.SetTargetTime(0.5f);
 
 }
 
@@ -249,6 +261,10 @@ void GameLevel::Tick(float DeltaTime)
 	else if (!TStage_1_5_Array.IsTimeOut() && TimerArrayCount == 3)
 	{
 		Stage1_5_3(DeltaTime);
+	}
+	else if (!TStage_1_6.IsTimeOut())
+	{
+		Stage1_6(DeltaTime);
 	}
 
 	//테스트 용도
@@ -446,12 +462,12 @@ void GameLevel::ProcessCollisionPlayerAndEnemyObject()
 	Player* player = nullptr;
 
 	std::vector<MultiLine_Actor*>EnemyObject_Actor;
-	std::vector<Monster*>Monster_Actor;
+	std::vector<BreathActor*>Breath_Actor;
 
 	for (Actor* actor : actors)
 	{
 		MultiLine_Actor* EnemyObject = actor->As<MultiLine_Actor>();
-		Monster* MonsterObject = actor->As<Monster>();
+		BreathActor* BreathObject = actor->As<BreathActor>();
 
 		if (EnemyObject != nullptr) //적 오브젝트 발견
 		{
@@ -459,9 +475,9 @@ void GameLevel::ProcessCollisionPlayerAndEnemyObject()
 			continue;
 		}
 
-		if (MonsterObject != nullptr && MonsterObject->CheckTag("breath"))// && MonsterObject->GetTag() == "breath"
+		if (BreathObject != nullptr && BreathObject->CheckTag("breath"))// && MonsterObject->GetTag() == "breath"
 		{
-			Monster_Actor.emplace_back(MonsterObject);
+			Breath_Actor.emplace_back(BreathObject);
 			continue;
 		}
 
@@ -472,7 +488,7 @@ void GameLevel::ProcessCollisionPlayerAndEnemyObject()
 	}
 
 	//적 오브젝트를 담은 배열의 크기가 0이거나 플레이어를 못찾았을시
-	if (EnemyObject_Actor.size() == 0 && Monster_Actor.size() == 0 || !player)
+	if (EnemyObject_Actor.size() == 0 && Breath_Actor.size() == 0 || !player)
 	{
 		return;
 	}
@@ -496,9 +512,9 @@ void GameLevel::ProcessCollisionPlayerAndEnemyObject()
 		}
 	}
 
-	for (auto* MonsterObject : Monster_Actor)
+	for (auto* BreathObject : Breath_Actor)
 	{
-		if (player->GetIsTurn() && player->TestIntersect(MonsterObject))
+		if (player->GetIsTurn() && player->TestIntersect(BreathObject))
 		{
 			int PlayerCurrentHp = player->GetHp();
 			player->SetHp(PlayerCurrentHp - 1);

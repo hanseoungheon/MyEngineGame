@@ -8,7 +8,6 @@ Vector2 Vector2::Right = Vector2(1,0);
 
 Vector2::Vector2(int x, int y) : x(x), y(y)
 {
-
 }
 
 Vector2::~Vector2()
