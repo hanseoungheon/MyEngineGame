@@ -71,7 +71,6 @@ public:
 	void QuitGame();
 
 
-
 protected:
 	//객체의 위치
 	Vector2 actorPosition;
@@ -104,7 +103,8 @@ protected:
 	//객체를 소유한 레벨
 	Level* owner = nullptr;
 
-	const int LeftSide = 40;
+	int LeftSide = 40;
+	int UpSide = 16;
 
 	//UI면은 맵 크기에 제한 x
 	bool IsUI = false;
@@ -114,6 +114,7 @@ protected:
 	bool IsHasHeight = false;
 
 	IsString CheckString = IsString::DEFAULT;
+
 
 
 private:

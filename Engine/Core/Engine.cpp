@@ -36,7 +36,7 @@ Engine::Engine()
         &info
     );
 
-    LoadEngineSetting();
+    LoadEngineSetting("EngineSettings.txt");
 }
 
 Engine::~Engine()
@@ -59,7 +59,6 @@ void Engine::Tick(float DeltaTime)
     {
         mainLevel->Tick(DeltaTime);
     }
-
 }
 
 void Engine::Run()
@@ -171,11 +170,14 @@ int Engine::Height() const
     return settings.height;
 }
 
-void Engine::LoadEngineSetting()
+void Engine::LoadEngineSetting(const char * fileName)
 {
+    char filePath[256] = {};
+    sprintf_s(filePath, 256, "../Settings/%s", fileName);
+
     //엔진 설정 파일을 열기
     FILE* settingFile = nullptr;
-    fopen_s(&settingFile, "../Settings/EngineSettings.txt", "rt");
+    fopen_s(&settingFile,filePath, "rt");
 
     //파일이 존재하지않거나 오류 발생할시 예외처리
     if (settingFile == nullptr)

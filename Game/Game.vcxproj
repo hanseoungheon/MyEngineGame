@@ -143,26 +143,36 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Actor\ActorWall_Length.cpp" />
+    <ClCompile Include="Actor\BreathActor.cpp" />
     <ClCompile Include="Actor\MultiLine_Actor.cpp" />
     <ClCompile Include="Actor\Player.cpp" />
     <ClCompile Include="Actor\Monster.cpp" />
     <ClCompile Include="Actor\Wall_Length.cpp" />
     <ClCompile Include="Actor\Wall_Width.cpp" />
+    <ClCompile Include="Actor\ActorWall_Width.cpp" />
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="Level\GameLevel.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Map\MainMap.cpp" />
     <ClCompile Include="UI\MultiLine_UI.cpp" />
+    <ClCompile Include="UI\Speech_UI.cpp" />
     <ClCompile Include="UI\Stat_UI.cpp" />
     <ClCompile Include="Utils\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Actor\ActorWall_Length.h" />
+    <ClInclude Include="Actor\BreathActor.h" />
     <ClInclude Include="Actor\MultiLine_Actor.h" />
     <ClInclude Include="Actor\Player.h" />
     <ClInclude Include="Actor\Monster.h" />
     <ClInclude Include="Actor\Wall_Length.h" />
     <ClInclude Include="Actor\Wall_Width.h" />
+    <ClInclude Include="Actor\ActorWall_Width.h" />
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="Level\GameLevel.h" />
+    <ClInclude Include="Map\MainMap.h" />
+    <ClInclude Include="UI\Speech_UI.h" />
     <ClInclude Include="UI\Stat_UI.h" />
     <ClInclude Include="UI\MultiLine_UI.h" />
     <ClInclude Include="Utils\Timer.h" />

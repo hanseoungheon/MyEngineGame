@@ -18,6 +18,7 @@ public:
 
 	char GetTag() const;
 private:
+
 	char Tag = ' ';
 
 };

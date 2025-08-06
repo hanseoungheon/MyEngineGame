@@ -36,13 +36,13 @@ public:
 	int Width() const;
 	int Height() const;
 
+	void LoadEngineSetting(const char* fileName);
 private:
 	void BeginPlay();
 	void Tick(float DeltaTime = 0.0f);
 	void Render();
 
 	//엔진 설정 로드 함수
-	void LoadEngineSetting();
 
 private:
 	//엔진 종료 플래그

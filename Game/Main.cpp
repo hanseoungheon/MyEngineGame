@@ -3,6 +3,7 @@
 #include "Game/Game.h"
 int main()
 {
+
 	Game UnderTale;
 	UnderTale.Run();
 }

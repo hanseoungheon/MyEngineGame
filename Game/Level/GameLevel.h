@@ -17,12 +17,14 @@ public:
 	//void SpawnEnemies(float DeltaTime);
 	virtual void Render() override;
 
-	void LevelTest(float DeltaTime);
+
 private:
 	void ReadMapFile(const char* fileName);
 
+	void CheckPlayerGravity();
 	void UIController();
 	void ProcessCollisionPlayerAndEnemyObject();
+
 private:
 	bool PlayerIsTurn = true;
 	int UI_OperateNumber = 0;
@@ -33,6 +35,9 @@ private:
 
 	//공격 오브젝트가 생성 시 계산을 위한 타이머 
 	Timer enemyObejctSpawnTimer;
+
+	Timer IntroTimer; //맨 처음 시작할때 쓰는 타이머
+	Timer Stage_1_Timer; //스테이지 1 시작을위한 타이머
 
 	//플레이어의 죽음처리를 위한 변수
 	bool isPlayerDead = false;
@@ -45,4 +50,13 @@ private:
 
 	int PlayerHp;
 
+	int count = 0;
+
+	bool IsMap = true;
+public:
+	void DeleteMap();
+
+	void LevelTest(float DeltaTime);
+	void Stage1(float DeltaTime);
+	void Stage2();
 };

@@ -1,13 +1,17 @@
 #include "GameLevel.h"
+#include "Engine.h"
+#include "Map/MainMap.h"
 
 #include "Actor/Player.h"
 #include "Actor/Monster.h"
 #include "Actor/MultiLine_Actor.h"
 #include "Actor/Wall_Length.h"
 #include "Actor/Wall_Width.h"
-
+#include "Actor/ActorWall_Length.h"
+#include "Actor/ActorWall_Width.h"
 
 #include "UI/Stat_UI.h"
+#include "UI/Speech_UI.h"
 
 #include "Input.h"
 #include <Windows.h>
@@ -20,7 +24,6 @@ GameLevel::GameLevel()
 	SetConsoleTitle(L"♥ UnderTale");
 	//플레이어 맵 파일 리딩
 	ReadMapFile("map.txt");
-
 	PlaySound(L"../Assets/Sounds/sans_megalovania.wav", 0, SND_FILENAME | SND_ASYNC | SND_LOOP);
 	//PlaySound(L"../Assets/Sounds/Sans-Talking-_Sound-Effect_.wav", 0, SND_FILENAME | SND_ASYNC);
 	//mciSendStringW(
@@ -40,17 +43,40 @@ GameLevel::GameLevel()
 	//샌즈 렌더링
 	AddActor(new Monster("../Assets/Actor/sans_unicode_3.txt", 
 		Color::White, Vector2(50, 0),"Sans"));
+
+	AddActor(new Monster("../Assets/Actor/gasterblader0.txt", 
+		Color::White, Vector2(0, 0),"GasterBlaster"));
+
+	AddActor(new Monster("../Assets/Actor/bless0and180.txt", 
+		Color::White, Vector2(0, 6),"breath"));
+	AddActor(new Monster("../Assets/Actor/bless90and270.txt", 
+		Color::White, Vector2(20, 15),"breath"));
+
+	//AddActor(new MultiLine_Actor("../Assets/Actor/bless90and270.txt",
+	//	Color::White, Vector2(0, 12),"Sans"));
+
+
+	//AddActor(new Monster("../Assets/Actor/gasterblader180.txt",
+	//	Color::White, Vector2(50, 20), "Sans"));
+	for (int i = 51; i < 66; i++)
+	{
+		AddActor(new ActorWall_Width(Vector2(i, 20), Color::Orange));
+	}
+
+
+
 	AddActor(new MultiLine_Actor("../Assets/Actor/bone.txt", 
 		Color::White, Vector2(70, 18),"Sans_Bone"));
 	AddActor(new MultiLine_Actor("../Assets/Actor/bone.txt", 
-		Color::White, Vector2(71, 18),"Sans"));
+		Color::White, Vector2(71, 18),"Sans_Bone"));
 	AddActor(new MultiLine_Actor("../Assets/Actor/bone.txt", 
-		Color::White, Vector2(72, 18),"Sans"));
+		Color::White, Vector2(72, 18),"Sans_Bone"));
 	AddActor(new MultiLine_Actor("../Assets/Actor/bone.txt", 
-		Color::White, Vector2(73, 18),"Sans"));
+		Color::White, Vector2(73, 18),"Sans_Bone"));
 	AddActor(new MultiLine_Actor("../Assets/Actor/bone.txt", 
-		Color::White, Vector2(74, 18),"Sans"));
+		Color::White, Vector2(74, 18),"Sans_Bone"));
 	
+	//AddActor(new Wall_Width(Vector2(0, 0),Color::Red));
 	//UI
 	//공격 UI
 	AddActor(new MultiLine_UI("../Assets/UI/fight.txt",
@@ -64,6 +90,10 @@ GameLevel::GameLevel()
 	//자비 UI
 	AddActor(new MultiLine_UI("../Assets/UI/mercy.txt",
 		Color::Yellow, Vector2(69, 25),UI_Type::MERCY,"MainUI"));
+
+	//말풍선
+	AddActor(new Speech_UI("../Assets/UI/speech_bubble.txt",Color::White,
+		Vector2(66,2)));
 
 	//캐릭터 상태 UI
 	AddActor(new Stat_UI("CHARA", Color::White, Vector2(33, 23),'C'));
@@ -86,6 +116,9 @@ GameLevel::GameLevel()
 	UIcontroller = 1;
 	//testUImode = false;
 	//levelTimer.SetTargetTime(2.0f);
+
+	IntroTimer.SetTargetTime(1.0f);
+
 }
 
 GameLevel::~GameLevel()
@@ -98,7 +131,10 @@ GameLevel::~GameLevel()
 
 void GameLevel::BeginPlay()
 {
-	Super::BeginPlay();	SetConsoleOutputCP(CP_UTF8);
+	Super::BeginPlay();	
+	SetConsoleOutputCP(CP_UTF8);
+
+
 	//FILE* rendering_SANS = nullptr;
 	//fopen_s(&rendering_SANS, "../Assets/sans_unicode.txt", "rt");
 
@@ -117,22 +153,51 @@ void GameLevel::Tick(float DeltaTime)
 
 	if (Input::GetController().GetKeyDown(VK_CONTROL))
 	{
-		std::cout << "Working?";
-		levelTimer.SetTargetTime(2.0f);
-		levelTimer.Reset();
+		IsMap = !IsMap;
+		if (IsMap)
+		{
+			ReadMapFile("map_small.txt");
+		}
+		else
+		{
+			DeleteMap();
+		}
 	}
 
-	if (levelTimer.Update(DeltaTime))
+
+	if (Input::GetController().GetKeyDown(VK_NUMPAD1))
 	{
-		for (Actor* actor : actors) {
-			if (auto* player = actor->As<Player>()) {
-				player->ChangeToIsGravity();
+		for (Actor* actor : actors)
+		{
+			Speech_UI* speechUI = actor->As<Speech_UI>();
+			if (speechUI != nullptr)
+			{
+				speechUI->BlackOut();
+
 			}
 		}
 	}
+
+	if (Input::GetController().GetKeyDown(VK_NUMPAD2))
+	{
+		Engine::Get().LoadEngineSetting("EngineSettings_SmallMap.txt");
+	}
+
+	if (Input::GetController().GetKeyDown(VK_NUMPAD0))
+	{
+		for (Actor* actor : actors)
+		{
+			Speech_UI* speechUI = actor->As<Speech_UI>();
+			if (speechUI != nullptr)
+				speechUI->SayTalking
+				("오늘은 정말 \n아름다운날이야",Vector2(3,2),10);
+		}
+	}
+
+
+
 	//테스트 용도
 	//std::cout << UIcontroller;
-
 	UIController();
 
 	ProcessCollisionPlayerAndEnemyObject();
@@ -141,13 +206,14 @@ void GameLevel::Tick(float DeltaTime)
 void GameLevel::ControllMainUI(MultiLine_UI* mainUI)
 {
 	//1:FIGHT, 2:ACT, 3:ITEM, 4:MERCY
+
 	mainUI->SetColor(Color::Yellow);
 
 	if (UIcontroller == 1 && (mainUI->GetUIType() == UI_Type::FIGHT)) //FIGHT
 	{
 		mainUI->SetColor(Color::Orange);
 	}
-	else if(UIcontroller == 2 && (mainUI->GetUIType() == UI_Type::ACTOR)) // ACT
+	else if (UIcontroller == 2 && (mainUI->GetUIType() == UI_Type::ACTOR)) // ACT
 	{
 		mainUI->SetColor(Color::Orange);
 	}
@@ -166,27 +232,8 @@ void GameLevel::Render()
 	Super::Render();
 }
 
-void GameLevel::LevelTest(float DeltaTime)
-{
-	levelTimer.Tick(DeltaTime);
 
-	if (!levelTimer.IsTimeOut())
-	{
-		return;
-	}
 
-	/*levelTimer.Reset();*/
-
-	for (Actor* actor : actors)
-	{
-		Player* player = actor->As<Player>();
-
-		if (player != nullptr)
-		{
-			player->ChangeToIsGravity();
-		}
-	}
-}
 
 void GameLevel::ReadMapFile(const char* fileName)
 {
@@ -253,6 +300,17 @@ void GameLevel::ReadMapFile(const char* fileName)
 	delete[] buffer;
 
 	fclose(mapFile);
+
+	system("cls");
+}
+
+void GameLevel::CheckPlayerGravity()
+{
+	for (Actor* actor : actors)
+	{
+		if (auto* player = actor->As<Player>())
+			player->ChangeToIsGravity();
+	}
 }
 
 void GameLevel::UIController()
@@ -262,18 +320,22 @@ void GameLevel::UIController()
 	for (Actor* actor : actors)
 	{
 		Player* player = actor->As<Player>();
-
+		MultiLine_UI* mainUI = actor->As<MultiLine_UI>();
 		if (player != nullptr)
 		{
 			PlayerIsTurn = player->GetIsTurn();
 			PlayerHp = player->GetHp();
 		}
 
+		//if (mainUI != nullptr && mainUI->GetUIType() == UI_Type::SPEECH)
+		//{
+		//	mainUI->SetColor(Color::White);
+		//	continue;
+		//}
+
 		//플레이어가 턴이 아닐때 UI조작하게 설정
 		if (PlayerIsTurn == false)
 		{
-			MultiLine_UI* mainUI = actor->As<MultiLine_UI>();
-
 			if (mainUI != nullptr)
 			{
 				ControllMainUI(mainUI);
@@ -305,21 +367,6 @@ void GameLevel::UIController()
 					statUI->SetColor(Color::Red);
 			}
 		}
-		//if (statUI != nullptr && statUI->GetTag() == 40 + 12)
-		//{
-		//	if (PlayerHp > 92)
-		//		statUI->SetColor(Color::Yellow);
-		//	else
-		//		statUI->SetColor(Color::Red);
-		//}
-
-		//if (statUI != nullptr && statUI->GetTag() == 40 + 11)
-		//{
-		//	if (PlayerHp > 82)
-		//		statUI->SetColor(Color::Yellow);
-		//	else
-		//		statUI->SetColor(Color::Red);
-		//}
 	}
 
 	if (!PlayerIsTurn && Input::GetController().GetKeyDown(VK_LEFT))
@@ -342,14 +389,24 @@ void GameLevel::UIController()
 void GameLevel::ProcessCollisionPlayerAndEnemyObject()
 {
 	Player* player = nullptr;
+
 	std::vector<MultiLine_Actor*>EnemyObject_Actor;
+	std::vector<Monster*>Monster_Actor;
+
 	for (Actor* actor : actors)
 	{
 		MultiLine_Actor* EnemyObject = actor->As<MultiLine_Actor>();
+		Monster* MonsterObject = actor->As<Monster>();
 
 		if (EnemyObject != nullptr) //적 오브젝트 발견
 		{
 			EnemyObject_Actor.emplace_back(EnemyObject); // 배열에 추가
+			continue;
+		}
+
+		if (MonsterObject != nullptr && MonsterObject->CheckTag("breath"))// && MonsterObject->GetTag() == "breath"
+		{
+			Monster_Actor.emplace_back(MonsterObject);
 			continue;
 		}
 
@@ -360,10 +417,15 @@ void GameLevel::ProcessCollisionPlayerAndEnemyObject()
 	}
 
 	//적 오브젝트를 담은 배열의 크기가 0이거나 플레이어를 못찾았을시
-	if (EnemyObject_Actor.size() == 0 || !player)
+	if (EnemyObject_Actor.size() == 0 && Monster_Actor.size() == 0 || !player)
 	{
 		return;
 	}
+
+	//if (Monster_Actor.size() == 0 || !player)
+	//{
+	//	return;
+	//}
 
 	//적 오브젝트포인터를 스택에 할당한 후 힙에 할당된
 	// 적 오브젝트를 담은 배열의 주소를 가르켜 순환하며 탐색하기
@@ -378,5 +440,75 @@ void GameLevel::ProcessCollisionPlayerAndEnemyObject()
 			player->SetHp(PlayerCurrentHp - 1);
 		}
 	}
+
+	for (auto* MonsterObject : Monster_Actor)
+	{
+		if (player->GetIsTurn() && player->TestIntersect(MonsterObject))
+		{
+			int PlayerCurrentHp = player->GetHp();
+			player->SetHp(PlayerCurrentHp - 1);
+		}
+	}
+}
+
+void GameLevel::DeleteMap()
+{
+	for (Actor* actor : actors)
+	{
+		Wall_Length* wallLegth = actor->As<Wall_Length>();
+		Wall_Width* wallWidth = actor->As<Wall_Width>();
+
+		if (wallLegth != nullptr)
+		{
+			wallLegth->Destroy();
+		}
+
+		if (wallWidth != nullptr)
+		{
+			wallWidth->Destroy();
+		}
+	}
+}
+
+void GameLevel::LevelTest(float DeltaTime)
+{
+	levelTimer.Tick(DeltaTime);
+
+	if (!levelTimer.IsTimeOut())
+	{
+		return;
+	}
+
+	/*levelTimer.Reset();*/
+
+	for (Actor* actor : actors)
+	{
+		Player* player = actor->As<Player>();
+
+		if (player != nullptr)
+		{
+			player->ChangeToIsGravity();
+		}
+	}
+
+}
+void GameLevel::Stage1(float DeltaTime)
+{
+	IntroTimer.Tick(DeltaTime);
+
+	if (!IntroTimer.IsTimeOut())
+	{
+		return;
+	}
+
+	for (Actor* actor : actors)
+	{
+		Speech_UI* speechUI = actor->As<Speech_UI>();
+		if (speechUI != nullptr)
+		{
+
+		}
+	}
+	
 }
 

@@ -1,7 +1,8 @@
-#include "Monster.h"
+#include "BreathActor.h"
 #include "Utils/Utils.h"
 #include "Input.h"
-Monster::Monster(const char* filePath, Color color,
+
+BreathActor::BreathActor(const char* filePath, Color color, 
 	const Vector2& position, const char* Tag)
 	: Actor("", color, position, false, IsString::STR_TRUE)
 {
@@ -51,58 +52,18 @@ Monster::Monster(const char* filePath, Color color,
 	//¾ÈÁö¿öÁü? 
 }
 
-void Monster::Tick(float DeltaTime)
+void BreathActor::Tick(float DeltaTime)
 {
-	//if (Input::GetController().GetKey(VK_NUMPAD4))
-	//{
-	//	actorPosition.x += -1;
-	//	SetPosition(actorPosition);
-	//}
-
-	if (Input::GetController().GetKeyDown(VK_NUMPAD9))
+	if (Input::GetController().GetKey(VK_NUMPAD9))
 	{
-		if (CheckTag("breath"))
-			Destroy();
-	}
-
-	if (Input::GetController().GetKeyDown(VK_NUMPAD8))
-	{
-		if (CheckTag("GasterBlaster"))
-			Destroy();
+		IsVisible = !IsVisible;
 	}
 }
 
-void Monster::Render()
+void BreathActor::Render()
 {
-	Utils::SetConsoleTextColor(color);
-
-	Vector2 pos = GetActorPosition();
-
-	for (size_t i = 0; i < lines.size(); ++i)
-	{
-		Utils::SetConsolePosition(Vector2(pos.x, pos.y + static_cast<int>(i)));
-		std::cout << lines[i];
-	}
 }
 
-void Monster::SetPosition(const Vector2& newPosition)
+void BreathActor::SetPosition(const Vector2& newPosition)
 {
-	return;
-}
-
-
-char* Monster::GetTag() const
-{
-	return NameTag;
-}
-
-bool Monster::CheckTag(const char * name)
-{
-	if (NameTag != nullptr)
-	{
-		if (std::strcmp(NameTag, name) == 0)
-			return true;
-	}
-
-	return false;
 }

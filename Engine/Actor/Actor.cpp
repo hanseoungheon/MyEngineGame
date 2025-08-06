@@ -119,7 +119,7 @@ void Actor::SetPosition(const Vector2& newPosition)
             return;
 
         //액터의 윗쪽 가장자리가 화면 윗쪽을 벗어났는지
-        if (CheckString == IsString::STR_FALSE && newPosition.y < 16)
+        if (CheckString == IsString::STR_FALSE && newPosition.y < UpSide)
             return;
 
         //액터가 화면 아래를 벗어났는지

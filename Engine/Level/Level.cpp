@@ -135,11 +135,11 @@ void Level::ProcessAddAndDestroyActors()
 	for (auto* actor : destroyRequestActors)
 	{
 		//액터가 그려져있으면 지우기
-		Utils::SetConsolePosition(actor->actorPosition);
+		//Utils::SetConsolePosition(actor->actorPosition);
 
 		if (actor->CheckString == IsString::STR_FALSE)
 		{
-		
+			Utils::SetConsolePosition(actor->actorPosition);
 			for (int ix = 0; ix < actor->width; ++ix)
 			{
 				// " "로 바꿔서 지워버리기.
@@ -151,6 +151,10 @@ void Level::ProcessAddAndDestroyActors()
 		{
 			for (int ix = 0; ix < actor->height; ++ix)
 			{
+				Utils::SetConsolePosition(Vector2(
+					actor->actorPosition.x,
+					actor->actorPosition.y + ix
+				));
 				for (int jx = 0; jx < actor->width; ++jx)
 				{
 					// " "로 바꿔서 지워버리기.

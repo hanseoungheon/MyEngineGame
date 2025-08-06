@@ -4,12 +4,12 @@
 #include <iostream>
 #include "Actor/Actor.h"
 
-class Monster : public Actor
+class BreathActor : public Actor
 {
-	RTTI_DECLARATIONS(Monster, Actor)
+	RTTI_DECLARATIONS(BreathActor, Actor)
 
 public:
-	Monster(const char* filePath, Color color, const
+	BreathActor(const char* filePath, Color color, const
 		Vector2& position, const char* Tag = "default");
 
 	virtual void Tick(float DeltaTime) override;
@@ -20,7 +20,7 @@ public:
 
 	char* GetTag() const;
 
-	bool CheckTag(const char* name);
+
 
 private:
 	std::vector<std::string> lines;

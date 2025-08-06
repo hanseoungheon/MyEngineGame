@@ -1,5 +1,6 @@
 #include "MultiLine_UI.h"
 #include "Utils/Utils.h"
+#include <Windows.h>
 MultiLine_UI::MultiLine_UI(const char* filePath, Color color,
 	const Vector2& position,UI_Type type,const char* Tag)
 	: Actor("", color, position,true,IsString::STR_TRUE)
@@ -58,7 +59,10 @@ void MultiLine_UI::Render()
 	}
 }
 
+
+
 UI_Type MultiLine_UI::GetUIType()
 {
 	return UItype;
 }
+

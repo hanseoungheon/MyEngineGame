@@ -9,7 +9,7 @@ enum class UI_Type : int
 	ACTOR = 1,
 	ITEM = 2,
 	MERCY = 3,
-	NONE = 4,
+	NONE = 5,
 };
 
 class MultiLine_UI : public Actor
@@ -22,7 +22,11 @@ public:
 
 	virtual void Render() override;
 
+	//void SayTalking();
+
 	UI_Type GetUIType();
+
+
 
 	char* GetTag() const;
 

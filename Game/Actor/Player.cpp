@@ -5,7 +5,7 @@
 Player::Player() : Actor("Y",Color::Red,Vector2::Zero,false,IsString::STR_FALSE)
 {
 	hp = 92;
-	SetSortingOrder(2);
+	SetSortingOrder(3);
 	IsTurn = true;
 	//시작 위치(화면의 가운데이면서 살짝 아랫쪽)
 	int xPosition = ((Engine::Get().Width()+ LeftSide) / 2);
@@ -37,19 +37,29 @@ void Player::Tick(float DeltaTime)
 		return;
 	}
 
+	if (Input::GetController().GetKeyDown(VK_NUMPAD2))
+	{
+		LeftSide += 11;
+	}
+
 	if (Input::GetController().GetKeyDown(VK_TAB))
 	{
 		IsTurn = !IsTurn;
 		IsVisible = !IsVisible;
 		Vector2 playerPosition = GetActorPosition();
-		playerPosition.x++;
+		//playerPosition.x++;
+		//SetPosition(playerPosition);
+		//playerPosition.x--;
+		//SetPosition(playerPosition);
+		//playerPosition.x--;
+		//SetPosition(playerPosition);
+		//playerPosition.x++;
+		//SetPosition(playerPosition);
+		playerPosition.x = ((Engine::Get().Width() + LeftSide) / 2 + 1);
+		playerPosition.y = Engine::Get().Height() - 2;
 		SetPosition(playerPosition);
-		playerPosition.x--;
-		SetPosition(playerPosition);
-		playerPosition.x--;
-		SetPosition(playerPosition);
-		playerPosition.x++;
-		SetPosition(playerPosition);
+		//IsGravity = true;
+		//SetColor(Color::Blue);
 	}
 
 	if (Input::GetController().GetKey(VK_BACK))
