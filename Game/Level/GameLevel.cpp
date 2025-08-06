@@ -2,6 +2,8 @@
 #include "Engine.h"
 #include "Map/MainMap.h"
 
+//#include "Stage/Stage1.cpp"
+ 
 #include "Actor/Player.h"
 #include "Actor/Monster.h"
 #include "Actor/MultiLine_Actor.h"
@@ -9,7 +11,7 @@
 #include "Actor/Wall_Width.h"
 #include "Actor/ActorWall_Length.h"
 #include "Actor/ActorWall_Width.h"
-
+#include  "Actor/BreathActor.h"
 #include "UI/Stat_UI.h"
 #include "UI/Speech_UI.h"
 
@@ -23,7 +25,7 @@ GameLevel::GameLevel()
 {
 	SetConsoleTitle(L"♥ UnderTale");
 	//플레이어 맵 파일 리딩
-	ReadMapFile("map.txt");
+	ReadMapFile("map_small.txt");
 	PlaySound(L"../Assets/Sounds/sans_megalovania.wav", 0, SND_FILENAME | SND_ASYNC | SND_LOOP);
 	//PlaySound(L"../Assets/Sounds/Sans-Talking-_Sound-Effect_.wav", 0, SND_FILENAME | SND_ASYNC);
 	//mciSendStringW(
@@ -44,8 +46,8 @@ GameLevel::GameLevel()
 	AddActor(new Monster("../Assets/Actor/sans_unicode_3.txt", 
 		Color::White, Vector2(50, 0),"Sans"));
 
-	AddActor(new Monster("../Assets/Actor/gasterblader0.txt", 
-		Color::White, Vector2(0, 0),"GasterBlaster"));
+	//AddActor(new Monster("../Assets/Actor/gasterblader0.txt", 
+	//	Color::White, Vector2(0, 0),"GasterBlaster"));
 
 	AddActor(new Monster("../Assets/Actor/bless0and180.txt", 
 		Color::White, Vector2(0, 6),"breath"));
@@ -56,25 +58,28 @@ GameLevel::GameLevel()
 	//	Color::White, Vector2(0, 12),"Sans"));
 
 
-	//AddActor(new Monster("../Assets/Actor/gasterblader180.txt",
-	//	Color::White, Vector2(50, 20), "Sans"));
-	for (int i = 51; i < 66; i++)
-	{
-		AddActor(new ActorWall_Width(Vector2(i, 20), Color::Orange));
-	}
+	//AddActor(new BreathActor("../Assets/Actor/bless45.txt",
+	//	Color::White, Vector2(42, 12), "Sans"));
+	//AddActor(new BreathActor("../Assets/Actor/bless135.txt",
+	//	Color::White, Vector2(42, 12), "Sans"));
+	//AddActor(new BreathActor("../Assets/Actor/bless135.txt",
+	//	Color::White, Vector2(42, 12), "Sans"));
+	//for (int i = 51; i < 66; i++)
+	//{
+	//	AddActor(new ActorWall_Width(Vector2(i, 20), Color::Orange));
+	//}
+;
 
-
-
-	AddActor(new MultiLine_Actor("../Assets/Actor/bone.txt", 
-		Color::White, Vector2(70, 18),"Sans_Bone"));
-	AddActor(new MultiLine_Actor("../Assets/Actor/bone.txt", 
-		Color::White, Vector2(71, 18),"Sans_Bone"));
-	AddActor(new MultiLine_Actor("../Assets/Actor/bone.txt", 
-		Color::White, Vector2(72, 18),"Sans_Bone"));
-	AddActor(new MultiLine_Actor("../Assets/Actor/bone.txt", 
-		Color::White, Vector2(73, 18),"Sans_Bone"));
-	AddActor(new MultiLine_Actor("../Assets/Actor/bone.txt", 
-		Color::White, Vector2(74, 18),"Sans_Bone"));
+	//AddActor(new MultiLine_Actor("../Assets/Actor/Stage1/bone_array_1.txt", 
+	//	Color::White, Vector2(51, 16),"Sans_Bone"));
+	//AddActor(new MultiLine_Actor("../Assets/Actor/bone.txt", 
+	//	Color::White, Vector2(71, 18),"Sans_Bone"));
+	//AddActor(new MultiLine_Actor("../Assets/Actor/bone.txt", 
+	//	Color::White, Vector2(72, 18),"Sans_Bone"));
+	//AddActor(new MultiLine_Actor("../Assets/Actor/bone.txt", 
+	//	Color::White, Vector2(73, 18),"Sans_Bone"));
+	//AddActor(new MultiLine_Actor("../Assets/Actor/bone.txt", 
+	//	Color::White, Vector2(74, 18),"Sans_Bone"));
 	
 	//AddActor(new Wall_Width(Vector2(0, 0),Color::Red));
 	//UI
@@ -94,6 +99,7 @@ GameLevel::GameLevel()
 	//말풍선
 	AddActor(new Speech_UI("../Assets/UI/speech_bubble.txt",Color::White,
 		Vector2(66,2)));
+
 
 	//캐릭터 상태 UI
 	AddActor(new Stat_UI("CHARA", Color::White, Vector2(33, 23),'C'));
@@ -117,7 +123,18 @@ GameLevel::GameLevel()
 	//testUImode = false;
 	//levelTimer.SetTargetTime(2.0f);
 
+
+	//인트로
 	IntroTimer.SetTargetTime(1.0f);
+	BurningToHell.SetTargetTime(1.0f);
+
+	//스테이지1
+	TStage_1_1.SetTargetTime(1.0f);
+	TStage_1_2.SetTargetTime(0.8f);
+	TStage_1_3.SetTargetTime(0.5f);
+	TStage_1_4.SetTargetTime(0.5f);
+	TStage_1_5.SetTargetTime(0.5f);
+	TStage_1_5_Array.SetTargetTime(0.3f);
 
 }
 
@@ -134,6 +151,14 @@ void GameLevel::BeginPlay()
 	Super::BeginPlay();	
 	SetConsoleOutputCP(CP_UTF8);
 
+	//일단은 말풍선 안보이게 하는거 포기
+	//for (Actor* actor : actors)
+	//{
+	//	Speech_UI* speech_UI = actor->As<Speech_UI>();
+
+	//	if (speech_UI != nullptr)
+	//		speech_UI->SetIsVisible(false);
+	//}
 
 	//FILE* rendering_SANS = nullptr;
 	//fopen_s(&rendering_SANS, "../Assets/sans_unicode.txt", "rt");
@@ -151,18 +176,18 @@ void GameLevel::Tick(float DeltaTime)
 
 	//LevelTest(DeltaTime);
 
-	if (Input::GetController().GetKeyDown(VK_CONTROL))
-	{
-		IsMap = !IsMap;
-		if (IsMap)
-		{
-			ReadMapFile("map_small.txt");
-		}
-		else
-		{
-			DeleteMap();
-		}
-	}
+	//if (Input::GetController().GetKeyDown(VK_CONTROL))
+	//{
+	//	IsMap = !IsMap;
+	//	if (IsMap)
+	//	{
+	//		ReadMapFile("map_small.txt");
+	//	}
+	//	else
+	//	{
+	//		DeleteMap();
+	//	}
+	//}
 
 
 	if (Input::GetController().GetKeyDown(VK_NUMPAD1))
@@ -183,18 +208,48 @@ void GameLevel::Tick(float DeltaTime)
 		Engine::Get().LoadEngineSetting("EngineSettings_SmallMap.txt");
 	}
 
-	if (Input::GetController().GetKeyDown(VK_NUMPAD0))
+
+	//Stage1 타이머
+	if (!IntroTimer.IsTimeOut())
 	{
-		for (Actor* actor : actors)
-		{
-			Speech_UI* speechUI = actor->As<Speech_UI>();
-			if (speechUI != nullptr)
-				speechUI->SayTalking
-				("오늘은 정말 \n아름다운날이야",Vector2(3,2),10);
-		}
+		Intro(DeltaTime);
 	}
-
-
+	else if(!BurningToHell.IsTimeOut())
+	{
+		BlackOut_1(DeltaTime);
+	}
+	else if (!TStage_1_1.IsTimeOut())
+	{
+		Stage1_1(DeltaTime);
+	}
+	else if (!TStage_1_2.IsTimeOut())
+	{
+		Stage1_2(DeltaTime);
+	}
+	else if (!TStage_1_3.IsTimeOut())
+	{
+		Stage1_3(DeltaTime);
+	}
+	else if (!TStage_1_4.IsTimeOut())
+	{
+		Stage1_4(DeltaTime);
+	}
+	else if (!TStage_1_5.IsTimeOut())
+	{
+		Stage1_5(DeltaTime);
+	}
+	else if (!TStage_1_5_Array.IsTimeOut() && TimerArrayCount == 1)
+	{
+		Stage1_5_1(DeltaTime);
+	}
+	else if (!TStage_1_5_Array.IsTimeOut() && TimerArrayCount == 2)
+	{
+		Stage1_5_2(DeltaTime);
+	}
+	else if (!TStage_1_5_Array.IsTimeOut() && TimerArrayCount == 3)
+	{
+		Stage1_5_3(DeltaTime);
+	}
 
 	//테스트 용도
 	//std::cout << UIcontroller;
@@ -470,29 +525,30 @@ void GameLevel::DeleteMap()
 	}
 }
 
-void GameLevel::LevelTest(float DeltaTime)
-{
-	levelTimer.Tick(DeltaTime);
+//void GameLevel::LevelTest(float DeltaTime)
+//{
+//	levelTimer.Tick(DeltaTime);
+//
+//	if (!levelTimer.IsTimeOut())
+//	{
+//		return;
+//	}
+//
+//	/*levelTimer.Reset();*/
+//
+//	for (Actor* actor : actors)
+//	{
+//		Player* player = actor->As<Player>();
+//
+//		if (player != nullptr)
+//		{
+//			player->ChangeToIsGravity();
+//		}
+//	}
+//
+//}
 
-	if (!levelTimer.IsTimeOut())
-	{
-		return;
-	}
-
-	/*levelTimer.Reset();*/
-
-	for (Actor* actor : actors)
-	{
-		Player* player = actor->As<Player>();
-
-		if (player != nullptr)
-		{
-			player->ChangeToIsGravity();
-		}
-	}
-
-}
-void GameLevel::Stage1(float DeltaTime)
+void GameLevel::Intro(float DeltaTime)
 {
 	IntroTimer.Tick(DeltaTime);
 
@@ -500,15 +556,57 @@ void GameLevel::Stage1(float DeltaTime)
 	{
 		return;
 	}
+	//IntroTimer.Reset();
 
-	for (Actor* actor : actors)
+	if (IntroTimer.Update(DeltaTime))
 	{
-		Speech_UI* speechUI = actor->As<Speech_UI>();
-		if (speechUI != nullptr)
+		for (Actor* actor : actors)
 		{
-
+			
+			Speech_UI* speechUI = actor->As<Speech_UI>();
+			if (speechUI != nullptr)
+			{
+				speechUI->SetIsVisible(true);
+				speechUI->SayTalking
+				("오늘은 정말 \n아름다운날이야", Vector2(3, 2), 100,true);
+				Sleep(100);
+				speechUI->SayTalking
+				("새들은 지저귀고 \n꽃들은 피어나고", Vector2(3, 2), 100,true);
+				Sleep(100);
+				speechUI->SayTalking
+				("이런날엔, 너같은\n꼬마들은...", Vector2(3, 2), 100,true);
+				speechUI->BlackOut();
+			}
 		}
 	}
-	
+	BurningToHell.Reset();
 }
+
+void GameLevel::BlackOut_1(float DeltaTime)
+{
+	BurningToHell.Tick(DeltaTime);
+
+	if (!BurningToHell.IsTimeOut())
+	{
+		return;
+	}
+
+	if (BurningToHell.Update(DeltaTime))
+	{
+
+		for (Actor* actor : actors)
+		{
+			Speech_UI* speechUI = actor->As<Speech_UI>();
+
+			if (speechUI != nullptr)
+			{
+				speechUI->SayTalking
+				("지옥에서 \n불타야해", Vector2(3, 2), 200,false);
+			}
+		}
+	}
+	TStage_1_1.Reset();
+}
+
+
 

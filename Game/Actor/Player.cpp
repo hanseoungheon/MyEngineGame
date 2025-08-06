@@ -37,10 +37,10 @@ void Player::Tick(float DeltaTime)
 		return;
 	}
 
-	if (Input::GetController().GetKeyDown(VK_NUMPAD2))
-	{
-		LeftSide += 11;
-	}
+	//if (Input::GetController().GetKeyDown(VK_NUMPAD2))
+	//{
+	//	LeftSide += 11;
+	//}
 
 	if (Input::GetController().GetKeyDown(VK_TAB))
 	{

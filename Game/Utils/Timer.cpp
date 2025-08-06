@@ -43,3 +43,13 @@ void Timer::SetTargetTime(float newTargetTime)
 {
 	targetTime = newTargetTime;
 }
+
+bool Timer::GetIsPause() const
+{
+	return IsPause;
+}
+
+void Timer::SetIsPause()
+{
+	IsPause = !IsPause;
+}

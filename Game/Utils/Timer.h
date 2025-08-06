@@ -23,8 +23,11 @@ public:
 	//타이머 시간 변경 함수
 	void SetTargetTime(float newTargetTime);
 
+	bool GetIsPause() const;
+	void SetIsPause();
 private:
 	float elaspedTime = 0.0f; //경과시간
 	float targetTime = 0.0f; //목표 시간 (설정한 시간)
 	bool IsComplete = false;
+	bool IsPause = false;
 };

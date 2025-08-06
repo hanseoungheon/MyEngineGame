@@ -86,6 +86,12 @@ void MultiLine_Actor::Tick(float DeltaTime)
 		SetPosition(newPosition);
 	}
 
+	if (CheckTag("Right") && JumpTick % 3 == 0)
+	{
+		Vector2 newPosition = actorPosition + Vector2(1, 0);
+		SetPosition(newPosition);
+	}
+
 }
 
 void MultiLine_Actor::Render()
@@ -132,4 +138,15 @@ void MultiLine_Actor::SetPosition(const Vector2& newPosition)
 char* MultiLine_Actor::GetTag() const
 {
 	return NameTag;
+}
+
+bool MultiLine_Actor::CheckTag(const char* name)
+{
+	if (NameTag != nullptr)
+	{
+		if (std::strcmp(NameTag, name) == 0)
+			return true;
+	}
+
+	return false;
 }

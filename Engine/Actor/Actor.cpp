@@ -269,6 +269,16 @@ void Actor::QuitGame()
     Engine::Get().Quit();
 }
 
+bool Actor::GetIsVisible() const
+{
+    return IsVisible;
+}
+
+void Actor::SetIsVisible(const bool IsVisible)
+{
+    this->IsVisible = IsVisible;
+}
+
 void Actor::SettingWidthAndHeight(int width, int height)
 {
     this->width = width;

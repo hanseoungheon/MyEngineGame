@@ -1,5 +1,6 @@
 #include "Speech_UI.h"
 #include "Utils/Utils.h"
+#include <algorithm>
 #include <Windows.h>
 
 Speech_UI::Speech_UI(const char* filePath, Color color, const Vector2& position)
@@ -51,7 +52,8 @@ void Speech_UI::Render()
 	}
 }
 
-void Speech_UI::SayTalking(const char* say, Vector2 position,DWORD talkSpeed)
+void Speech_UI::SayTalking(const char* say, Vector2 position,DWORD talkSpeed,
+	bool EndSleep)
 {
 	SetConsoleOutputCP(949);
 	Vector2 StartPosition = actorPosition + position;
@@ -62,6 +64,8 @@ void Speech_UI::SayTalking(const char* say, Vector2 position,DWORD talkSpeed)
 	//char say2[] = "³¯ÀÌ¾ß";
 	int lineoffset = 0;
 	int length = static_cast<int>(strlen(say) + 1);
+
+	int firstLength = 0;
 	for (int i = 0; i < length; i++)
 	{
 		if (say[i] == '\n')
@@ -74,14 +78,59 @@ void Speech_UI::SayTalking(const char* say, Vector2 position,DWORD talkSpeed)
 		std::cout << say[i];
 		Sleep(talkSpeed);
 	}
+
+	lineoffset = 1;
+	int maxWidth = 0;
+	int currentWdith = 0;
+	for (int i = 0; say[i] != '\0'; ++i)
+	{
+		if (say[i] == '\n')
+		{
+			maxWidth = std::max<int>(maxWidth, currentWdith);
+			currentWdith = 0;
+			++lineoffset;
+		}
+		else
+		{
+			++currentWdith;
+		}
+	}
+	maxWidth = std::max<int>(maxWidth, currentWdith);
+
+	for (int row = 0; row < lineoffset; ++row)
+	{
+		cursor = Vector2(StartPosition.x, StartPosition.y + row);
+		Utils::SetConsolePosition(cursor);
+		for (int col = 0; col < maxWidth; ++col)
+		{
+			std::cout << ' ';
+		}
+	}
+
+	//for (int i = 0; i < length; i++)
+	//{
+	//	if (say[i] == '\n')
+	//	{
+	//		lineoffset++;
+	//		cursor = Vector2(StartPosition.x, StartPosition.y + lineoffset);
+	//		Utils::SetConsolePosition(cursor);
+	//		continue;
+	//	}
+	//	std::cout << " ";
+	//}
+
+
 	//Utils::Setconsoleposition(actorposition + vector2(3,3));
 	//for (int i = 0; i < 7; i++)
 	//{
 	//	std::cout << say2[i];
 	//	sleep(100);
 	//}
-	Sleep(500);
-	system("cls");
+	if (EndSleep == true)
+	{
+		Sleep(250);
+	}
+	//system("cls");
 	SetConsoleOutputCP(CP_UTF8);
 }
 

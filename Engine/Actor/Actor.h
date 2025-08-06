@@ -70,6 +70,8 @@ public:
 	//게임 종료 요청
 	void QuitGame();
 
+	bool GetIsVisible() const;
+	void SetIsVisible(const bool IsVisible);
 
 protected:
 	//객체의 위치
@@ -103,7 +105,7 @@ protected:
 	//객체를 소유한 레벨
 	Level* owner = nullptr;
 
-	int LeftSide = 40;
+	int LeftSide = 51;
 	int UpSide = 16;
 
 	//UI면은 맵 크기에 제한 x

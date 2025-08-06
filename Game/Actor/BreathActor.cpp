@@ -6,7 +6,7 @@ BreathActor::BreathActor(const char* filePath, Color color,
 	const Vector2& position, const char* Tag)
 	: Actor("", color, position, false, IsString::STR_TRUE)
 {
-	SetSortingOrder(2);
+	SetSortingOrder(1);
 	FILE* file = nullptr;
 	fopen_s(&file, filePath, "rt");
 
@@ -62,8 +62,18 @@ void BreathActor::Tick(float DeltaTime)
 
 void BreathActor::Render()
 {
+	Utils::SetConsoleTextColor(color);
+
+	Vector2 pos = GetActorPosition();
+
+	for (size_t i = 0; i < lines.size(); ++i)
+	{
+		Utils::SetConsolePosition(Vector2(pos.x, pos.y + static_cast<int>(i)));
+		std::cout << lines[i];
+	}
 }
 
 void BreathActor::SetPosition(const Vector2& newPosition)
 {
+	return;
 }

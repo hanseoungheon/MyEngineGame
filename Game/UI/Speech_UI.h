@@ -23,7 +23,8 @@ public:
 	virtual void Render() override;
 
 	//1000¿Ã 1√ 
-	void SayTalking(const char* say,Vector2 position,DWORD talkSpeed);
+	void SayTalking(const char* say,Vector2 position,DWORD talkSpeed,
+		bool EndSleep);
 	void BlackOut();
 
 	//char* GetTag() const;
