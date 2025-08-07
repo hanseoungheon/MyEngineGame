@@ -199,83 +199,83 @@ void GameLevel::Tick(float DeltaTime)
 	}
 
 	//Stage1 ≈∏¿Ã∏”
-	//if (!IntroTimer.IsTimeOut())
-	//{
-	//	Intro(DeltaTime);
-	//}
-	//else if (!BurningToHell.IsTimeOut())
-	//{
-	//	BlackOut_1(DeltaTime);
-	//}
-	//else if (!TStage_1_1.IsTimeOut())
-	//{
-	//	Stage1_1(DeltaTime);
-	//}
-	//else if (!TStage_1_2.IsTimeOut())
-	//{
-	//	Stage1_2(DeltaTime);
-	//}
-	//else if (!TStage_1_3.IsTimeOut())
-	//{
-	//	Stage1_3(DeltaTime);
-	//}
-	//else if (!TStage_1_4.IsTimeOut())
-	//{
-	//	Stage1_4(DeltaTime);
-	//}
-	//else if (!TStage_1_5.IsTimeOut())
-	//{
-	//	Stage1_5(DeltaTime);
-	//}
-	//else if (!TStage_1_5_Array.IsTimeOut() && TimerArrayCount == 1)
-	//{
-	//	Stage1_5_1(DeltaTime);
-	//}
-	//else if (!TStage_1_5_Array.IsTimeOut() && TimerArrayCount == 2)
-	//{
-	//	Stage1_5_2(DeltaTime);
-	//}
-	//else if (!TStage_1_5_Array.IsTimeOut() && TimerArrayCount == 3)
-	//{
-	//	Stage1_5_3(DeltaTime);
-	//}
-	///////////////////////////////////////////////
-	//else if (!TStage_1_6.IsTimeOut())
-	//{
-	//	Stage1_6(DeltaTime);
-	//}
-	//else if (!TStage_1_7.IsTimeOut())
-	//{
-	//	Stage1_7(DeltaTime);
-	//}
-	//else if (!TStage_1_8.IsTimeOut())
-	//{
-	//	Stage1_8(DeltaTime);
-	//}
-	//else if (!TStage_1_9.IsTimeOut())
-	//{
-	//	Stage1_9(DeltaTime);
-	//}
-	//else if (!TStage_1_10.IsTimeOut())
-	//{
-	//	Stage1_10(DeltaTime);
-	//}
-	//else if (!TStage_1_11.IsTimeOut())
-	//{
-	//	Stage1_11(DeltaTime);
-	//}
-	//else if (!TStage_1_12.IsTimeOut())
-	//{
-	//	Stage1_12(DeltaTime);
-	//}
-	//else if (!TStage_1_13.IsTimeOut())
-	//{
-	//	Stage1_13(DeltaTime);
-	//}
-	//else if (!TStage_1_14.IsTimeOut())
-	//{
-	//	Stage1_14(DeltaTime);
-	//}
+	if (!IntroTimer.IsTimeOut())
+	{
+		Intro(DeltaTime);
+	}
+	else if (!BurningToHell.IsTimeOut())
+	{
+		BlackOut_1(DeltaTime);
+	}
+	else if (!TStage_1_1.IsTimeOut())
+	{
+		Stage1_1(DeltaTime);
+	}
+	else if (!TStage_1_2.IsTimeOut())
+	{
+		Stage1_2(DeltaTime);
+	}
+	else if (!TStage_1_3.IsTimeOut())
+	{
+		Stage1_3(DeltaTime);
+	}
+	else if (!TStage_1_4.IsTimeOut())
+	{
+		Stage1_4(DeltaTime);
+	}
+	else if (!TStage_1_5.IsTimeOut())
+	{
+		Stage1_5(DeltaTime);
+	}
+	else if (!TStage_1_5_Array.IsTimeOut() && TimerArrayCount == 1)
+	{
+		Stage1_5_1(DeltaTime);
+	}
+	else if (!TStage_1_5_Array.IsTimeOut() && TimerArrayCount == 2)
+	{
+		Stage1_5_2(DeltaTime);
+	}
+	else if (!TStage_1_5_Array.IsTimeOut() && TimerArrayCount == 3)
+	{
+		Stage1_5_3(DeltaTime);
+	}
+	/////////////////////////////////////////////
+	else if (!TStage_1_6.IsTimeOut())
+	{
+		Stage1_6(DeltaTime);
+	}
+	else if (!TStage_1_7.IsTimeOut())
+	{
+		Stage1_7(DeltaTime);
+	}
+	else if (!TStage_1_8.IsTimeOut())
+	{
+		Stage1_8(DeltaTime);
+	}
+	else if (!TStage_1_9.IsTimeOut())
+	{
+		Stage1_9(DeltaTime);
+	}
+	else if (!TStage_1_10.IsTimeOut())
+	{
+		Stage1_10(DeltaTime);
+	}
+	else if (!TStage_1_11.IsTimeOut())
+	{
+		Stage1_11(DeltaTime);
+	}
+	else if (!TStage_1_12.IsTimeOut())
+	{
+		Stage1_12(DeltaTime);
+	}
+	else if (!TStage_1_13.IsTimeOut())
+	{
+		Stage1_13(DeltaTime);
+	}
+	else if (!TStage_1_14.IsTimeOut())
+	{
+		Stage1_14(DeltaTime);
+	}
 	else if (!TStage_1_15.IsTimeOut())
 	{
 		Stage1_15(DeltaTime);
