@@ -86,16 +86,116 @@ void GameLevel::Stage3_4(float DeltaTime)
 		return;
 	}
 
+	TimerEndCount++;
+	if (TimerEndCount <= 3)
+	{
+		TStage_3_5.Reset();
 
-	//AddActor(new MultiLine_Actor("../Assets/Actor/bone.txt",
-	//	Color::SkyBlue, Vector2(51, 18), "BlueBoneLeft"));
-	//AddActor(new MultiLine_Actor("../Assets/Actor/bone_copy.txt",
-	//	Color::SkyBlue, Vector2(41, 17), "BlueBoneRight"));
+		AddActor(new MultiLine_Actor("../Assets/Actor/bone_copy.txt",
+			Color::SkyBlue, Vector2(74, 17), "BlueBoneLeft"));
+	}
+	else
+	{
+		TStage_3_6.Reset();
+		TimerEndCount = 0;
+	}
+
+}
+
+void GameLevel::Stage3_5(float DeltaTime)
+{
+	TStage_3_5.Tick(DeltaTime);
+
+	if (!TStage_3_5.IsTimeOut())
+	{
+		return;
+	}
+
 	AddActor(new MultiLine_Actor("../Assets/Actor/Stage3/bone_stage3_mini.txt",
 		Color::White, Vector2(74, 22), "Left"));
 
-	//Sleep(1000);
+	
+	TStage_3_4.Reset();
+}
 
+void GameLevel::Stage3_6(float DeltaTime)
+{
+	TStage_3_6.Tick(DeltaTime);
+
+	if (!TStage_3_6.IsTimeOut())
+	{
+		return;
+	}
+
+	TimerEndCount++;
+	if (TimerEndCount <= 3)
+	{
+		TStage_3_7.Reset();
+
+		AddActor(new MultiLine_Actor("../Assets/Actor/Stage3/bone_stage3_mini.txt",
+			Color::White, Vector2(41, 22), "Right"));
+	}
+	else
+	{
+		TStage_3_8.Reset();
+		TimerEndCount = 0;
+	}
+
+}
+
+void GameLevel::Stage3_7(float DeltaTime)
+{
+	TStage_3_7.Tick(DeltaTime);
+
+	if (!TStage_3_7.IsTimeOut())
+	{
+		return;
+	}
+
+	AddActor(new MultiLine_Actor("../Assets/Actor/bone_copy.txt",
+		Color::SkyBlue, Vector2(41, 17), "BlueBoneRight"));
+
+	TStage_3_6.Reset();
+}
+
+void GameLevel::Stage3_8(float DeltaTime)
+{
+	TStage_3_8.Tick(DeltaTime);
+
+	if (!TStage_3_8.IsTimeOut())
+	{
+		return;
+	}
+
+	if (TStage_3_8.Update(DeltaTime))
+	{
+		TurnEnd();
+	}
+	TStage_3_9.Reset();
+}
+
+void GameLevel::Stage3_9(float DeltaTime)
+{
+	TStage_3_9.Tick(DeltaTime);
+
+	if (!TStage_3_9.IsTimeOut())
+	{
+		return;
+	}
+
+	if (TStage_3_9.Update(DeltaTime))
+	{
+		for (Actor* actor : actors)
+		{
+			Speech_UI* speechUI = actor->As<Speech_UI>();
+			if (speechUI != nullptr)
+			{
+				speechUI->SayTalking(
+					"* 당신은 죄악이 등을 타고\n  오르는 것을 느꼈다.",
+					Vector2(-33, 15), 20, true, "CharaTalking");
+			}
+		}
+	}
 }
 
 

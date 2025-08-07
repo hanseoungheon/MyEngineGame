@@ -95,6 +95,11 @@ public:
 	void Stage3_2(float DeltaTime);
 	void Stage3_3(float DeltaTime);
 	void Stage3_4(float DeltaTime);
+	void Stage3_5(float DeltaTime);
+	void Stage3_6(float DeltaTime);
+	void Stage3_7(float DeltaTime);
+	void Stage3_8(float DeltaTime);
+	void Stage3_9(float DeltaTime);
 
 private:
 
@@ -143,6 +148,11 @@ private:
 	Timer TStage_3_2;
 	Timer TStage_3_3;
 	Timer TStage_3_4;
+	Timer TStage_3_5;
+	Timer TStage_3_6;
+	Timer TStage_3_7;
+	Timer TStage_3_8;
+	Timer TStage_3_9;
 
 	//턴 카운트
 	int TurnCount;
