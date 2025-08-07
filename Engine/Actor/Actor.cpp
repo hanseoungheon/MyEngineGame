@@ -274,7 +274,7 @@ bool Actor::GetIsVisible() const
     return IsVisible;
 }
 
-void Actor::SetIsVisible(const bool IsVisible)
+void Actor::SetIsVisible(bool IsVisible)
 {
     this->IsVisible = IsVisible;
 }

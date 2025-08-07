@@ -49,14 +49,18 @@ Monster::Monster(const char* filePath, Color color,
 
 	height = static_cast<int>(lines.size());
 	//¾ÈÁö¿öÁü? 
+	IsSansMoving = true;
+	LeftRight = true;
 }
 
 void Monster::Tick(float DeltaTime)
 {
+
 	if (Input::GetController().GetKey(VK_NUMPAD4))
 	{
-		actorPosition.x += -1;
-		SetPosition(actorPosition);
+		//actorPosition.x += -1;
+		//SetPosition(actorPosition);
+		LeftRight = true;
 	}
 	if (Input::GetController().GetKey(VK_NUMPAD6))
 	{
@@ -143,6 +147,26 @@ void Monster::Tick(float DeltaTime)
 			SetPosition(actorPosition);
 		}
 	}
+	if (CheckTag("Sans") && IsSansMoving == true)
+	{
+		if ((actorPosition.x > 40) && LeftRight == true)
+		{
+			actorPosition.x += -1;
+			SetPosition(actorPosition);
+		}
+		
+		if ((actorPosition.x < 51) && LeftRight == false &&
+			JumpTick %2 == 0)
+		{
+			actorPosition.x += 1;
+			SetPosition(actorPosition);
+		}
+
+		if (actorPosition == Vector2(41, 0))
+		{
+			LeftRight = false;
+		}
+	}
 
 }
 
@@ -184,4 +208,19 @@ bool Monster::CheckTag(const char * name)
 bool Monster::GetGasterBlasterCanMoving() const
 {
 	return GasterBlasterCanMoving;
+}
+
+void Monster::SetIsSansMoving(const bool IsSansMoving)
+{
+	this->IsSansMoving = IsSansMoving;
+}
+
+bool Monster::GetIsSansMoving() const
+{
+	return IsSansMoving;
+}
+
+void Monster::SetSansLeftRight(const bool LeftRight)
+{
+	this->LeftRight = LeftRight;
 }

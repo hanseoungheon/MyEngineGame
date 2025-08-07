@@ -3,11 +3,14 @@
 #include "Utils/Timer.h"
 #include "UI/MultiLine_UI.h"
 #include "Math/Vector2.h"
+#include  "Actor/BreathActor.h"
+#include "Actor/Monster.h"
 class GameLevel : public Level
 {
 	RTTI_DECLARATIONS(GameLevel,Level)
-
+		
 public:
+
 	GameLevel();
 	~GameLevel();
 
@@ -35,13 +38,13 @@ private:
 	Vector2 PlayerDeadPosition;
 
 	//UI컨트롤러
-	int UIcontroller; 
+	int UIcontrollerNum; 
 
 	int PlayerHp;
 
 	int count = 0;
 
-	bool IsMap = true;
+	bool IsMapSmall = true;
 public:
 	void DeleteMap();
 
@@ -65,6 +68,12 @@ public:
 	void Stage1_9(float DeltaTime);
 	void Stage1_10(float DeltaTime);
 	void Stage1_11(float DeltaTime);
+	void Stage1_12(float DeltaTime);
+	void Stage1_13(float DeltaTime);
+	void Stage1_14(float DeltaTime);
+	void Stage1_15(float DeltaTime);
+	void Stage1_16(float DeltaTime);
+	void Stage1_17(float DeltaTime);
 
 private:
 
@@ -94,17 +103,36 @@ private:
 	Timer TStage_1_9;
 	Timer TStage_1_10;
 	Timer TStage_1_11;
+	Timer TStage_1_12;
+	Timer TStage_1_13;
+	Timer TStage_1_14;
+	Timer TStage_1_15;
+	Timer TStage_1_16;
+	Timer TStage_1_17;
 
+	//스테이지 2 타이머
+	Timer TStage_1_17;
+
+	//턴 카운트
+	int TurnCount;
+	bool bSansIsMoving = false;
+	//bool bSansLeftRight = true;
 public:
 	//4방향 블래스터 & 4방향 브레스
 	void MakeBlaster4();
+	void DeleteBlaster4(Monster* monsterActor);
 	void Breath4();
 	
 	//X자블래스터 & X자 브레스
 	void MakeXBlaster();
+	void DeleteXBlaster(Monster* monsterActor);
 	void BreathX();
 
 	//대형 블래스터 & 필살빔
 	void MakeBigBlaster();
+	void DeleteBigBlaster(Monster* monsterActor);
 	void BreathBig();
+
+	void DeleteBreath(BreathActor* breaths);
+
 };

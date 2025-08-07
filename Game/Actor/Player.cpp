@@ -7,6 +7,7 @@ Player::Player() : Actor("Y",Color::Red,Vector2::Zero,false,IsString::STR_FALSE)
 	hp = 92;
 	SetSortingOrder(3);
 	IsTurn = true;
+	//IsVisible = true;
 	//시작 위치(화면의 가운데이면서 살짝 아랫쪽)
 	int xPosition = ((Engine::Get().Width()+ LeftSide) / 2);
 	int yPosition = Engine::Get().Height() - 1;
@@ -54,7 +55,7 @@ void Player::Tick(float DeltaTime)
 		//SetPosition(playerPosition);
 		//playerPosition.x--;
 		//SetPosition(playerPosition);
-		//playerPosition.x--;
+		//playerPosition.y--;
 		//SetPosition(playerPosition);
 		//playerPosition.x++;
 		//SetPosition(playerPosition);
@@ -63,17 +64,17 @@ void Player::Tick(float DeltaTime)
 		SetPosition(playerPosition);
 		//IsGravity = true;
 		//SetColor(Color::Blue);
-	}
+	}	
 
 	if (Input::GetController().GetKey(VK_BACK))
 	{
 		--hp;
 	}
 
-	if (Input::GetController().GetKey(VK_RETURN))
-	{
-		hp = 80;
-	}
+	//if (Input::GetController().GetKey(VK_RETURN))
+	//{
+	//	hp = 80;
+	//}
 
 	if (Input::GetController().GetKey(VK_LBUTTON))
 	{
@@ -168,7 +169,7 @@ bool Player::GetIsTurn() const
 	return IsTurn;
 }
 
-void Player::SetIsTurn(const bool IsTurn)
+void Player::SetIsTurn(bool IsTurn)
 {
 	this->IsTurn = IsTurn;
 }
@@ -186,5 +187,25 @@ void Player::SetHp(const int hp)
 bool Player::GetIsMoving() const
 {
 	return IsMoving;
+}
+
+void Player::SwitchTurn()
+{
+	IsTurn = !IsTurn;
+	IsVisible = !IsVisible;
+	Vector2 playerPosition = GetActorPosition();
+	//playerPosition.x++;
+	//SetPosition(playerPosition);
+	//playerPosition.x--;
+	//SetPosition(playerPosition);
+	//playerPosition.y--;
+	//SetPosition(playerPosition);
+	//playerPosition.x++;
+	//SetPosition(playerPosition);
+	playerPosition.x = ((Engine::Get().Width() + LeftSide) / 2 + 1);
+	playerPosition.y = Engine::Get().Height() - 2;
+	SetPosition(playerPosition);
+	//IsGravity = true;
+	//SetColor(Color::Blue);
 }
 

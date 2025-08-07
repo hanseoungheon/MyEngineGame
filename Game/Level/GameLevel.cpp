@@ -26,18 +26,9 @@ GameLevel::GameLevel()
 	//플레이어 맵 파일 리딩
 	ReadMapFile("map_small.txt");
 	PlaySound(L"../Assets/Sounds/sans_megalovania.wav", 0, SND_FILENAME | SND_ASYNC | SND_LOOP);
-	//PlaySound(L"../Assets/Sounds/Sans-Talking-_Sound-Effect_.wav", 0, SND_FILENAME | SND_ASYNC);
-	//mciSendStringW(
-	//	L"open \"../Assets/Sounds/sans_megalovania.wav\" type waveaudio alias bgm shareable",
-	//	NULL, 0, NULL);
-	//mciSendStringW(L"play bgm from 0 repeat", NULL, 0, NULL);
 
-	//// 효과음용
-	//mciSendStringW(
-	//	L"open \"../Assets/Sounds/Sans-Talking-_Sound-Effect_.wav\" type waveaudio alias se shareable",
-	//	NULL, 0, NULL);
-	//mciSendStringW(L"play se from 0", NULL, 0, NULL);
-
+	//턴 카운트
+	TurnCount = 1;
 	//플레이어 렌더링
 	AddActor(new Player());
 
@@ -50,57 +41,6 @@ GameLevel::GameLevel()
 	//	Color::Blue, Vector2(55, 17), "BlueBoneLeft"));
 	//AddActor(new MultiLine_Actor("../Assets/Actor/bone.txt",
 	//	Color::White, Vector2(64, 17), "Bone"));
-
-	//AddActor(new Monster("../Assets/Actor/Stage1/gasterblader_stage1_4_test.txt",
-	//	Color::White, Vector2(60, 18), "GasterBlaster"));
-	//AddActor(new Monster("../Assets/Actor/gasterblader_small_0.txt",
-	//	Color::White, Vector2(0,0), "GasterBlaster"));
-
-	//4방향 블레스터
-	//AddActor(new Monster("../Assets/Actor/GasterBlaster/gasterblader_small_0.txt",
-	//	Color::White, Vector2(60, 0), "GasterBlaster_0"));
-	//AddActor(new Monster("../Assets/Actor/GasterBlaster/gasterblader_small_90.txt",
-	//	Color::White, Vector2(20, 15), "GasterBlaster_90"));
-	//AddActor(new Monster("../Assets/Actor/GasterBlaster/gasterblader_small_270.txt",
-	//	Color::White, Vector2(80, 20), "GasterBlaster_-90"));
-	//AddActor(new Monster("../Assets/Actor/Stage1/gasterblader_stage1_4_test.txt",
-	//	Color::White, Vector2(49, 19), "GasterBlaster"));//얜 안움직임
-
-	////4방향 빔!
-	//AddActor(new BreathActor("../Assets/Actor/Breath/bless90and270_small.txt",
-	//	Color::White, Vector2(45, 15), "breath"));
-	//AddActor(new BreathActor("../Assets/Actor/Breath/bless0and180_small.txt",
-	//	Color::White, Vector2(50, 14), "breath"));
-	//AddActor(new BreathActor("../Assets/Actor/Breath/bless0and180_small.txt",
-	//	Color::White, Vector2(60, 14), "breath"));
-	//AddActor(new BreathActor("../Assets/Actor/Breath/bless90and270_small_down_None.txt",
-	//	Color::White, Vector2(45, 20), "breath"));
-
-
-	//X자 브레스용 블래스터!
-	//AddActor(new Monster("../Assets/Actor/GasterBlaster/gasterblader_small_45.txt",
-	//	Color::White, Vector2(68, 6), "GasterBlaster_45"));
-	//AddActor(new Monster("../Assets/Actor/GasterBlaster/gasterblader_small_-45.txt",
-	//	Color::White, Vector2(39, 7), "GasterBlaster_-45")); //43,11
-	//AddActor(new Monster("../Assets/Actor/GasterBlaster/gasterblader_small_135.txt",
-	//	Color::White, Vector2(68,22), "GasterBlaster")); //얜 안움직일거
-	//AddActor(new Monster("../Assets/Actor/GasterBlaster/gasterblader_small_-135.txt",
-	//	Color::White, Vector2(40,22), "GasterBlaster")); //얜 안움직일거
-
-
-	//X자 브레스
-	//AddActor(new BreathActor("../Assets/Actor/doublebless.txt",
-	//	Color::White, Vector2(53, 16), "breath"));
-
-	//대형 블래스터
-	//AddActor(new Monster("../Assets/Actor/GasterBlaster/gasterblader90.txt",
-	//	Color::White, Vector2(20, 15), "GasterBlaster_Big_Left"));
-	//AddActor(new Monster("../Assets/Actor/GasterBlaster/gasterblader270.txt",
-	//	Color::White, Vector2(80, 15), "GasterBlaster_Big_Right"));
-
-	//대형 블레스터 빔
-	//AddActor(new BreathActor("../Assets/Actor/Breath/bless90and270.txt",
-	//	Color::White, Vector2(45, 16), "breath"));
 
 
 
@@ -142,13 +82,14 @@ GameLevel::GameLevel()
 		player->SetHp(92);
 	}
 
-	UIcontroller = 1;
+	UIcontrollerNum = 1;
+	bSansIsMoving = false;
 	//testUImode = false;
 	//levelTimer.SetTargetTime(2.0f);
 
 
 	//인트로
-	IntroTimer.SetTargetTime(1.0f);
+	IntroTimer.SetTargetTime(100.0f);
 	BurningToHell.SetTargetTime(1.0f);
 
 	//스테이지1
@@ -164,6 +105,12 @@ GameLevel::GameLevel()
 	TStage_1_9.SetTargetTime(0.5f); //x자브레스 생성
 	TStage_1_10.SetTargetTime(0.5f); //x자브레스 삭제 및 4자브레스 다시
 	TStage_1_11.SetTargetTime(0.5f); //초대형 블래스터 생성!
+	TStage_1_12.SetTargetTime(0.5f); //초대형 블래스터 삭제 및 슈퍼브레스
+	TStage_1_13.SetTargetTime(0.5f); //초대형 브레스 삭제
+	TStage_1_14.SetTargetTime(1.5f); //전투 끝 샌즈 대사 차례
+	TStage_1_15.SetTargetTime(0.5f); //전투 끝 샌즈 대사 차례
+	TStage_1_16.SetTargetTime(1.0f); //턴 1 끝 플레이어 차례
+	TStage_1_17.SetTargetTime(0.5f); //턴 1 끝 플레이어 차례
 }
 
 GameLevel::~GameLevel()
@@ -188,8 +135,8 @@ void GameLevel::Tick(float DeltaTime)
 
 	//if (Input::GetController().GetKeyDown(VK_CONTROL))
 	//{
-	//	IsMap = !IsMap;
-	//	if (IsMap)
+	//	IsMapSmall = !IsMapSmall;
+	//	if (IsMapSmall)
 	//	{
 	//		ReadMapFile("map_small.txt");
 	//	}
@@ -198,7 +145,8 @@ void GameLevel::Tick(float DeltaTime)
 	//		DeleteMap();
 	//	}
 	//}
-
+	
+	//std::cout << UIcontrollerNum;
 
 	if (Input::GetController().GetKeyDown(VK_NUMPAD1))
 	{
@@ -218,71 +166,95 @@ void GameLevel::Tick(float DeltaTime)
 		Engine::Get().LoadEngineSetting("EngineSettings_LargeMap.txt");
 	}
 
-
 	//Stage1 타이머
-	if (!IntroTimer.IsTimeOut())
+	//if (!IntroTimer.IsTimeOut())
+	//{
+	//	Intro(DeltaTime);
+	//}
+	//else if (!BurningToHell.IsTimeOut())
+	//{
+	//	BlackOut_1(DeltaTime);
+	//}
+	//else if (!TStage_1_1.IsTimeOut())
+	//{
+	//	Stage1_1(DeltaTime);
+	//}
+	//else if (!TStage_1_2.IsTimeOut())
+	//{
+	//	Stage1_2(DeltaTime);
+	//}
+	//else if (!TStage_1_3.IsTimeOut())
+	//{
+	//	Stage1_3(DeltaTime);
+	//}
+	//else if (!TStage_1_4.IsTimeOut())
+	//{
+	//	Stage1_4(DeltaTime);
+	//}
+	//else if (!TStage_1_5.IsTimeOut())
+	//{
+	//	Stage1_5(DeltaTime);
+	//}
+	//else if (!TStage_1_5_Array.IsTimeOut() && TimerArrayCount == 1)
+	//{
+	//	Stage1_5_1(DeltaTime);
+	//}
+	//else if (!TStage_1_5_Array.IsTimeOut() && TimerArrayCount == 2)
+	//{
+	//	Stage1_5_2(DeltaTime);
+	//}
+	//else if (!TStage_1_5_Array.IsTimeOut() && TimerArrayCount == 3)
+	//{
+	//	Stage1_5_3(DeltaTime);
+	//}
+	/////////////////////////////////////////////////
+	//else if (!TStage_1_6.IsTimeOut())
+	//{
+	//	Stage1_6(DeltaTime);
+	//}
+	//else if (!TStage_1_7.IsTimeOut())
+	//{
+	//	Stage1_7(DeltaTime);
+	//}
+	//else if (!TStage_1_8.IsTimeOut())
+	//{
+	//	Stage1_8(DeltaTime);
+	//}
+	//else if (!TStage_1_9.IsTimeOut())
+	//{
+	//	Stage1_9(DeltaTime);
+	//}
+	//else if (!TStage_1_10.IsTimeOut())
+	//{
+	//	Stage1_10(DeltaTime);
+	//}
+	//else if (!TStage_1_11.IsTimeOut())
+	//{
+	//	Stage1_11(DeltaTime);
+	//}
+	//else if (!TStage_1_12.IsTimeOut())
+	//{
+	//	Stage1_12(DeltaTime);
+	//}
+	if (!TStage_1_13.IsTimeOut())
 	{
-		Intro(DeltaTime);
+		Stage1_13(DeltaTime);
 	}
-	else if (!BurningToHell.IsTimeOut())
+	else if (!TStage_1_14.IsTimeOut())
 	{
-		BlackOut_1(DeltaTime);
+		Stage1_14(DeltaTime);
 	}
-	else if (!TStage_1_1.IsTimeOut())
+	else if (!TStage_1_15.IsTimeOut())
 	{
-		Stage1_1(DeltaTime);
+		Stage1_15(DeltaTime);
 	}
-	else if (!TStage_1_2.IsTimeOut())
+	else if (!TStage_1_16.IsTimeOut())
 	{
-		Stage1_2(DeltaTime);
+		Stage1_16(DeltaTime);
 	}
-	else if (!TStage_1_3.IsTimeOut())
+	else if (!TStage_1_17.IsTimeOut())
 	{
-		Stage1_3(DeltaTime);
-	}
-	else if (!TStage_1_4.IsTimeOut())
-	{
-		Stage1_4(DeltaTime);
-	}
-	else if (!TStage_1_5.IsTimeOut())
-	{
-		Stage1_5(DeltaTime);
-	}
-	else if (!TStage_1_5_Array.IsTimeOut() && TimerArrayCount == 1)
-	{
-		Stage1_5_1(DeltaTime);
-	}
-	else if (!TStage_1_5_Array.IsTimeOut() && TimerArrayCount == 2)
-	{
-		Stage1_5_2(DeltaTime);
-	}
-	else if (!TStage_1_5_Array.IsTimeOut() && TimerArrayCount == 3)
-	{
-		Stage1_5_3(DeltaTime);
-	}
-	else if (!TStage_1_6.IsTimeOut())
-	{
-		Stage1_6(DeltaTime);
-	}
-	else if (!TStage_1_7.IsTimeOut())
-	{
-		Stage1_7(DeltaTime);
-	}
-	else if (!TStage_1_8.IsTimeOut())
-	{
-		Stage1_8(DeltaTime);
-	}
-	else if (!TStage_1_9.IsTimeOut())
-	{
-		Stage1_9(DeltaTime);
-	}
-	else if (!TStage_1_10.IsTimeOut())
-	{
-		Stage1_10(DeltaTime);
-	}
-	else if (!TStage_1_11.IsTimeOut())
-	{
-		Stage1_11(DeltaTime);
+		Stage1_17(DeltaTime);
 	}
 
 	//테스트 용도
@@ -298,19 +270,19 @@ void GameLevel::ControllMainUI(MultiLine_UI* mainUI)
 
 	mainUI->SetColor(Color::Yellow);
 
-	if (UIcontroller == 1 && (mainUI->GetUIType() == UI_Type::FIGHT)) //FIGHT
+	if (UIcontrollerNum == 1 && (mainUI->GetUIType() == UI_Type::FIGHT)) //FIGHT
 	{
 		mainUI->SetColor(Color::Orange);
 	}
-	else if (UIcontroller == 2 && (mainUI->GetUIType() == UI_Type::ACTOR)) // ACT
+	else if (UIcontrollerNum == 2 && (mainUI->GetUIType() == UI_Type::ACTOR)) // ACT
 	{
 		mainUI->SetColor(Color::Orange);
 	}
-	else if (UIcontroller == 3 && (mainUI->GetUIType() == UI_Type::ITEM)) //ITEM
+	else if (UIcontrollerNum == 3 && (mainUI->GetUIType() == UI_Type::ITEM)) //ITEM
 	{
 		mainUI->SetColor(Color::Orange);
 	}
-	else if (UIcontroller == 4 && (mainUI->GetUIType() == UI_Type::MERCY)) //MERCY
+	else if (UIcontrollerNum == 4 && (mainUI->GetUIType() == UI_Type::MERCY)) //MERCY
 	{
 		mainUI->SetColor(Color::Orange);
 	}
@@ -405,17 +377,22 @@ void GameLevel::CheckPlayerGravity()
 void GameLevel::UIController()
 {
 	//플레이어가 턴인지 가져와서 레벨에 저장
-
+	
 	for (Actor* actor : actors)
 	{
 		Player* player = actor->As<Player>();
 		MultiLine_UI* mainUI = actor->As<MultiLine_UI>();
+		Monster* monster = actor->As<Monster>();
 		if (player != nullptr)
 		{
 			PlayerIsTurn = player->GetIsTurn();
 			PlayerHp = player->GetHp();
 		}
 
+		if (monster != nullptr)
+		{
+			monster->SetIsSansMoving(bSansIsMoving);
+		}
 		//if (mainUI != nullptr && mainUI->GetUIType() == UI_Type::SPEECH)
 		//{
 		//	mainUI->SetColor(Color::White);
@@ -460,18 +437,38 @@ void GameLevel::UIController()
 
 	if (!PlayerIsTurn && Input::GetController().GetKeyDown(VK_LEFT))
 	{
-		if (UIcontroller < 1)
+		if (UIcontrollerNum < 1)
 			return;
 
-		UIcontroller--;
+		UIcontrollerNum--;
 	}
 
 	if (!PlayerIsTurn && Input::GetController().GetKeyDown(VK_RIGHT))
 	{
-		if (UIcontroller > 3)
+		if (UIcontrollerNum > 3)
 			return;
 
-		UIcontroller++;
+		UIcontrollerNum++;
+	}
+
+	if (!PlayerIsTurn && Input::GetController().GetKeyDown(VK_RETURN))
+	{
+		if (UIcontrollerNum == 1 && TurnCount < 2)
+		{
+			bSansIsMoving = true;
+			TurnCount++;
+		}
+		else if (UIcontrollerNum == 1 && TurnCount >= 2)
+		{
+			for (Actor* actor : actors)
+			{
+				Monster* sans = actor->As<Monster>();
+
+				if(sans != nullptr)
+					sans->SetSansLeftRight(true);
+			}
+			TurnCount++;
+		}
 	}
 }
 
@@ -560,6 +557,8 @@ void GameLevel::ProcessCollisionPlayerAndEnemyObject()
 		}
 	}
 }
+
+
 
 void GameLevel::DeleteMap()
 {
@@ -677,6 +676,17 @@ void GameLevel::MakeBlaster4()
 		Color::White, Vector2(49, 19), "GasterBlaster"));//얜 안움직임
 }
 
+void GameLevel::DeleteBlaster4(Monster* monsterActor)
+{
+	if (monsterActor->CheckTag("GasterBlaster_0") ||
+		monsterActor->CheckTag("GasterBlaster_90") ||
+		monsterActor->CheckTag("GasterBlaster_-90") ||
+		monsterActor->CheckTag("GasterBlaster"))
+	{
+		monsterActor->Destroy();
+	}
+}
+
 void GameLevel::Breath4()
 {
 	AddActor(new BreathActor("../Assets/Actor/Breath/bless90and270_small.txt",
@@ -702,6 +712,16 @@ void GameLevel::MakeXBlaster()
 		Color::White, Vector2(40,22), "GasterBlaster")); //얜 안움직일거
 }
 
+void GameLevel::DeleteXBlaster(Monster* monsterActor)
+{
+	if (monsterActor->CheckTag("GasterBlaster_45") ||
+		monsterActor->CheckTag("GasterBlaster_-45") ||
+		monsterActor->CheckTag("GasterBlaster"))
+	{
+		monsterActor->Destroy();
+	}
+}
+
 void GameLevel::BreathX()
 {
 	//X자 브레스
@@ -718,11 +738,25 @@ void GameLevel::MakeBigBlaster()
 		Color::White, Vector2(80, 15), "GasterBlaster_Big_Right"));
 }
 
+void GameLevel::DeleteBigBlaster(Monster* monsterActor)
+{
+	if (monsterActor->CheckTag("GasterBlaster_Big_Left") ||
+		monsterActor->CheckTag("GasterBlaster_Big_Right"))
+	{
+		monsterActor->Destroy();
+	}
+}
+
 void GameLevel::BreathBig()
 {
 	//대형 블레스터 빔
 	AddActor(new BreathActor("../Assets/Actor/Breath/bless90and270.txt",
-		Color::White, Vector2(45, 16), "breath"));
+		Color::White, Vector2(45, 17), "breath"));
 }
 
+void GameLevel::DeleteBreath(BreathActor* breaths)
+{
+	if (breaths->CheckTag("breath"))
+		breaths->Destroy();
+}
 

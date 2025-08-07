@@ -23,11 +23,18 @@ public:
 	bool CheckTag(const char* name);
 
 	bool GetGasterBlasterCanMoving() const;
+
+	void SetIsSansMoving(const bool IsSansMoving);
+	bool GetIsSansMoving() const;
+
+	void SetSansLeftRight(const bool LeftRight);
 private:
 	std::vector<std::string> lines;
 	char* NameTag = nullptr;
 	//int checkWidth;
 	int JumpTick;
 	bool GasterBlasterCanMoving = true;
+	bool IsSansMoving;
+	bool LeftRight; // Left = true : Right = false
 
 };

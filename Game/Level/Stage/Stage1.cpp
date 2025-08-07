@@ -5,6 +5,9 @@
 #include "Actor/MultiLine_Actor.h"
 #include "Actor/BreathActor.h"
 #include "Actor/Monster.h"
+#include "UI/Speech_UI.h"
+#include "Engine.h"
+#include "Actor/Actor.h"
 void GameLevel::Stage1_1(float DeltaTime)
 {
 	TStage_1_1.Tick(DeltaTime);
@@ -214,17 +217,11 @@ void GameLevel::Stage1_7(float DeltaTime)
 	{
 		for (Actor* actor : actors)
 		{
-			Monster* monsterActor = actor->As<Monster>();
+			Monster* blasterActor = actor->As<Monster>();
 
-			if (monsterActor != nullptr)
+			if (blasterActor != nullptr)
 			{
-				if (monsterActor->CheckTag("GasterBlaster_0") ||
-					monsterActor->CheckTag("GasterBlaster_90") ||
-					monsterActor->CheckTag("GasterBlaster_-90") ||
-					monsterActor->CheckTag("GasterBlaster"))
-				{
-					monsterActor->Destroy();
-				}
+				DeleteBlaster4(blasterActor);
 			}
 		}
 		//4방향 빔
@@ -248,12 +245,8 @@ void GameLevel::Stage1_8(float DeltaTime)
 		for (Actor* actor : actors)
 		{
 			BreathActor* breaths = actor->As<BreathActor>();
-
-			if (breaths != nullptr)
-			{
-				if (breaths->CheckTag("breath"))
-					breaths->Destroy();
-			}
+			if(breaths != nullptr)
+				DeleteBreath(breaths);
 		}
 
 		MakeXBlaster();
@@ -275,16 +268,17 @@ void GameLevel::Stage1_9(float DeltaTime)
 
 		for (Actor* actor : actors)
 		{
-			Monster* monsterActor = actor->As<Monster>();
+			Monster* blasterActor = actor->As<Monster>();
 
-			if (monsterActor != nullptr)
+			if (blasterActor != nullptr)
 			{
-				if (monsterActor->CheckTag("GasterBlaster_45") ||
-					monsterActor->CheckTag("GasterBlaster_-45") ||
-					monsterActor->CheckTag("GasterBlaster"))
-				{
-					monsterActor->Destroy();
-				}
+				//if (monsterActor->CheckTag("GasterBlaster_45") ||
+				//	monsterActor->CheckTag("GasterBlaster_-45") ||
+				//	monsterActor->CheckTag("GasterBlaster"))
+				//{
+				//	monsterActor->Destroy();
+				//}
+				DeleteXBlaster(blasterActor);
 			}
 		}
 
@@ -308,12 +302,8 @@ void GameLevel::Stage1_10(float DeltaTime)
 		for (Actor* actor : actors)
 		{
 			BreathActor* breaths = actor->As<BreathActor>();
-
 			if (breaths != nullptr)
-			{
-				if (breaths->CheckTag("breath"))
-					breaths->Destroy();
-			}
+				DeleteBreath(breaths);
 		}
 
 		//4방향 블레스터
@@ -331,13 +321,198 @@ void GameLevel::Stage1_11(float DeltaTime)
 	if (!TStage_1_11.IsTimeOut())
 	{
 		return;
+
 	}
 
 	if (TStage_1_11.Update(DeltaTime))
 	{
+		for (Actor* actor : actors)
+		{
+			Monster* blasterActor = actor->As<Monster>();
+
+			if (blasterActor != nullptr)
+			{
+				//if (monsterActor->CheckTag("GasterBlaster_0") ||
+				//	monsterActor->CheckTag("GasterBlaster_90") ||
+				//	monsterActor->CheckTag("GasterBlaster_-90") ||
+				//	monsterActor->CheckTag("GasterBlaster"))
+				//{
+				//	monsterActor->Destroy();
+				//}
+				DeleteBlaster4(blasterActor);
+			}
+		}
+		Breath4();
+	}
+	TStage_1_12.Reset();
+}
+
+void GameLevel::Stage1_12(float DeltaTime)
+{
+	TStage_1_12.Tick(DeltaTime);
+
+	if (!TStage_1_12.IsTimeOut())
+	{
+		return;
+	}
+
+	if (TStage_1_12.Update(DeltaTime))
+	{
+
+		for (Actor* actor : actors)
+		{
+			BreathActor* breath = actor->As<BreathActor>();
+			if(breath != nullptr)
+				DeleteBreath(breath);
+		}
 		MakeBigBlaster();
 	}
+	TStage_1_13.Reset();
 }
+
+void GameLevel::Stage1_13(float DeltaTime)
+{
+	TStage_1_13.Tick(DeltaTime);
+
+	if (!TStage_1_13.IsTimeOut())
+	{
+		return;
+	}
+
+	if (TStage_1_13.Update(DeltaTime))
+	{
+		BreathBig();
+	}
+	TStage_1_14.Reset();
+}
+
+void GameLevel::Stage1_14(float DeltaTime)
+{
+	TStage_1_14.Tick(DeltaTime);
+
+	if (!TStage_1_14.IsTimeOut())
+	{
+		return;
+	}
+
+	if (TStage_1_14.Update(DeltaTime))
+	{
+		for (Actor* actor : actors)
+		{
+			Monster* blasterActor = actor->As<Monster>();
+			BreathActor* breath = actor->As<BreathActor>();
+			if (blasterActor != nullptr)
+			{
+				//if (monsterActor->CheckTag("GasterBlaster_Big_Left") ||
+				//	monsterActor->CheckTag("GasterBlaster_Big_Right"))
+				//{
+				//	monsterActor->Destroy();
+				//}
+				DeleteBigBlaster(blasterActor);
+			}
+
+			if(breath != nullptr)
+				DeleteBreath(breath);
+		}
+	}
+	TStage_1_15.Reset();
+}
+
+void GameLevel::Stage1_15(float DeltaTime)
+{
+	TStage_1_15.Tick(DeltaTime);
+
+	if (!TStage_1_15.IsTimeOut())
+	{
+		return;
+	}
+	if (TStage_1_15.Update(DeltaTime))
+	{
+		for (Actor* actor :actors)
+		{
+			Speech_UI* speechUI = actor->As<Speech_UI>();
+
+			if (speechUI != nullptr)
+			{
+				speechUI->SayTalking("흠..", Vector2(3, 2), 100, true);
+				Sleep(500);
+				speechUI->SayTalking("왜 다들 처음부터\n강한 공격을\n쓰지않는지\n모르겠다니까.", Vector2(3, 1), 50, true);
+			}
+		}
+	}
+	TStage_1_16.Reset();
+}
+
+void GameLevel::Stage1_16(float DeltaTime)
+{
+	TStage_1_16.Tick(DeltaTime);
+
+	if (!TStage_1_16.IsTimeOut())
+	{
+		return;
+	}
+	if (TStage_1_16.Update(DeltaTime))
+	{
+		for (Actor* actor : actors)
+		{
+			Player* player = actor->As<Player>();
+
+			if (player != nullptr)
+			{
+				player->SwitchTurn();
+				//player->SetIsTurn(false);
+				//player->SetIsVisible(false);
+		
+	
+
+				//Vector2 playerActorPosition = player->GetActorPosition();
+
+				//playerActorPosition.x++;
+				//player->SetPosition(playerActorPosition);
+				//playerActorPosition.y--;
+				//player->SetPosition(playerActorPosition);
+
+				//playerActorPosition.x = ((Engine::Get().Width() + player->LeftSide) / 2 + 1);
+				//playerActorPosition.y = Engine::Get().Height() - 2;
+			}
+		}
+		DeleteMap();
+		ReadMapFile("map_talking.txt");
+	}
+	TStage_1_17.Reset();
+}
+
+void GameLevel::Stage1_17(float DeltaTime)
+{
+	TStage_1_17.Tick(DeltaTime);
+
+	if (!TStage_1_17.IsTimeOut())
+	{
+		return;
+	}
+	if (TStage_1_17.Update(DeltaTime))
+	{
+		for (Actor* actor : actors)
+		{
+			Player* player = actor->As<Player>();
+			Speech_UI* speechUI = actor->As<Speech_UI>();
+			if (speechUI != nullptr)
+			{
+				speechUI->SayTalking(
+					"* 당신은 끔찍한 시간을\n  보내게 될 것 같은\n  기분이 든다.",
+					Vector2(-33, 15), 50, true);
+			}
+
+			if (player != nullptr)
+				player->LeftSide -= 11;
+		}
+	}
+	Engine::Get().LoadEngineSetting("EngineSettings_LargeMap.txt");
+	UIcontrollerNum = 1;
+
+	//++TurnCount; //
+}
+
 
 
 

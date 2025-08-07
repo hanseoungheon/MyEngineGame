@@ -71,7 +71,7 @@ public:
 	void QuitGame();
 
 	bool GetIsVisible() const;
-	void SetIsVisible(const bool IsVisible);
+	void SetIsVisible(bool IsVisible);
 
 protected:
 	//객체의 위치
@@ -105,8 +105,7 @@ protected:
 	//객체를 소유한 레벨
 	Level* owner = nullptr;
 
-	int LeftSide = 51;
-	int UpSide = 16;
+
 
 	//UI면은 맵 크기에 제한 x
 	bool IsUI = false;
@@ -117,7 +116,9 @@ protected:
 
 	IsString CheckString = IsString::DEFAULT;
 
-
+public:
+	int LeftSide = 51;
+	int UpSide = 16;
 
 private:
 	void SettingWidthAndHeight(int width, int height);

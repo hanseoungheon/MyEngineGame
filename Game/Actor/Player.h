@@ -16,12 +16,14 @@ public:
 	void ChangeToIsGravity();
 
 	bool GetIsTurn() const;
-	void SetIsTurn(const bool IsTurn);
+	void SetIsTurn(bool IsTurn);
 
 	int GetHp() const;
 	void SetHp(const int hp);
 
 	bool GetIsMoving() const;
+
+	void SwitchTurn();
 private:
 	int hp;
 	Color PlayerColor = Color::Red;
