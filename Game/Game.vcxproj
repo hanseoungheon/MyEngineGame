@@ -155,7 +155,6 @@
     <ClCompile Include="Level\GameLevel.cpp" />
     <ClCompile Include="Level\Stage\Stage1.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Map\MainMap.cpp" />
     <ClCompile Include="UI\MultiLine_UI.cpp" />
     <ClCompile Include="UI\Speech_UI.cpp" />
     <ClCompile Include="UI\Stat_UI.cpp" />
@@ -172,7 +171,6 @@
     <ClInclude Include="Actor\ActorWall_Width.h" />
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="Level\GameLevel.h" />
-    <ClInclude Include="Map\MainMap.h" />
     <ClInclude Include="UI\Speech_UI.h" />
     <ClInclude Include="UI\Stat_UI.h" />
     <ClInclude Include="UI\MultiLine_UI.h" />

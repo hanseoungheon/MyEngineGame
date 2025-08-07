@@ -22,9 +22,12 @@ public:
 
 	bool CheckTag(const char* name);
 
+	bool GetGasterBlasterCanMoving() const;
 private:
 	std::vector<std::string> lines;
 	char* NameTag = nullptr;
 	//int checkWidth;
+	int JumpTick;
+	bool GasterBlasterCanMoving = true;
 
 };

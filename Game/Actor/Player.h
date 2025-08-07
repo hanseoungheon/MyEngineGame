@@ -20,10 +20,14 @@ public:
 
 	int GetHp() const;
 	void SetHp(const int hp);
+
+	bool GetIsMoving() const;
 private:
 	int hp;
 	Color PlayerColor = Color::Red;
 	bool IsTurn = true; //샌즈랑 전투중인 턴인지?
 	bool IsGravity = false; //파란색(중력적용) 상태인지?
 	int JumpTick = 0;
+	bool IsMoving = false;
+	int TestMoving;
 };

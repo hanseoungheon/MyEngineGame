@@ -69,7 +69,9 @@ void MultiLine_Actor::Tick(float DeltaTime)
 		return;
 	}
 
+	//Á¡ÇÁÆ½
 	JumpTick++;
+
 	if (Input::GetController().GetKey(VK_NUMPAD4) && JumpTick % 2 == 0)
 	{
 		Vector2 newPosition = actorPosition + Vector2(-1, 0);

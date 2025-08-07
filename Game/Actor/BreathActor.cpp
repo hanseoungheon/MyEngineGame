@@ -50,6 +50,7 @@ BreathActor::BreathActor(const char* filePath, Color color,
 
 	height = static_cast<int>(lines.size());
 	//¾ÈÁö¿öÁü? 
+	JumpTick = 0;
 }
 
 void BreathActor::Tick(float DeltaTime)
@@ -58,6 +59,7 @@ void BreathActor::Tick(float DeltaTime)
 	{
 		IsVisible = !IsVisible;
 	}
+	JumpTick++;
 }
 
 void BreathActor::Render()

@@ -53,23 +53,97 @@ Monster::Monster(const char* filePath, Color color,
 
 void Monster::Tick(float DeltaTime)
 {
-	//if (Input::GetController().GetKey(VK_NUMPAD4))
-	//{
-	//	actorPosition.x += -1;
-	//	SetPosition(actorPosition);
-	//}
-
-	if (Input::GetController().GetKeyDown(VK_NUMPAD9))
+	if (Input::GetController().GetKey(VK_NUMPAD4))
 	{
-		if (CheckTag("breath"))
-			Destroy();
+		actorPosition.x += -1;
+		SetPosition(actorPosition);
+	}
+	if (Input::GetController().GetKey(VK_NUMPAD6))
+	{
+		actorPosition.x += 1;
+		SetPosition(actorPosition);
 	}
 
-	if (Input::GetController().GetKeyDown(VK_NUMPAD8))
+	++JumpTick;
+
+	//4방향 블래스터
+	if (CheckTag("GasterBlaster_0"))
 	{
-		if (CheckTag("GasterBlaster"))
-			Destroy();
+		if (actorPosition.y < 10)
+		{
+			actorPosition.y += 1;
+			SetPosition(actorPosition);
+		}
 	}
+
+	if (CheckTag("GasterBlaster_-90"))
+	{
+		if (actorPosition.x > 66)
+		{
+			actorPosition.x += -2;
+			SetPosition(actorPosition);
+		}
+	}
+
+	if (CheckTag("GasterBlaster_90"))
+	{
+		if (actorPosition.x < 40)
+		{
+			actorPosition.x += 2;
+			SetPosition(actorPosition);
+		}
+	}
+
+	//X자 블래스터
+	if (CheckTag("GasterBlaster_45"))
+	{
+		if (!(actorPosition == Vector2(64, 10)))
+		{
+			actorPosition.x += -1;
+			actorPosition.y += 1;
+			SetPosition(actorPosition);
+		}
+		else
+		{
+			GasterBlasterCanMoving = false;
+		}
+
+	}
+
+	if (CheckTag("GasterBlaster_-45"))
+	{
+		if (!(actorPosition == Vector2(43, 11)))
+		{
+			actorPosition.x += 1;
+			actorPosition.y += 1;
+			SetPosition(actorPosition);
+		}
+	}
+
+	//대형 블래스터 빔
+	if (CheckTag("GasterBlaster_Big_Left"))
+	{
+		if (actorPosition.x < 35)
+		{
+			actorPosition.x += 1;
+			//actorPosition.y += 1;
+			SetPosition(actorPosition);
+		}
+		else
+		{
+			GasterBlasterCanMoving = false;
+		}
+	}
+
+	if (CheckTag("GasterBlaster_Big_Right"))
+	{
+		if (actorPosition.x > 67)
+		{
+			actorPosition.x += -1;
+			SetPosition(actorPosition);
+		}
+	}
+
 }
 
 void Monster::Render()
@@ -105,4 +179,9 @@ bool Monster::CheckTag(const char * name)
 	}
 
 	return false;
+}
+
+bool Monster::GetGasterBlasterCanMoving() const
+{
+	return GasterBlasterCanMoving;
 }

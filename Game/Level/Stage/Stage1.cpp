@@ -4,6 +4,7 @@
 #include "Actor/ActorWall_Width.h"
 #include "Actor/MultiLine_Actor.h"
 #include "Actor/BreathActor.h"
+#include "Actor/Monster.h"
 void GameLevel::Stage1_1(float DeltaTime)
 {
 	TStage_1_1.Tick(DeltaTime);
@@ -193,13 +194,150 @@ void GameLevel::Stage1_6(float DeltaTime)
 
 	if (TStage_1_6.Update(DeltaTime))
 	{
-		AddActor(new BreathActor("../Assets/Actor/bless90and270.txt",
-			Color::White, Vector2(55, 15), "breath"));
+		//4방향 블레스터
+		MakeBlaster4();
 	}
+	TStage_1_7.Reset();
 }
 
+void GameLevel::Stage1_7(float DeltaTime)
+{
+	TStage_1_7.Tick(DeltaTime);
 
+	if (!TStage_1_7.IsTimeOut())
+	{
+		return;
 
+	}
+
+	if (TStage_1_7.Update(DeltaTime))
+	{
+		for (Actor* actor : actors)
+		{
+			Monster* monsterActor = actor->As<Monster>();
+
+			if (monsterActor != nullptr)
+			{
+				if (monsterActor->CheckTag("GasterBlaster_0") ||
+					monsterActor->CheckTag("GasterBlaster_90") ||
+					monsterActor->CheckTag("GasterBlaster_-90") ||
+					monsterActor->CheckTag("GasterBlaster"))
+				{
+					monsterActor->Destroy();
+				}
+			}
+		}
+		//4방향 빔
+		Breath4();
+	}
+	TStage_1_8.Reset();
+
+}
+
+void GameLevel::Stage1_8(float DeltaTime)
+{
+	TStage_1_8.Tick(DeltaTime);
+
+	if (!TStage_1_8.IsTimeOut())
+	{
+		return;
+	}
+
+	if (TStage_1_8.Update(DeltaTime))
+	{
+		for (Actor* actor : actors)
+		{
+			BreathActor* breaths = actor->As<BreathActor>();
+
+			if (breaths != nullptr)
+			{
+				if (breaths->CheckTag("breath"))
+					breaths->Destroy();
+			}
+		}
+
+		MakeXBlaster();
+	}
+	TStage_1_9.Reset();
+}
+
+void GameLevel::Stage1_9(float DeltaTime)
+{
+	TStage_1_9.Tick(DeltaTime);
+
+	if (!TStage_1_9.IsTimeOut())
+	{
+		return;
+	}
+
+	if (TStage_1_9.Update(DeltaTime))
+	{
+
+		for (Actor* actor : actors)
+		{
+			Monster* monsterActor = actor->As<Monster>();
+
+			if (monsterActor != nullptr)
+			{
+				if (monsterActor->CheckTag("GasterBlaster_45") ||
+					monsterActor->CheckTag("GasterBlaster_-45") ||
+					monsterActor->CheckTag("GasterBlaster"))
+				{
+					monsterActor->Destroy();
+				}
+			}
+		}
+
+		//X자브레스
+		BreathX();
+	}
+	TStage_1_10.Reset();
+}
+
+void GameLevel::Stage1_10(float DeltaTime)
+{
+	TStage_1_10.Tick(DeltaTime);
+
+	if (!TStage_1_10.IsTimeOut())
+	{
+		return;
+	}
+
+	if (TStage_1_10.Update(DeltaTime))
+	{
+		for (Actor* actor : actors)
+		{
+			BreathActor* breaths = actor->As<BreathActor>();
+
+			if (breaths != nullptr)
+			{
+				if (breaths->CheckTag("breath"))
+					breaths->Destroy();
+			}
+		}
+
+		//4방향 블레스터
+		MakeBlaster4();
+	}
+
+	TStage_1_11.Reset();
+}
+
+//11에다가 브레스 발사를 넣고 12에다가 이 11을 넣으면됨
+void GameLevel::Stage1_11(float DeltaTime)
+{
+	TStage_1_11.Tick(DeltaTime);
+
+	if (!TStage_1_11.IsTimeOut())
+	{
+		return;
+	}
+
+	if (TStage_1_11.Update(DeltaTime))
+	{
+		MakeBigBlaster();
+	}
+}
 
 
 

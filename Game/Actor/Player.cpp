@@ -13,11 +13,14 @@ Player::Player() : Actor("Y",Color::Red,Vector2::Zero,false,IsString::STR_FALSE)
 
 	//설정
 	SetPosition(Vector2(xPosition, yPosition));
+	TestMoving = 0;
 }
 
 void Player::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	//TestMoving = (IsMoving) ? 1 : 0;
+	//std::cout << TestMoving;
 	//std::cout << hp;
 	JumpTick++;
 	//중력구현
@@ -82,8 +85,10 @@ void Player::Tick(float DeltaTime)
 
 	if (IsTurn)
 	{
+		//이동 키 매핑
 		if (Input::GetController().GetKey(VK_LEFT) && JumpTick % 4 == 0)
 		{
+			IsMoving = true;
 			Vector2 playerPosition = GetActorPosition();
 			playerPosition.x += -1;
 			SetPosition(playerPosition);
@@ -91,14 +96,17 @@ void Player::Tick(float DeltaTime)
 
 		if (Input::GetController().GetKey(VK_RIGHT) && JumpTick % 4 == 0)
 		{
+			IsMoving = true;
 			Vector2 playerPosition = GetActorPosition();
 			playerPosition.x += 1;
 			SetPosition(playerPosition);
+
 		}
 
 		if (Input::GetController().GetKey(VK_UP) && IsGravity == false
 			&& JumpTick % 4 == 0)
 		{
+			IsMoving = true;
 			Vector2 playerPosition = GetActorPosition();
 			playerPosition.y += -1;
 			SetPosition(playerPosition);
@@ -107,6 +115,7 @@ void Player::Tick(float DeltaTime)
 		if (Input::GetController().GetKey(VK_DOWN) && IsGravity == false
 			&& JumpTick % 4 == 0)
 		{
+			IsMoving = true;
 			Vector2 playerPosition = GetActorPosition();
 			playerPosition.y += 1;
 			SetPosition(playerPosition);
@@ -115,15 +124,31 @@ void Player::Tick(float DeltaTime)
 		if (Input::GetController().GetKey(VK_UP) && IsGravity == true
 			&& JumpTick % 4 == 0)
 		{
+			IsMoving = true;
 			Vector2 playerPosition = GetActorPosition();
 			playerPosition.y += -1;
 			SetPosition(playerPosition);
 		}
 
-		//if (Input::GetController().GetKeyDown(VK_CONTROL))
-		//{
-		//	ChangeToIsGravity();
-		//}
+		if (Input::GetController().GetKeyUp(VK_LEFT))
+		{
+			IsMoving = false;
+		}
+
+		if (Input::GetController().GetKeyUp(VK_RIGHT))
+		{
+			IsMoving = false;
+		}
+
+		if (Input::GetController().GetKeyUp(VK_UP))
+		{
+			IsMoving = false;
+		}
+
+		if (Input::GetController().GetKeyUp(VK_DOWN))
+		{
+			IsMoving = false;
+		}
 	}
 
 }
@@ -156,5 +181,10 @@ int Player::GetHp() const
 void Player::SetHp(const int hp)
 {
 	this->hp = hp;
+}
+
+bool Player::GetIsMoving() const
+{
+	return IsMoving;
 }
 

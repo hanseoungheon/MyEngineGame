@@ -1,9 +1,8 @@
 #include "GameLevel.h"
 #include "Engine.h"
-#include "Map/MainMap.h"
 
 //#include "Stage/Stage1.cpp"
- 
+
 #include "Actor/Player.h"
 #include "Actor/Monster.h"
 #include "Actor/MultiLine_Actor.h"
@@ -43,91 +42,104 @@ GameLevel::GameLevel()
 	AddActor(new Player());
 
 	//샌즈 렌더링
-	AddActor(new Monster("../Assets/Actor/sans_unicode_3.txt", 
-		Color::White, Vector2(50, 0),"Sans"));
+	AddActor(new Monster("../Assets/Actor/sans_unicode_3.txt",
+		Color::White, Vector2(50, 0), "Sans"));
 
-	//AddActor(new Monster("../Assets/Actor/gasterblader0.txt", 
-	//	Color::White, Vector2(0, 0),"GasterBlaster"));
+	//파란색 뼈 움직이면 피해입음 기본뼈랑 같이써야댐
+	//AddActor(new MultiLine_Actor("../Assets/Actor/bone.txt",
+	//	Color::Blue, Vector2(55, 17), "BlueBoneLeft"));
+	//AddActor(new MultiLine_Actor("../Assets/Actor/bone.txt",
+	//	Color::White, Vector2(64, 17), "Bone"));
 
-	//AddActor(new Monster("../Assets/Actor/bless0and180.txt", 
-	//	Color::White, Vector2(0, 6),"breath"));
-	//AddActor(new BreathActor("../Assets/Actor/bless45.txt",
-	//	Color::White, Vector2(42, 12),"breath"));
+	//AddActor(new Monster("../Assets/Actor/Stage1/gasterblader_stage1_4_test.txt",
+	//	Color::White, Vector2(60, 18), "GasterBlaster"));
+	//AddActor(new Monster("../Assets/Actor/gasterblader_small_0.txt",
+	//	Color::White, Vector2(0,0), "GasterBlaster"));
+
+	//4방향 블레스터
+	//AddActor(new Monster("../Assets/Actor/GasterBlaster/gasterblader_small_0.txt",
+	//	Color::White, Vector2(60, 0), "GasterBlaster_0"));
+	//AddActor(new Monster("../Assets/Actor/GasterBlaster/gasterblader_small_90.txt",
+	//	Color::White, Vector2(20, 15), "GasterBlaster_90"));
+	//AddActor(new Monster("../Assets/Actor/GasterBlaster/gasterblader_small_270.txt",
+	//	Color::White, Vector2(80, 20), "GasterBlaster_-90"));
+	//AddActor(new Monster("../Assets/Actor/Stage1/gasterblader_stage1_4_test.txt",
+	//	Color::White, Vector2(49, 19), "GasterBlaster"));//얜 안움직임
+
+	////4방향 빔!
+	//AddActor(new BreathActor("../Assets/Actor/Breath/bless90and270_small.txt",
+	//	Color::White, Vector2(45, 15), "breath"));
+	//AddActor(new BreathActor("../Assets/Actor/Breath/bless0and180_small.txt",
+	//	Color::White, Vector2(50, 14), "breath"));
+	//AddActor(new BreathActor("../Assets/Actor/Breath/bless0and180_small.txt",
+	//	Color::White, Vector2(60, 14), "breath"));
+	//AddActor(new BreathActor("../Assets/Actor/Breath/bless90and270_small_down_None.txt",
+	//	Color::White, Vector2(45, 20), "breath"));
 
 
-	AddActor(new BreathActor("../Assets/Actor/doublebless.txt",
-		Color::White, Vector2(53, 16), "breath"));
-	//AddActor(new BreathActor("../Assets/Actor/bless90and270.txt",
-	//	Color::White, Vector2(55, 15), "breath"));
+	//X자 브레스용 블래스터!
+	//AddActor(new Monster("../Assets/Actor/GasterBlaster/gasterblader_small_45.txt",
+	//	Color::White, Vector2(68, 6), "GasterBlaster_45"));
+	//AddActor(new Monster("../Assets/Actor/GasterBlaster/gasterblader_small_-45.txt",
+	//	Color::White, Vector2(39, 7), "GasterBlaster_-45")); //43,11
+	//AddActor(new Monster("../Assets/Actor/GasterBlaster/gasterblader_small_135.txt",
+	//	Color::White, Vector2(68,22), "GasterBlaster")); //얜 안움직일거
+	//AddActor(new Monster("../Assets/Actor/GasterBlaster/gasterblader_small_-135.txt",
+	//	Color::White, Vector2(40,22), "GasterBlaster")); //얜 안움직일거
+
+
+	//X자 브레스
+	//AddActor(new BreathActor("../Assets/Actor/doublebless.txt",
+	//	Color::White, Vector2(53, 16), "breath"));
+
+	//대형 블래스터
+	//AddActor(new Monster("../Assets/Actor/GasterBlaster/gasterblader90.txt",
+	//	Color::White, Vector2(20, 15), "GasterBlaster_Big_Left"));
+	//AddActor(new Monster("../Assets/Actor/GasterBlaster/gasterblader270.txt",
+	//	Color::White, Vector2(80, 15), "GasterBlaster_Big_Right"));
+
+	//대형 블레스터 빔
+	//AddActor(new BreathActor("../Assets/Actor/Breath/bless90and270.txt",
+	//	Color::White, Vector2(45, 16), "breath"));
 
 
 
-	//AddActor(new Monster("../Assets/Actor/bless135.txt", 
-	//	Color::White, Vector2(42, 12),"breath"));
 
-	//AddActor(new MultiLine_Actor("../Assets/Actor/bless90and270.txt",
-	//	Color::White, Vector2(0, 12),""));
-
-
-	//AddActor(new BreathActor("../Assets/Actor/bless45.txt",
-	//	Color::White, Vector2(42, 12), "Sans"));
-	//AddActor(new BreathActor("../Assets/Actor/bless135.txt",
-	//	Color::White, Vector2(42, 12), "Sans"));
-	//AddActor(new BreathActor("../Assets/Actor/bless135.txt",
-	//	Color::White, Vector2(42, 12), "Sans"));
-	//for (int i = 51; i < 66; i++)
-	//{
-	//	AddActor(new ActorWall_Width(Vector2(i, 20), Color::Orange));
-	//}
-;
-
-	//AddActor(new MultiLine_Actor("../Assets/Actor/Stage1/bone_array_1.txt", 
-	//	Color::White, Vector2(51, 16),"Sans_Bone"));
-	//AddActor(new MultiLine_Actor("../Assets/Actor/bone.txt", 
-	//	Color::White, Vector2(71, 18),"Sans_Bone"));
-	//AddActor(new MultiLine_Actor("../Assets/Actor/bone.txt", 
-	//	Color::White, Vector2(72, 18),"Sans_Bone"));
-	//AddActor(new MultiLine_Actor("../Assets/Actor/bone.txt", 
-	//	Color::White, Vector2(73, 18),"Sans_Bone"));
-	//AddActor(new MultiLine_Actor("../Assets/Actor/bone.txt", 
-	//	Color::White, Vector2(74, 18),"Sans_Bone"));
-	
-	//AddActor(new Wall_Width(Vector2(0, 0),Color::Red));
 	//UI
 	//공격 UI
 	AddActor(new MultiLine_UI("../Assets/UI/fight.txt",
-		Color::Yellow, Vector2(39, 25),UI_Type::FIGHT,"MainUI"));
+		Color::Yellow, Vector2(39, 25), UI_Type::FIGHT, "MainUI"));
 	//행동 UI
 	AddActor(new MultiLine_UI("../Assets/UI/act.txt",
-		Color::Yellow, Vector2(49, 25),UI_Type::ACTOR,"MainUI"));
+		Color::Yellow, Vector2(49, 25), UI_Type::ACTOR, "MainUI"));
 	//아이템 UI
 	AddActor(new MultiLine_UI("../Assets/UI/item.txt",
-		Color::Yellow, Vector2(59, 25),UI_Type::ITEM,"MainUI"));
+		Color::Yellow, Vector2(59, 25), UI_Type::ITEM, "MainUI"));
 	//자비 UI
 	AddActor(new MultiLine_UI("../Assets/UI/mercy.txt",
-		Color::Yellow, Vector2(69, 25),UI_Type::MERCY,"MainUI"));
+		Color::Yellow, Vector2(69, 25), UI_Type::MERCY, "MainUI"));
 
 	//말풍선
-	AddActor(new Speech_UI("../Assets/UI/speech_bubble.txt",Color::White,
-		Vector2(66,2)));
+	AddActor(new Speech_UI("../Assets/UI/speech_bubble.txt", Color::White,
+		Vector2(66, 2)));
 
 
 	//캐릭터 상태 UI
-	AddActor(new Stat_UI("CHARA", Color::White, Vector2(33, 23),'C'));
-	AddActor(new Stat_UI("LV19",Color::White,Vector2(40,23),'L'));
-	AddActor(new Stat_UI("HP",Color::White,Vector2(46,23)));
+	AddActor(new Stat_UI("CHARA", Color::White, Vector2(33, 23), 'C'));
+	AddActor(new Stat_UI("LV19", Color::White, Vector2(40, 23), 'L'));
+	AddActor(new Stat_UI("HP", Color::White, Vector2(46, 23)));
 
 	for (int i = 1; i <= 12; i++)
-		AddActor(new Stat_UI("|", Color::Yellow, Vector2(47 + i, 23),40 + i));
+		AddActor(new Stat_UI("|", Color::Yellow, Vector2(47 + i, 23), 40 + i));
 
-	AddActor(new Stat_UI("KR",Color::White,Vector2(62,23)));
+	AddActor(new Stat_UI("KR", Color::White, Vector2(62, 23)));
 	AddActor(new Stat_UI("92", Color::White, Vector2(65, 23), 'H'));
-	AddActor(new Stat_UI("/ 92",Color::White,Vector2(68,23)));
+	AddActor(new Stat_UI("/ 92", Color::White, Vector2(68, 23)));
 
 	for (Actor* actor : actors)
 	{
 		Player* player = actor->As<Player>();
-		player->SetHp(92);	
+		player->SetHp(92);
 	}
 
 	UIcontroller = 1;
@@ -136,18 +148,22 @@ GameLevel::GameLevel()
 
 
 	//인트로
-	IntroTimer.SetTargetTime(100.0f);
+	IntroTimer.SetTargetTime(1.0f);
 	BurningToHell.SetTargetTime(1.0f);
 
 	//스테이지1
 	TStage_1_1.SetTargetTime(1.0f);
-	TStage_1_2.SetTargetTime(0.8f);
+	TStage_1_2.SetTargetTime(0.5f);
 	TStage_1_3.SetTargetTime(0.5f);
 	TStage_1_4.SetTargetTime(0.5f);
 	TStage_1_5.SetTargetTime(0.5f);
 	TStage_1_5_Array.SetTargetTime(0.3f);
 	TStage_1_6.SetTargetTime(0.5f);
-
+	TStage_1_7.SetTargetTime(0.5f); //4자 브레스 생성
+	TStage_1_8.SetTargetTime(0.5f); //4자브레스 삭제
+	TStage_1_9.SetTargetTime(0.5f); //x자브레스 생성
+	TStage_1_10.SetTargetTime(0.5f); //x자브레스 삭제 및 4자브레스 다시
+	TStage_1_11.SetTargetTime(0.5f); //초대형 블래스터 생성!
 }
 
 GameLevel::~GameLevel()
@@ -160,26 +176,8 @@ GameLevel::~GameLevel()
 
 void GameLevel::BeginPlay()
 {
-	Super::BeginPlay();	
+	Super::BeginPlay();
 	SetConsoleOutputCP(CP_UTF8);
-
-	//일단은 말풍선 안보이게 하는거 포기
-	//for (Actor* actor : actors)
-	//{
-	//	Speech_UI* speech_UI = actor->As<Speech_UI>();
-
-	//	if (speech_UI != nullptr)
-	//		speech_UI->SetIsVisible(false);
-	//}
-
-	//FILE* rendering_SANS = nullptr;
-	//fopen_s(&rendering_SANS, "../Assets/sans_unicode.txt", "rt");
-
-	//if (rendering_SANS == nullptr)
-	//{
-	//	std::cout << "Fatal_Error: Cannot Read FILE -> sans_unicode.txt\n";
-	//}
-
 }
 
 void GameLevel::Tick(float DeltaTime)
@@ -217,7 +215,7 @@ void GameLevel::Tick(float DeltaTime)
 
 	if (Input::GetController().GetKeyDown(VK_NUMPAD2))
 	{
-		Engine::Get().LoadEngineSetting("EngineSettings_SmallMap.txt");
+		Engine::Get().LoadEngineSetting("EngineSettings_LargeMap.txt");
 	}
 
 
@@ -226,7 +224,7 @@ void GameLevel::Tick(float DeltaTime)
 	{
 		Intro(DeltaTime);
 	}
-	else if(!BurningToHell.IsTimeOut())
+	else if (!BurningToHell.IsTimeOut())
 	{
 		BlackOut_1(DeltaTime);
 	}
@@ -265,6 +263,26 @@ void GameLevel::Tick(float DeltaTime)
 	else if (!TStage_1_6.IsTimeOut())
 	{
 		Stage1_6(DeltaTime);
+	}
+	else if (!TStage_1_7.IsTimeOut())
+	{
+		Stage1_7(DeltaTime);
+	}
+	else if (!TStage_1_8.IsTimeOut())
+	{
+		Stage1_8(DeltaTime);
+	}
+	else if (!TStage_1_9.IsTimeOut())
+	{
+		Stage1_9(DeltaTime);
+	}
+	else if (!TStage_1_10.IsTimeOut())
+	{
+		Stage1_10(DeltaTime);
+	}
+	else if (!TStage_1_11.IsTimeOut())
+	{
+		Stage1_11(DeltaTime);
 	}
 
 	//테스트 용도
@@ -462,6 +480,7 @@ void GameLevel::ProcessCollisionPlayerAndEnemyObject()
 	Player* player = nullptr;
 
 	std::vector<MultiLine_Actor*>EnemyObject_Actor;
+	std::vector<MultiLine_Actor*>BlueEnemyObject_Actor;
 	std::vector<BreathActor*>Breath_Actor;
 
 	for (Actor* actor : actors)
@@ -469,11 +488,19 @@ void GameLevel::ProcessCollisionPlayerAndEnemyObject()
 		MultiLine_Actor* EnemyObject = actor->As<MultiLine_Actor>();
 		BreathActor* BreathObject = actor->As<BreathActor>();
 
-		if (EnemyObject != nullptr) //적 오브젝트 발견
+		//만약 파란색이 아니면 그냥 적 액터리스트에담고 맞으면 파란적리스트에 넣음
+		if (EnemyObject != nullptr && !(EnemyObject->CheckTag("BlueBone"))) //적 오브젝트 발견
 		{
 			EnemyObject_Actor.emplace_back(EnemyObject); // 배열에 추가
 			continue;
 		}
+
+		if (EnemyObject != nullptr && (EnemyObject->CheckTag("BlueBoneLeft") || EnemyObject->CheckTag("BlueBoneRight"))) //파란색 적 오브젝트 발견
+		{
+			BlueEnemyObject_Actor.emplace_back(EnemyObject); // 배열에 추가
+			continue;
+		}
+
 
 		if (BreathObject != nullptr && BreathObject->CheckTag("breath"))// && MonsterObject->GetTag() == "breath"
 		{
@@ -500,21 +527,33 @@ void GameLevel::ProcessCollisionPlayerAndEnemyObject()
 
 	//적 오브젝트포인터를 스택에 할당한 후 힙에 할당된
 	// 적 오브젝트를 담은 배열의 주소를 가르켜 순환하며 탐색하기
-	for (auto* EnemyObject : EnemyObject_Actor)
+	for (auto* AEnemyObject : EnemyObject_Actor)
 	{
 		//충돌했다면?
-		if (player->GetIsTurn() && player->TestIntersect(EnemyObject))
+		if (player->GetIsTurn() && player->TestIntersect(AEnemyObject))
 		{
-			
-			//std::cout << "IsDameged";
+
 			int PlayerCurrentHp = player->GetHp();
 			player->SetHp(PlayerCurrentHp - 1);
 		}
 	}
 
-	for (auto* BreathObject : Breath_Actor)
+	for (auto* ABlueEnemyObject : BlueEnemyObject_Actor)
 	{
-		if (player->GetIsTurn() && player->TestIntersect(BreathObject))
+		//충돌했다면?
+		if (player->GetIsTurn() && player->TestIntersect(ABlueEnemyObject))
+		{
+			if (player->GetIsMoving())
+			{
+				int PlayerCurrentHp = player->GetHp();
+				player->SetHp(PlayerCurrentHp - 1);
+			}
+		}
+	}
+
+	for (auto* ABreathObject : Breath_Actor)
+	{
+		if (player->GetIsTurn() && player->TestIntersect(ABreathObject))
 		{
 			int PlayerCurrentHp = player->GetHp();
 			player->SetHp(PlayerCurrentHp - 1);
@@ -578,19 +617,19 @@ void GameLevel::Intro(float DeltaTime)
 	{
 		for (Actor* actor : actors)
 		{
-			
+
 			Speech_UI* speechUI = actor->As<Speech_UI>();
 			if (speechUI != nullptr)
 			{
 				speechUI->SetIsVisible(true);
 				speechUI->SayTalking
-				("오늘은 정말 \n아름다운날이야", Vector2(3, 2), 100,true);
+				("오늘은 정말 \n아름다운날이야", Vector2(3, 2), 100, true);
 				Sleep(100);
 				speechUI->SayTalking
-				("새들은 지저귀고 \n꽃들은 피어나고", Vector2(3, 2), 100,true);
+				("새들은 지저귀고 \n꽃들은 피어나고", Vector2(3, 2), 100, true);
 				Sleep(100);
 				speechUI->SayTalking
-				("이런날엔, 너같은\n꼬마들은...", Vector2(3, 2), 100,true);
+				("이런날엔, 너같은\n꼬마들은...", Vector2(3, 2), 100, true);
 				speechUI->BlackOut();
 			}
 		}
@@ -617,12 +656,73 @@ void GameLevel::BlackOut_1(float DeltaTime)
 			if (speechUI != nullptr)
 			{
 				speechUI->SayTalking
-				("지옥에서 \n불타야해", Vector2(3, 2), 200,false);
+				("지옥에서 \n불타야해", Vector2(3, 2), 200, false);
 			}
 		}
 	}
 	TStage_1_1.Reset();
 }
 
+//4방향 블래스터
+void GameLevel::MakeBlaster4()
+{
+	//4방향 블레스터
+	AddActor(new Monster("../Assets/Actor/GasterBlaster/gasterblader_small_0.txt",
+		Color::White, Vector2(60, 0), "GasterBlaster_0"));
+	AddActor(new Monster("../Assets/Actor/GasterBlaster/gasterblader_small_90.txt",
+		Color::White, Vector2(20, 15), "GasterBlaster_90"));
+	AddActor(new Monster("../Assets/Actor/GasterBlaster/gasterblader_small_270.txt",
+		Color::White, Vector2(80, 20), "GasterBlaster_-90"));
+	AddActor(new Monster("../Assets/Actor/Stage1/gasterblader_stage1_4_test.txt",
+		Color::White, Vector2(49, 19), "GasterBlaster"));//얜 안움직임
+}
+
+void GameLevel::Breath4()
+{
+	AddActor(new BreathActor("../Assets/Actor/Breath/bless90and270_small.txt",
+		Color::White, Vector2(45, 15), "breath"));
+	AddActor(new BreathActor("../Assets/Actor/Breath/bless0and180_small.txt",
+		Color::White, Vector2(50, 14), "breath"));
+	AddActor(new BreathActor("../Assets/Actor/Breath/bless0and180_small.txt",
+		Color::White, Vector2(60, 14), "breath"));
+	AddActor(new BreathActor("../Assets/Actor/Breath/bless90and270_small_down_None.txt",
+		Color::White, Vector2(45, 20), "breath"));
+}
+
+void GameLevel::MakeXBlaster()
+{
+	//X자 브레스용 블래스터!
+	AddActor(new Monster("../Assets/Actor/GasterBlaster/gasterblader_small_45.txt",
+		Color::White, Vector2(68, 6), "GasterBlaster_45"));
+	AddActor(new Monster("../Assets/Actor/GasterBlaster/gasterblader_small_-45.txt",
+		Color::White, Vector2(39, 7), "GasterBlaster_-45"));
+	AddActor(new Monster("../Assets/Actor/GasterBlaster/gasterblader_small_135.txt",
+		Color::White, Vector2(68,22), "GasterBlaster")); //얜 안움직일거
+	AddActor(new Monster("../Assets/Actor/GasterBlaster/gasterblader_small_-135.txt",
+		Color::White, Vector2(40,22), "GasterBlaster")); //얜 안움직일거
+}
+
+void GameLevel::BreathX()
+{
+	//X자 브레스
+	AddActor(new BreathActor("../Assets/Actor/Breath/doublebless.txt",
+		Color::White, Vector2(53, 16), "breath"));
+}
+
+void GameLevel::MakeBigBlaster()
+{
+	//대형 블래스터
+	AddActor(new Monster("../Assets/Actor/GasterBlaster/gasterblader90.txt",
+		Color::White, Vector2(20, 15), "GasterBlaster_Big_Left"));
+	AddActor(new Monster("../Assets/Actor/GasterBlaster/gasterblader270.txt",
+		Color::White, Vector2(80, 15), "GasterBlaster_Big_Right"));
+}
+
+void GameLevel::BreathBig()
+{
+	//대형 블레스터 빔
+	AddActor(new BreathActor("../Assets/Actor/Breath/bless90and270.txt",
+		Color::White, Vector2(45, 16), "breath"));
+}
 
 

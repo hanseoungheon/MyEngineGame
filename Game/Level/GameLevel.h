@@ -16,8 +16,6 @@ public:
 	void ControllMainUI(MultiLine_UI* mainUI);
 	//void SpawnEnemies(float DeltaTime);
 	virtual void Render() override;
-
-
 private:
 	void ReadMapFile(const char* fileName);
 
@@ -62,6 +60,11 @@ public:
 	void Stage1_5_2(float DeltaTime);
 	void Stage1_5_3(float DeltaTime);
 	void Stage1_6(float DeltaTime);
+	void Stage1_7(float DeltaTime);
+	void Stage1_8(float DeltaTime);
+	void Stage1_9(float DeltaTime);
+	void Stage1_10(float DeltaTime);
+	void Stage1_11(float DeltaTime);
 
 private:
 
@@ -86,6 +89,22 @@ private:
 	Timer TStage_1_5;
 	Timer TStage_1_5_Array;
 	Timer TStage_1_6;
+	Timer TStage_1_7;
+	Timer TStage_1_8;
+	Timer TStage_1_9;
+	Timer TStage_1_10;
+	Timer TStage_1_11;
 
+public:
+	//4방향 블래스터 & 4방향 브레스
+	void MakeBlaster4();
+	void Breath4();
+	
+	//X자블래스터 & X자 브레스
+	void MakeXBlaster();
+	void BreathX();
 
+	//대형 블래스터 & 필살빔
+	void MakeBigBlaster();
+	void BreathBig();
 };
