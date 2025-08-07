@@ -501,6 +501,8 @@ void GameLevel::Stage1_17(float DeltaTime)
 			if (player != nullptr)
 				player->LeftSide -= 11;
 		}
+
+
 	}
 	Engine::Get().LoadEngineSetting("EngineSettings_LargeMap.txt");
 	UIcontrollerNum = 1;

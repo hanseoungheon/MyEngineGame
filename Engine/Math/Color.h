@@ -9,5 +9,7 @@ enum class Color :int
 	Intensity = 8,
 	SkyBlue = 9,
 	Yellow = 14,
+	Banana = 6,
 	Orange = 12,
+	LightGreen = 10,
 };

@@ -100,6 +100,11 @@ void MultiLine_Actor::Tick(float DeltaTime)
 		Vector2 newPosition = actorPosition + Vector2(1, 0);
 		SetPosition(newPosition);
 	}
+	if ((CheckTag("Stick")) && JumpTick % 2 == 0)
+	{
+		Vector2 newPosition = actorPosition + Vector2(1, 0);
+		SetPosition(newPosition);
+	}
 
 	if ((CheckTag("Left") || CheckTag("BlueBoneLeft")) && JumpTick % 3 == 0)
 	{

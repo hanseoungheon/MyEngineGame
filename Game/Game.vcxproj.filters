@@ -75,6 +75,18 @@
     <ClCompile Include="Level\Stage_Phase_1\Stage3.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="UI\Attack_UI\AttackUI_Width.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Attack_UI\AttackUI_Length.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Attack_UI\AttackUI_Mini_Length.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Attack_UI\AttackUI_DoubleLine.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Game.h">
@@ -120,6 +132,18 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Actor\Block.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Attack_UI\AttackUI_Width.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Attack_UI\AttackUI_Length.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Attack_UI\AttackUI_Mini_Width.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Attack_UI\AttackUI_DoubleLine.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

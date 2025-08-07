@@ -10,6 +10,28 @@
 #include "Actor/Actor.h"
 
 
+//void GameLevel::Stage2_0(float DeltaTime)
+//{
+//	TStage_2_0.Tick(DeltaTime);
+//
+//	if (!TStage_2_0.IsTimeOut())
+//	{
+//		return;
+//	}
+//	if (Input::GetController().GetKeyDown(VK_RETURN) && AttackTrigger == true)
+//	{
+//		DeleteAttackUI();
+//		bSansIsMoving = true;
+//		TStage_2_1.Reset();
+//	}
+//	if (TStage_2_0.Update(DeltaTime))
+//	{
+//		DeleteAttackUI();
+//		bSansIsMoving = true;
+//	}
+//	TStage_2_1.Reset();
+//}
+
 void GameLevel::Stage2_1(float DeltaTime)
 {
 	TStage_2_1.Tick(DeltaTime);

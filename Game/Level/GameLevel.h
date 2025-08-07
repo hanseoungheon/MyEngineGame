@@ -21,6 +21,8 @@ public:
 	virtual void Render() override;
 private:
 	void ReadMapFile(const char* fileName);
+	void ReadAttackUIFile(const char* fileName,Color color);
+	void MakeAttackUIFile();
 
 	void CheckPlayerGravity();
 	void UIController();
@@ -47,15 +49,20 @@ private:
 
 	bool IsMapSmall = true;
 
+	bool AttackTrigger = false;
+
 	//bool isonblock = false;
 public:
 	void DeleteMap();
+	void DeleteAttackUI();
 
 	void TurnStart();
 	void TurnStart_MiniMap();
 	void TurnEnd();
 
 	void AttakSans();
+
+	void EatItem();
 	//¿Œ∆Æ∑Œ
 	//void LevelTest(float DeltaTime);
 	void Intro(float DeltaTime);

@@ -14,6 +14,10 @@
 #include "Actor/Block.h"
 #include "UI/Stat_UI.h"
 #include "UI/Speech_UI.h"
+#include "UI/Attack_UI/AttackUI_Length.h"
+#include "UI/Attack_UI/AttackUI_Width.h"
+#include "UI/Attack_UI/AttackUI_Mini_Width.h"
+#include "UI/Attack_UI/AttackUI_DoubleLine.h"
 
 #include "Input.h"
 #include <Windows.h>
@@ -46,7 +50,7 @@ GameLevel::GameLevel()
 
 
 	//AddActor(new Block(Vector2(60,20),"Default"));
-
+	//MakeAttackUIFile();
 	//UI
 	//공격 UI
 	AddActor(new MultiLine_UI("../Assets/UI/fight.txt",
@@ -131,6 +135,8 @@ GameLevel::GameLevel()
 	TStage_3_7.SetTargetTime(0.5f);
 	TStage_3_8.SetTargetTime(1.0f);
 	TStage_3_9.SetTargetTime(0.5f);
+
+	AttackTrigger = false;
 }
 
 GameLevel::~GameLevel()
@@ -282,7 +288,6 @@ void GameLevel::Tick(float DeltaTime)
 	{
 		Stage1_17(DeltaTime);
 	}
-
 	//스테이지 2
 	else if (!TStage_2_1.IsTimeOut() && TurnCount == 2)
 	{
@@ -455,6 +460,88 @@ void GameLevel::ReadMapFile(const char* fileName)
 	//system("cls");
 }
 
+void GameLevel::ReadAttackUIFile(const char* fileName,Color color)
+{
+	char filePath[256] = {};
+	sprintf_s(filePath, 256, "../Assets/Actor/AttackUI/%s", fileName);
+
+	FILE* mapFile = nullptr;
+	fopen_s(&mapFile, filePath, "rt");
+
+	//예외처리
+	if (mapFile == nullptr)
+	{
+		std::cout << "Fatal Error : Can not Read Map File\n";
+		__debugbreak();
+		return;
+	}
+
+	//파싱 하기 
+	fseek(mapFile, 0, SEEK_END); //파일 포인터를 파일 주소의 끝 값으로 이동
+	size_t fileSize = ftell(mapFile); //파일의 크기를 저장
+	rewind(mapFile); //다시 파일 포인터를 파일 주소의 시작점으로 이동
+
+	//확인한 파일 크기를 활용해 버퍼 할당
+	char* buffer = new char[fileSize + 1];
+
+	size_t readSize = fread(buffer, sizeof(char), fileSize, mapFile);
+
+
+	//배열 순회를 위한 인덱스
+	int index = 0;
+
+	//문자열 길이
+	int size = (int)readSize;
+
+	//좌표
+	Vector2 position;
+
+	while (index < size) //인덱스가 파일 문자열 길이를 넘어가면 종료
+	{
+		//맵 문자 확인
+		char mapBlock = buffer[index++];
+
+		if (mapBlock == '\n') // 개행문자 처리
+		{
+			++position.y;
+			position.x = 0;
+
+			continue;
+		}
+
+		switch (mapBlock)
+		{
+		case '|':
+			AddActor(new AttackUI_Length(position,color));
+			break;
+		case '_':
+			AddActor(new AttackUI_Width(position,color));
+			break;
+		case '-':
+			AddActor(new AttackUI_Mini_Width(position, color));
+			break;
+		case '=':
+			AddActor(new AttackUI_DoubleLine(position, color));
+			break;
+		}
+
+		++position.x;
+	}
+
+	delete[] buffer;
+
+	fclose(mapFile);
+}
+
+void GameLevel::MakeAttackUIFile()
+{
+	ReadAttackUIFile("green.txt", Color::Banana);
+	ReadAttackUIFile("red.txt", Color::Red);
+	ReadAttackUIFile("yellow.txt", Color::Yellow);
+	ReadAttackUIFile("Cross.txt", Color::Green);
+	ReadAttackUIFile("white.txt", Color::White);
+}
+
 void GameLevel::CheckPlayerGravity()
 {
 	for (Actor* actor : actors)
@@ -535,58 +622,83 @@ void GameLevel::UIController()
 		UIcontrollerNum++;
 	}
 	//엔터키 누를시 해당 UI작동
-	if (!PlayerIsTurn && Input::GetController().GetKeyDown(VK_RETURN))
+	if (!PlayerIsTurn && Input::GetController().GetKeyDown(VK_RETURN) && AttackTrigger == false)
 	{
 		if (UIcontrollerNum == 1 && TurnCount < 2)
 		{
-			bSansIsMoving = true;
-			TurnCount++;
-			TStage_2_1.Reset();
+			MakeAttackUIFile();
+			AddActor(new MultiLine_Actor("../Assets/Actor/stick.txt",
+			Color::White, Vector2(41, 17), "Stick"));
 		}	
 		else if (UIcontrollerNum == 1 && TurnCount == 2)
 		{
-			AttakSans();
-			TurnCount = 3;
-			TStage_3_1.Reset();
+			MakeAttackUIFile();
+			AddActor(new MultiLine_Actor("../Assets/Actor/stick.txt",
+				Color::White, Vector2(41, 17), "Stick"));
 		}
 		else if (UIcontrollerNum == 1 && TurnCount == 3)
 		{
-			AttakSans();
-			TurnCount = 4;
+			MakeAttackUIFile();
+
 		}
-		else if (UIcontrollerNum == 1 && TurnCount == 4)
-		{
-			AttakSans();
-			TurnCount = 5;
-		}
+		//else if (UIcontrollerNum == 1 && TurnCount == 4)
+		//{
+		//	AttakSans();
+		//	TurnCount = 5;
+		//}
 
 		if (UIcontrollerNum == 3)
 		{
+			EatItem();
+		}
+	}
+
+	if (!PlayerIsTurn && Input::GetController().GetKeyUp(VK_RETURN))
+	{
+		AttackTrigger = !AttackTrigger;
+	}
+
+	if (!PlayerIsTurn && Input::GetController().GetKeyDown(VK_RETURN) && AttackTrigger == true)
+	{
+		if (TurnCount < 2)
+		{
+			DeleteAttackUI();
+			TurnCount++;
+			TStage_2_1.Reset();
+
 			for (Actor* actor : actors)
 			{
-				Player* player = actor->As<Player>();
-
-				if (player != nullptr)
+				MultiLine_Actor* stick = actor->As<MultiLine_Actor>();
+				if (stick != nullptr && stick->CheckTag("Stick"))
 				{
-					int currentHp = player->GetHp();
-					if (currentHp + 50 < 92)
-					{
-						player->SetHp(currentHp + 50);
-					}
-					else
-					{
-						player->SetHp(92);
-					}
-				}
-
-				Speech_UI* speechUI = actor->As<Speech_UI>();
-				if (speechUI != nullptr)
-				{
-					speechUI->SayTalking(
-						"* 스테이크를 먹었다!\n   체력을 50 회복했다!",
-						Vector2(-33, 15), 20, true, "CharaTalking");
+					stick->Destroy();
 				}
 			}
+
+			bSansIsMoving = true;
+		}
+		else if (TurnCount == 2)
+		{
+			DeleteAttackUI();
+			TurnCount = 3;
+			TStage_3_1.Reset();
+
+			for (Actor* actor : actors)
+			{
+				MultiLine_Actor* stick = actor->As<MultiLine_Actor>();
+				if (stick != nullptr && stick->CheckTag("Stick"))
+				{
+					stick->Destroy();
+				}
+			}
+
+			AttakSans();
+		}
+		else if (TurnCount == 3)
+		{
+			DeleteAttackUI();
+			TurnCount = 4;
+			AttakSans();
 		}
 	}
 }
@@ -740,6 +852,37 @@ void GameLevel::DeleteMap()
 	}
 }
 
+void GameLevel::DeleteAttackUI()
+{
+	for (Actor* actor : actors)
+	{
+		AttackUI_Length* attackUILegth = actor->As<AttackUI_Length>();
+		AttackUI_Width* attackUIWidth = actor->As<AttackUI_Width>();
+		AttackUI_Mini_Width* attackUIMiniWidth = actor->As<AttackUI_Mini_Width>();
+		AttackUI_DoubleLine* attackUIDoubleLine = actor->As<AttackUI_DoubleLine>();
+
+		if (attackUILegth != nullptr)
+		{
+			attackUILegth->Destroy();
+		}
+
+		if (attackUIWidth != nullptr)
+		{
+			attackUIWidth->Destroy();
+		}
+
+		if (attackUIMiniWidth != nullptr)
+		{
+			attackUIMiniWidth->Destroy();
+		}
+
+		if (attackUIDoubleLine != nullptr)
+		{
+			attackUIDoubleLine->Destroy();
+		}
+	}
+}
+
 void GameLevel::TurnStart()
 {
 	DeleteMap();
@@ -795,6 +938,35 @@ void GameLevel::AttakSans()
 
 		if (sans != nullptr)
 			sans->SetSansLeftRight(true);
+	}
+}
+
+void GameLevel::EatItem()
+{
+	for (Actor* actor : actors)
+	{
+		Player* player = actor->As<Player>();
+
+		if (player != nullptr)
+		{
+			int currentHp = player->GetHp();
+			if (currentHp + 50 < 92)
+			{
+				player->SetHp(currentHp + 50);
+			}
+			else
+			{
+				player->SetHp(92);
+			}
+		}
+
+		Speech_UI* speechUI = actor->As<Speech_UI>();
+		if (speechUI != nullptr)
+		{
+			speechUI->SayTalking(
+				"* 스테이크를 먹었다!\n   체력을 50 회복했다!",
+				Vector2(-33, 15), 20, true, "CharaTalking");
+		}
 	}
 }
 

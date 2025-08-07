@@ -158,6 +158,10 @@
     <ClCompile Include="Level\Stage_Phase_1\Stage2.cpp" />
     <ClCompile Include="Level\Stage_Phase_1\Stage3.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="UI\Attack_UI\AttackUI_DoubleLine.cpp" />
+    <ClCompile Include="UI\Attack_UI\AttackUI_Mini_Length.cpp" />
+    <ClCompile Include="UI\Attack_UI\AttackUI_Length.cpp" />
+    <ClCompile Include="UI\Attack_UI\AttackUI_Width.cpp" />
     <ClCompile Include="UI\MultiLine_UI.cpp" />
     <ClCompile Include="UI\Speech_UI.cpp" />
     <ClCompile Include="UI\Stat_UI.cpp" />
@@ -176,6 +180,10 @@
     <ClInclude Include="Actor\ActorWall_Width.h" />
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="Level\GameLevel.h" />
+    <ClInclude Include="UI\Attack_UI\AttackUI_DoubleLine.h" />
+    <ClInclude Include="UI\Attack_UI\AttackUI_Mini_Width.h" />
+    <ClInclude Include="UI\Attack_UI\AttackUI_Length.h" />
+    <ClInclude Include="UI\Attack_UI\AttackUI_Width.h" />
     <ClInclude Include="UI\Speech_UI.h" />
     <ClInclude Include="UI\Stat_UI.h" />
     <ClInclude Include="UI\MultiLine_UI.h" />
