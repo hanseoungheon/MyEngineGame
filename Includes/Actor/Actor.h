@@ -64,6 +64,9 @@ public:
 	//충돌 확인 요청 함수 (AABB 로직)
 	bool TestIntersect(const Actor* const other);
 
+	//블럭 위에 있는지?
+	bool TestIntersect_Block(const Actor* const other);
+
 	//객체 삭제시키는 함수
 	void Destroy();
 

@@ -15,22 +15,23 @@ Player::Player() : Actor("Y",Color::Red,Vector2::Zero,false,IsString::STR_FALSE)
 	//설정
 	SetPosition(Vector2(xPosition, yPosition));
 	TestMoving = 0;
+	//ChangeToIsGravity();
 }
 
 void Player::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	//TestMoving = (IsMoving) ? 1 : 0;
-	//std::cout << TestMoving;
-	//std::cout << hp;
-	JumpTick++;
+
+	JumpTick++; //틱을 받아서 나머지를 받아서 틱을 느리게 하는 용도
+	//std::cout << "IsMoving :" << IsMoving;
+	//IsOnTheBlock = false;
 	//중력구현
-	if (IsGravity && !Input::GetController().GetKey(VK_UP))
+	if (IsGravity && !IsOnTheBlock && !Input::GetController().GetKey(VK_UP))
 	{
 		Vector2 playerPosition = GetActorPosition();
-		playerPosition.y += 1;
+		playerPosition = playerPosition + velocity;
+
 		SetPosition(playerPosition);
-		JumpTick = 0;
 	}
 
 	//입력 처리
@@ -46,25 +47,21 @@ void Player::Tick(float DeltaTime)
 	//	LeftSide += 11;
 	//}
 
-	if (Input::GetController().GetKeyDown(VK_TAB))
-	{
-		IsTurn = !IsTurn;
-		IsVisible = !IsVisible;
-		Vector2 playerPosition = GetActorPosition();
-		//playerPosition.x++;
-		//SetPosition(playerPosition);
-		//playerPosition.x--;
-		//SetPosition(playerPosition);
-		//playerPosition.y--;
-		//SetPosition(playerPosition);
-		//playerPosition.x++;
-		//SetPosition(playerPosition);
-		playerPosition.x = ((Engine::Get().Width() + LeftSide) / 2 + 1);
-		playerPosition.y = Engine::Get().Height() - 2;
-		SetPosition(playerPosition);
-		//IsGravity = true;
-		//SetColor(Color::Blue);
-	}	
+	//if (Input::GetController().GetKeyDown(VK_TAB))
+	//{
+	//	IsTurn = !IsTurn;
+	//	IsVisible = !IsVisible;
+	//	Vector2 playerPosition = GetActorPosition();
+	//	playerPosition.x++;
+	//	SetPosition(playerPosition);
+	//	playerPosition.y--;
+	//	SetPosition(playerPosition);
+	//	playerPosition.x = ((Engine::Get().Width() + LeftSide) / 2 + 1);
+	//	playerPosition.y = Engine::Get().Height() - 2;
+	//	SetPosition(playerPosition);
+	//	//IsGravity = true;
+	//	//SetColor(Color::Blue);
+	//}	
 
 	if (Input::GetController().GetKey(VK_BACK))
 	{
@@ -83,7 +80,7 @@ void Player::Tick(float DeltaTime)
 			++hp;
 		}
 	}
-
+	//IsMoving = false;
 	if (IsTurn)
 	{
 		//이동 키 매핑
@@ -189,23 +186,24 @@ bool Player::GetIsMoving() const
 	return IsMoving;
 }
 
+void Player::SetIsOnTheBlock(const bool IsOnTheBlock)
+{
+	this->IsOnTheBlock = IsOnTheBlock;
+}
+
 void Player::SwitchTurn()
 {
 	IsTurn = !IsTurn;
 	IsVisible = !IsVisible;
+
 	Vector2 playerPosition = GetActorPosition();
-	//playerPosition.x++;
-	//SetPosition(playerPosition);
-	//playerPosition.x--;
-	//SetPosition(playerPosition);
-	//playerPosition.y--;
-	//SetPosition(playerPosition);
-	//playerPosition.x++;
-	//SetPosition(playerPosition);
+	playerPosition.x++;
+	SetPosition(playerPosition);
+	playerPosition.y--;
+	SetPosition(playerPosition);
+
 	playerPosition.x = ((Engine::Get().Width() + LeftSide) / 2 + 1);
 	playerPosition.y = Engine::Get().Height() - 2;
 	SetPosition(playerPosition);
-	//IsGravity = true;
-	//SetColor(Color::Blue);
 }
 

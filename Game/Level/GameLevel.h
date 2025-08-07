@@ -25,6 +25,7 @@ private:
 	void CheckPlayerGravity();
 	void UIController();
 	void ProcessCollisionPlayerAndEnemyObject();
+	void ProcessCollisionPlayerAndBlock();
 
 private:
 	bool PlayerIsTurn = true;
@@ -45,9 +46,16 @@ private:
 	int count = 0;
 
 	bool IsMapSmall = true;
+
+	//bool isonblock = false;
 public:
 	void DeleteMap();
 
+	void TurnStart();
+	void TurnStart_MiniMap();
+	void TurnEnd();
+
+	void AttakSans();
 	//인트로
 	//void LevelTest(float DeltaTime);
 	void Intro(float DeltaTime);
@@ -74,6 +82,19 @@ public:
 	void Stage1_15(float DeltaTime);
 	void Stage1_16(float DeltaTime);
 	void Stage1_17(float DeltaTime);
+
+	//스테이지2
+	void Stage2_1(float DeltaTime);
+	void Stage2_2(float DeltaTime);
+	void Stage2_3(float DeltaTime);
+	void Stage2_4(float DeltaTime);
+	void Stage2_5(float DeltaTime);
+
+	//스테이지3
+	void Stage3_1(float DeltaTime);
+	void Stage3_2(float DeltaTime);
+	void Stage3_3(float DeltaTime);
+	void Stage3_4(float DeltaTime);
 
 private:
 
@@ -111,7 +132,17 @@ private:
 	Timer TStage_1_17;
 
 	//스테이지 2 타이머
-	Timer TStage_1_17;
+	Timer TStage_2_1;
+	Timer TStage_2_2;
+	Timer TStage_2_3;
+	Timer TStage_2_4;
+	Timer TStage_2_5;
+
+	//스테이지 3 타이머
+	Timer TStage_3_1;
+	Timer TStage_3_2;
+	Timer TStage_3_3;
+	Timer TStage_3_4;
 
 	//턴 카운트
 	int TurnCount;

@@ -8,6 +8,7 @@
 #include "UI/Speech_UI.h"
 #include "Engine.h"
 #include "Actor/Actor.h"
+
 void GameLevel::Stage1_1(float DeltaTime)
 {
 	TStage_1_1.Tick(DeltaTime);
@@ -183,7 +184,12 @@ void GameLevel::Stage1_5_3(float DeltaTime)
 	if (TimerEndCount < 6)
 		TStage_1_5_Array.Reset();
 	else
+	{
 		TStage_1_6.Reset();
+		TimerArrayCount = 0;
+		TimerEndCount = 0;
+	}
+
 }
 
 void GameLevel::Stage1_6(float DeltaTime)
@@ -436,7 +442,7 @@ void GameLevel::Stage1_15(float DeltaTime)
 			{
 				speechUI->SayTalking("흠..", Vector2(3, 2), 100, true);
 				Sleep(500);
-				speechUI->SayTalking("왜 다들 처음부터\n강한 공격을\n쓰지않는지\n모르겠다니까.", Vector2(3, 1), 50, true);
+				speechUI->SayTalking("왜 다들 처음부터\n강한 공격을\n쓰지않는지\n모르겠다니까.", Vector2(3, 1), 10, true);
 			}
 		}
 	}
@@ -453,31 +459,18 @@ void GameLevel::Stage1_16(float DeltaTime)
 	}
 	if (TStage_1_16.Update(DeltaTime))
 	{
-		for (Actor* actor : actors)
-		{
-			Player* player = actor->As<Player>();
+		//for (Actor* actor : actors)
+		//{
+		//	Player* player = actor->As<Player>();
 
-			if (player != nullptr)
-			{
-				player->SwitchTurn();
-				//player->SetIsTurn(false);
-				//player->SetIsVisible(false);
-		
-	
-
-				//Vector2 playerActorPosition = player->GetActorPosition();
-
-				//playerActorPosition.x++;
-				//player->SetPosition(playerActorPosition);
-				//playerActorPosition.y--;
-				//player->SetPosition(playerActorPosition);
-
-				//playerActorPosition.x = ((Engine::Get().Width() + player->LeftSide) / 2 + 1);
-				//playerActorPosition.y = Engine::Get().Height() - 2;
-			}
-		}
-		DeleteMap();
-		ReadMapFile("map_talking.txt");
+		//	if (player != nullptr)
+		//	{
+		//		player->SwitchTurn();
+		//	}
+		//}
+		//DeleteMap();
+		//ReadMapFile("map_talking.txt");
+		TurnEnd();
 	}
 	TStage_1_17.Reset();
 }
@@ -492,6 +485,8 @@ void GameLevel::Stage1_17(float DeltaTime)
 	}
 	if (TStage_1_17.Update(DeltaTime))
 	{
+		PlaySound(L"../Assets/Sounds/sans_megalovania.wav", 0,
+			SND_FILENAME | SND_ASYNC | SND_LOOP);
 		for (Actor* actor : actors)
 		{
 			Player* player = actor->As<Player>();
@@ -500,7 +495,7 @@ void GameLevel::Stage1_17(float DeltaTime)
 			{
 				speechUI->SayTalking(
 					"* 당신은 끔찍한 시간을\n  보내게 될 것 같은\n  기분이 든다.",
-					Vector2(-33, 15), 50, true);
+					Vector2(-33, 15), 20, true);
 			}
 
 			if (player != nullptr)
@@ -509,8 +504,6 @@ void GameLevel::Stage1_17(float DeltaTime)
 	}
 	Engine::Get().LoadEngineSetting("EngineSettings_LargeMap.txt");
 	UIcontrollerNum = 1;
-
-	//++TurnCount; //
 }
 
 

@@ -23,6 +23,8 @@ public:
 
 	bool GetIsMoving() const;
 
+	void SetIsOnTheBlock(const bool IsOnTheBlock);
+
 	void SwitchTurn();
 private:
 	int hp;
@@ -31,5 +33,7 @@ private:
 	bool IsGravity = false; //파란색(중력적용) 상태인지?
 	int JumpTick = 0;
 	bool IsMoving = false;
+	bool IsOnTheBlock = false;
 	int TestMoving;
+	Vector2 velocity = Vector2(0, 1);
 };

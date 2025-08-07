@@ -10,7 +10,8 @@
 #include "Actor/Wall_Width.h"
 #include "Actor/ActorWall_Length.h"
 #include "Actor/ActorWall_Width.h"
-#include  "Actor/BreathActor.h"
+#include "Actor/BreathActor.h"
+#include "Actor/Block.h"
 #include "UI/Stat_UI.h"
 #include "UI/Speech_UI.h"
 
@@ -25,7 +26,7 @@ GameLevel::GameLevel()
 	SetConsoleTitle(L"♥ UnderTale");
 	//플레이어 맵 파일 리딩
 	ReadMapFile("map_small.txt");
-	PlaySound(L"../Assets/Sounds/sans_megalovania.wav", 0, SND_FILENAME | SND_ASYNC | SND_LOOP);
+	
 
 	//턴 카운트
 	TurnCount = 1;
@@ -38,12 +39,13 @@ GameLevel::GameLevel()
 
 	//파란색 뼈 움직이면 피해입음 기본뼈랑 같이써야댐
 	//AddActor(new MultiLine_Actor("../Assets/Actor/bone.txt",
-	//	Color::Blue, Vector2(55, 17), "BlueBoneLeft"));
+	//	Color::SkyBlue, Vector2(55, 18), "BlueBoneLeft"));
+
 	//AddActor(new MultiLine_Actor("../Assets/Actor/bone.txt",
-	//	Color::White, Vector2(64, 17), "Bone"));
+	//	Color::White, Vector2(64, 18), "Bone"));
 
 
-
+	//AddActor(new Block(Vector2(60,20),"Default"));
 
 	//UI
 	//공격 UI
@@ -89,7 +91,7 @@ GameLevel::GameLevel()
 
 
 	//인트로
-	IntroTimer.SetTargetTime(100.0f);
+	IntroTimer.SetTargetTime(1.0f);
 	BurningToHell.SetTargetTime(1.0f);
 
 	//스테이지1
@@ -108,9 +110,23 @@ GameLevel::GameLevel()
 	TStage_1_12.SetTargetTime(0.5f); //초대형 블래스터 삭제 및 슈퍼브레스
 	TStage_1_13.SetTargetTime(0.5f); //초대형 브레스 삭제
 	TStage_1_14.SetTargetTime(1.5f); //전투 끝 샌즈 대사 차례
-	TStage_1_15.SetTargetTime(0.5f); //전투 끝 샌즈 대사 차례
-	TStage_1_16.SetTargetTime(1.0f); //턴 1 끝 플레이어 차례
+	TStage_1_15.SetTargetTime(1.5f); //전투 끝 샌즈 대사 차례
+	TStage_1_16.SetTargetTime(1.0f); //턴 1 샌즈의 턴 종료
 	TStage_1_17.SetTargetTime(0.5f); //턴 1 끝 플레이어 차례
+
+	//스테이지 2
+	TStage_2_1.SetTargetTime(1.0f); //턴 2 시작 공격실패 샌즈의 턴
+	TStage_2_2.SetTargetTime(2.0f); //턴 2 시작 공격실패 샌즈의 턴
+	TStage_2_3.SetTargetTime(0.8f); //턴 2 샌즈의 공격
+	TStage_2_4.SetTargetTime(2.0f); //턴 2 샌즈의 턴 종료
+	TStage_2_5.SetTargetTime(0.5f); //턴 2 끝 플레이어의 차례
+
+	//스테이지 3
+	TStage_3_1.SetTargetTime(1.0f);
+	TStage_3_2.SetTargetTime(0.5f);
+	TStage_3_3.SetTargetTime(0.5f);
+	TStage_3_4.SetTargetTime(0.5f);
+
 }
 
 GameLevel::~GameLevel()
@@ -129,6 +145,8 @@ void GameLevel::BeginPlay()
 
 void GameLevel::Tick(float DeltaTime)
 {
+	//std::cout << "TurnCount: " << TurnCount;
+
 	Super::Tick(DeltaTime);
 
 	//LevelTest(DeltaTime);
@@ -147,6 +165,10 @@ void GameLevel::Tick(float DeltaTime)
 	//}
 	
 	//std::cout << UIcontrollerNum;
+	//if (TurnCount != 2)
+	//{
+	//	TStage_2_1.Reset();
+	//}
 
 	if (Input::GetController().GetKeyDown(VK_NUMPAD1))
 	{
@@ -207,7 +229,7 @@ void GameLevel::Tick(float DeltaTime)
 	//{
 	//	Stage1_5_3(DeltaTime);
 	//}
-	/////////////////////////////////////////////////
+	///////////////////////////////////////////////
 	//else if (!TStage_1_6.IsTimeOut())
 	//{
 	//	Stage1_6(DeltaTime);
@@ -236,19 +258,19 @@ void GameLevel::Tick(float DeltaTime)
 	//{
 	//	Stage1_12(DeltaTime);
 	//}
-	if (!TStage_1_13.IsTimeOut())
-	{
-		Stage1_13(DeltaTime);
-	}
-	else if (!TStage_1_14.IsTimeOut())
-	{
-		Stage1_14(DeltaTime);
-	}
-	else if (!TStage_1_15.IsTimeOut())
-	{
-		Stage1_15(DeltaTime);
-	}
-	else if (!TStage_1_16.IsTimeOut())
+	//else if (!TStage_1_13.IsTimeOut())
+	//{
+	//	Stage1_13(DeltaTime);
+	//}
+	//else if (!TStage_1_14.IsTimeOut())
+	//{
+	//	Stage1_14(DeltaTime);
+	//}
+	//else if (!TStage_1_15.IsTimeOut())
+	//{
+	//	Stage1_15(DeltaTime);
+	//}
+	if (!TStage_1_16.IsTimeOut())
 	{
 		Stage1_16(DeltaTime);
 	}
@@ -257,11 +279,53 @@ void GameLevel::Tick(float DeltaTime)
 		Stage1_17(DeltaTime);
 	}
 
+	//스테이지 2
+	else if (!TStage_2_1.IsTimeOut() && TurnCount == 2)
+	{
+		Stage2_1(DeltaTime);
+	}
+	else if (!TStage_2_2.IsTimeOut() && TurnCount == 2)
+	{
+		Stage2_2(DeltaTime);
+	}
+	else if (!TStage_2_3.IsTimeOut() && TurnCount == 2)
+	{
+		Stage2_3(DeltaTime);
+	}
+	else if (!TStage_2_4.IsTimeOut() && TurnCount == 2)
+	{
+		Stage2_4(DeltaTime);
+	}
+	else if (!TStage_2_5.IsTimeOut() && TurnCount == 2)
+	{
+		Stage2_5(DeltaTime);
+	}
+	else if (!TStage_3_1.IsTimeOut() && TurnCount == 3)
+	{
+		Stage3_1(DeltaTime);
+	}
+	else if (!TStage_3_2.IsTimeOut() && TurnCount == 3)
+	{
+		Stage3_2(DeltaTime);
+	}
+	else if (!TStage_3_3.IsTimeOut() && TurnCount == 3)
+	{
+		Stage3_3(DeltaTime);
+	}
+	else if (!TStage_3_4.IsTimeOut() && TurnCount == 3)
+	{
+		Stage3_4(DeltaTime);
+	}
+
+	//스테이지 3
+	
+
 	//테스트 용도
 	//std::cout << UIcontroller;
 	UIController();
-
+	ProcessCollisionPlayerAndBlock();
 	ProcessCollisionPlayerAndEnemyObject();
+
 }
 
 void GameLevel::ControllMainUI(MultiLine_UI* mainUI)
@@ -400,6 +464,7 @@ void GameLevel::UIController()
 		//}
 
 		//플레이어가 턴이 아닐때 UI조작하게 설정
+		//플레이어가 턴이 아닐때 UI조작하게 설정
 		if (PlayerIsTurn == false)
 		{
 			if (mainUI != nullptr)
@@ -457,17 +522,18 @@ void GameLevel::UIController()
 		{
 			bSansIsMoving = true;
 			TurnCount++;
-		}
-		else if (UIcontrollerNum == 1 && TurnCount >= 2)
+			TStage_2_1.Reset();
+		}	
+		else if (UIcontrollerNum == 1 && TurnCount == 2)
 		{
-			for (Actor* actor : actors)
-			{
-				Monster* sans = actor->As<Monster>();
-
-				if(sans != nullptr)
-					sans->SetSansLeftRight(true);
-			}
-			TurnCount++;
+			AttakSans();
+			TurnCount = 3;
+			TStage_3_1.Reset();
+		}
+		else if (UIcontrollerNum == 1 && TurnCount == 3)
+		{
+			AttakSans();
+			TurnCount = 4;
 		}
 	}
 }
@@ -486,7 +552,8 @@ void GameLevel::ProcessCollisionPlayerAndEnemyObject()
 		BreathActor* BreathObject = actor->As<BreathActor>();
 
 		//만약 파란색이 아니면 그냥 적 액터리스트에담고 맞으면 파란적리스트에 넣음
-		if (EnemyObject != nullptr && !(EnemyObject->CheckTag("BlueBone"))) //적 오브젝트 발견
+		if (EnemyObject != nullptr && !EnemyObject->CheckTag("BlueBoneLeft")
+			&& !EnemyObject->CheckTag("BlueBoneRight")) //적 오브젝트 발견
 		{
 			EnemyObject_Actor.emplace_back(EnemyObject); // 배열에 추가
 			continue;
@@ -512,7 +579,7 @@ void GameLevel::ProcessCollisionPlayerAndEnemyObject()
 	}
 
 	//적 오브젝트를 담은 배열의 크기가 0이거나 플레이어를 못찾았을시
-	if (EnemyObject_Actor.size() == 0 && Breath_Actor.size() == 0 || !player)
+	if (BlueEnemyObject_Actor.size() == 0 && EnemyObject_Actor.size() == 0 && Breath_Actor.size() == 0 || !player)
 	{
 		return;
 	}
@@ -558,6 +625,47 @@ void GameLevel::ProcessCollisionPlayerAndEnemyObject()
 	}
 }
 
+void GameLevel::ProcessCollisionPlayerAndBlock()
+{
+	Player* player = nullptr;
+
+	std::vector<Block*> block_Actor;
+
+	for (Actor* const actor : actors)
+	{
+		Block* block = actor->As<Block>();
+
+		if (block != nullptr)
+		{
+			block_Actor.emplace_back(block);
+			continue;
+		}
+
+		if (player == nullptr) //플레이어를 못찾았을시
+		{
+			player = actor->As<Player>(); // 찾기
+		}
+	}
+
+	if (block_Actor.size() == 0 || player == nullptr)
+	{
+		return;
+	}
+
+	bool isonblock = false;
+
+		for (auto* Ablock_Actor : block_Actor)
+		{
+			if (player->GetIsTurn() && player->TestIntersect_Block(Ablock_Actor))
+			{
+				isonblock = true;
+				break;
+			}
+		}
+
+		player->SetIsOnTheBlock(isonblock);
+}
+
 
 
 void GameLevel::DeleteMap()
@@ -576,6 +684,64 @@ void GameLevel::DeleteMap()
 		{
 			wallWidth->Destroy();
 		}
+	}
+}
+
+void GameLevel::TurnStart()
+{
+	DeleteMap();
+	ReadMapFile("map.txt");
+
+	for (Actor* actor : actors)
+	{
+		Player* player = actor->As<Player>();
+
+		if (player != nullptr)
+		{
+			player->SwitchTurn();
+		}
+	}
+}
+
+void GameLevel::TurnStart_MiniMap()
+{
+	DeleteMap();
+	ReadMapFile("map_small.txt");
+
+	for (Actor* actor : actors)
+	{
+		Player* player = actor->As<Player>();
+
+		if (player != nullptr)
+		{
+			player->SwitchTurn();
+		}
+	}
+}
+
+void GameLevel::TurnEnd()
+{
+	for (Actor* actor : actors)
+	{
+		Player* player = actor->As<Player>();
+
+		if (player != nullptr)
+		{
+			player->SwitchTurn();
+		}
+	}
+	DeleteMap();
+	ReadMapFile("map_talking.txt");
+}
+
+void GameLevel::AttakSans()
+{
+	for (Actor* actor : actors)
+	{
+		Monster* sans = actor->As<Monster>();
+
+		if (sans != nullptr)
+			sans->SetSansLeftRight(true);
 	}
 }
 

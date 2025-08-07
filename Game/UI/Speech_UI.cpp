@@ -97,6 +97,9 @@ void Speech_UI::SayTalking(const char* say, Vector2 position,DWORD talkSpeed,
 	}
 	maxWidth = std::max<int>(maxWidth, currentWdith);
 
+	if(EndSleep == true)
+		Sleep(500);
+
 	for (int row = 0; row < lineoffset; ++row)
 	{
 		cursor = Vector2(StartPosition.x, StartPosition.y + row);
@@ -106,6 +109,8 @@ void Speech_UI::SayTalking(const char* say, Vector2 position,DWORD talkSpeed,
 			std::cout << ' ';
 		}
 	}
+
+
 
 	//for (int i = 0; i < length; i++)
 	//{
@@ -126,10 +131,7 @@ void Speech_UI::SayTalking(const char* say, Vector2 position,DWORD talkSpeed,
 	//	std::cout << say2[i];
 	//	sleep(100);
 	//}
-	if (EndSleep == true)
-	{
-		Sleep(250);
-	}
+
 	//system("cls");
 	SetConsoleOutputCP(CP_UTF8);
 }

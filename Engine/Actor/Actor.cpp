@@ -258,6 +258,73 @@ bool Actor::TestIntersect(const Actor* const other)
     }
 }
 
+//bool Actor::TestIntersect_Block(const Actor* const other)
+//{
+//    if (!IsUI)
+//    {
+//        //이 액터의 x좌표 정보
+//        int xMin = actorPosition.x;
+//        int xMax = actorPosition.x + width - 1;
+//
+//
+//        //이 액터의 y 좌표 정보
+//        
+//        //충돌비교할 다른 액터의 x좌표 정보
+//        int other_xMin = other->actorPosition.x;
+//        int other_xMax = other->actorPosition.x + other->width - 1;
+//
+//        //다른 액터의 y좌표 정보
+//
+//        //안겹치는 조건 확인 
+//        if (other_xMin > xMax)
+//        {
+//            return false;
+//        }
+//
+//        if (other_xMax < xMin)
+//        {
+//            return false;
+//        }
+//
+//
+//        //액터의 y좌표랑 액터의 좌표(cmd라 -1gkaus
+//        return actorPosition.y == other->actorPosition.y - 1;
+//    }
+//}
+
+bool Actor::TestIntersect_Block(const Actor* const other)
+{
+    if (IsUI || other == nullptr)
+    {
+        return false;
+    }
+
+    // 내 위치 범위
+    int myLeft = actorPosition.x;
+    int myRight = actorPosition.x + width - 1;
+    int myTop = actorPosition.y;
+    int myBottom = actorPosition.y + height - 1;
+
+    // 상대 액터의 위치 범위
+    int otherLeft = other->actorPosition.x;
+    int otherRight = other->actorPosition.x + other->width - 1;
+    int otherTop = other->actorPosition.y - 1;
+    int otherBottom = other->actorPosition.y + other->height - 1;
+
+    // x축 충돌 안 함
+    if (myRight < otherLeft || myLeft > otherRight)
+        return false;
+
+    // y축 충돌 안 함
+    if (myBottom < otherTop || myTop > otherBottom)
+        return false;
+
+    // 충돌함
+    return true;
+}
+
+
+
 void Actor::Destroy()
 {
     isExpired = true;
