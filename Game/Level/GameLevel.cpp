@@ -117,15 +117,15 @@ GameLevel::GameLevel()
 	//스테이지 2
 	TStage_2_1.SetTargetTime(1.0f); //턴 2 시작 공격실패 샌즈의 턴
 	TStage_2_2.SetTargetTime(2.0f); //턴 2 시작 공격실패 샌즈의 턴
-	TStage_2_3.SetTargetTime(0.8f); //턴 2 샌즈의 공격
+	TStage_2_3.SetTargetTime(0.6f); //턴 2 샌즈의 공격
 	TStage_2_4.SetTargetTime(2.0f); //턴 2 샌즈의 턴 종료
 	TStage_2_5.SetTargetTime(0.5f); //턴 2 끝 플레이어의 차례
 
 	//스테이지 3
 	TStage_3_1.SetTargetTime(1.0f);
 	TStage_3_2.SetTargetTime(0.5f);
-	TStage_3_3.SetTargetTime(0.5f);
-	TStage_3_4.SetTargetTime(0.5f);
+	TStage_3_3.SetTargetTime(0.1f);
+	TStage_3_4.SetTargetTime(0.1f);
 
 }
 
@@ -788,13 +788,13 @@ void GameLevel::Intro(float DeltaTime)
 			{
 				speechUI->SetIsVisible(true);
 				speechUI->SayTalking
-				("오늘은 정말 \n아름다운날이야", Vector2(3, 2), 100, true);
+				("오늘은 정말 \n아름다운날이야", Vector2(3, 2), 100, true,"SansTalking");
 				Sleep(100);
 				speechUI->SayTalking
-				("새들은 지저귀고 \n꽃들은 피어나고", Vector2(3, 2), 100, true);
+				("새들은 지저귀고 \n꽃들은 피어나고", Vector2(3, 2), 100, true,"SansTalking");
 				Sleep(100);
 				speechUI->SayTalking
-				("이런날엔, 너같은\n꼬마들은...", Vector2(3, 2), 100, true);
+				("이런날엔, 너같은\n꼬마들은...", Vector2(3, 2), 100, true,"SansTalking");
 				speechUI->BlackOut();
 			}
 		}
@@ -821,7 +821,7 @@ void GameLevel::BlackOut_1(float DeltaTime)
 			if (speechUI != nullptr)
 			{
 				speechUI->SayTalking
-				("지옥에서 \n불타야해", Vector2(3, 2), 200, false);
+				("지옥에서 \n불타야해", Vector2(3, 2), 200, false,"SansTalking");
 			}
 		}
 	}

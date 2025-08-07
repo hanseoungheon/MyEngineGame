@@ -12,6 +12,8 @@ public:
 	BreathActor(const char* filePath, Color color, const
 		Vector2& position, const char* Tag = "default");
 
+	~BreathActor();
+
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void Render() override;

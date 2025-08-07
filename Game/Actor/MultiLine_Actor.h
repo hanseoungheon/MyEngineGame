@@ -11,6 +11,8 @@ public:
 	MultiLine_Actor(const char* filePath, Color color, const
 		Vector2& position,const char * Tag = "default");
 
+	~MultiLine_Actor();
+
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void Render() override;

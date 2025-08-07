@@ -9,6 +9,7 @@ public:
 	Stat_UI(const char * name,Color color,const Vector2& position,
 		char Tag = 'd'); //default
 
+
 	virtual void Tick(float DeltaTime) override;
 
 	char GetSingleStatImage() const;

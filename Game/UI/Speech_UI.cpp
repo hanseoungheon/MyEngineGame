@@ -1,5 +1,6 @@
 #include "Speech_UI.h"
 #include "Utils/Utils.h"
+#include "Input.h"
 #include <algorithm>
 #include <Windows.h>
 
@@ -8,8 +9,10 @@ Speech_UI::Speech_UI(const char* filePath, Color color, const Vector2& position)
 {
 	SetSortingOrder(1);
 
-	//타입 정의
 
+
+
+	//타입 정의
 	FILE* file = nullptr;
 	fopen_s(&file, filePath, "rt");
 
@@ -39,6 +42,14 @@ Speech_UI::Speech_UI(const char* filePath, Color color, const Vector2& position)
 	fclose(file);
 }
 
+Speech_UI::~Speech_UI()
+{
+	if (NameTag != nullptr)
+	{
+		delete[] NameTag;
+	}
+}
+
 void Speech_UI::Render()
 {
 	Utils::SetConsoleTextColor(color);
@@ -52,17 +63,41 @@ void Speech_UI::Render()
 	}
 }
 
-void Speech_UI::SayTalking(const char* say, Vector2 position,DWORD talkSpeed,
-	bool EndSleep)
+void Speech_UI::Tick(float DeltaTime)
 {
+
+	if (Input::GetController().GetKeyDown(VK_RETURN) && CheckTag("CharaTalking"))
+	{
+		SetConsoleOutputCP(949);
+		for (int row = 0; row < lineoffset; ++row)
+		{
+			cursor = Vector2(StartPosition.x, StartPosition.y + row);
+			Utils::SetConsolePosition(cursor);
+			for (int col = 0; col < maxWidth; ++col)
+			{
+				std::cout << ' ';
+			}
+		}
+		SetConsoleOutputCP(CP_UTF8);
+	}
+}
+
+void Speech_UI::SayTalking(const char* say, Vector2 position,DWORD talkSpeed,
+	bool EndSleep,const char * name)
+{
+	if (name != nullptr)
+	{
+		size_t length = strlen(name) + 1;
+		NameTag = new char[length];
+		strcpy_s(NameTag, length, name);
+	}
+
 	SetConsoleOutputCP(949);
-	Vector2 StartPosition = actorPosition + position;
-	Vector2 cursor = StartPosition;
+	StartPosition = actorPosition + position;
+	cursor = StartPosition;
 
 	Utils::SetConsolePosition(cursor);
-	//const char* say1 = "정말 아름다운";
-	//char say2[] = "날이야";
-	int lineoffset = 0;
+	lineoffset = 0;
 	int length = static_cast<int>(strlen(say) + 1);
 
 	int firstLength = 0;
@@ -80,7 +115,7 @@ void Speech_UI::SayTalking(const char* say, Vector2 position,DWORD talkSpeed,
 	}
 
 	lineoffset = 1;
-	int maxWidth = 0;
+	maxWidth = 0;
 	int currentWdith = 0;
 	for (int i = 0; say[i] != '\0'; ++i)
 	{
@@ -100,39 +135,19 @@ void Speech_UI::SayTalking(const char* say, Vector2 position,DWORD talkSpeed,
 	if(EndSleep == true)
 		Sleep(500);
 
-	for (int row = 0; row < lineoffset; ++row)
+	if (CheckTag("SansTalking"))
 	{
-		cursor = Vector2(StartPosition.x, StartPosition.y + row);
-		Utils::SetConsolePosition(cursor);
-		for (int col = 0; col < maxWidth; ++col)
+		for (int row = 0; row < lineoffset; ++row)
 		{
-			std::cout << ' ';
+			cursor = Vector2(StartPosition.x, StartPosition.y + row);
+			Utils::SetConsolePosition(cursor);
+			for (int col = 0; col < maxWidth; ++col)
+			{
+				std::cout << ' ';
+			}
 		}
+		SetConsoleOutputCP(CP_UTF8);
 	}
-
-
-
-	//for (int i = 0; i < length; i++)
-	//{
-	//	if (say[i] == '\n')
-	//	{
-	//		lineoffset++;
-	//		cursor = Vector2(StartPosition.x, StartPosition.y + lineoffset);
-	//		Utils::SetConsolePosition(cursor);
-	//		continue;
-	//	}
-	//	std::cout << " ";
-	//}
-
-
-	//Utils::Setconsoleposition(actorposition + vector2(3,3));
-	//for (int i = 0; i < 7; i++)
-	//{
-	//	std::cout << say2[i];
-	//	sleep(100);
-	//}
-
-	//system("cls");
 	SetConsoleOutputCP(CP_UTF8);
 }
 
@@ -140,6 +155,16 @@ void Speech_UI::BlackOut()
 {
 	system("cls");
 	Sleep(1000);
+}
+
+bool Speech_UI::CheckTag(const char * name)
+{
+	if (NameTag != nullptr)
+	{
+		if (std::strcmp(NameTag, name) == 0)
+			return true;
+	}
+		return false;
 }
 
 //void Speech_UI::

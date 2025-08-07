@@ -22,8 +22,8 @@ Monster::Monster(const char* filePath, Color color,
 	while (fgets(buffer, sizeof(buffer), file))
 	{
 		size_t length = strlen(buffer);
-		if (length > 0 && (buffer[length - 1] == '\n') ||
-			buffer[length - 1] == '\r')
+		if (length > 0 && 
+			(buffer[length-1] == '\n' || buffer[length-1] == '\r'))
 		{
 			buffer[length] = '\0';
 			if (length > 1 && buffer[length - 2] == '\r')
@@ -51,6 +51,15 @@ Monster::Monster(const char* filePath, Color color,
 	//¾ÈÁö¿öÁü? 
 	IsSansMoving = true;
 	LeftRight = true;
+}
+
+Monster::~Monster()
+{
+	if (NameTag != nullptr)
+	{
+		delete[] NameTag;
+	}
+
 }
 
 void Monster::Tick(float DeltaTime)

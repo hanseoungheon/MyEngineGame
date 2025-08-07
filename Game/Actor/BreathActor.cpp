@@ -53,6 +53,14 @@ BreathActor::BreathActor(const char* filePath, Color color,
 	JumpTick = 0;
 }
 
+BreathActor::~BreathActor()
+{
+	if (NameTag != nullptr)
+	{
+		delete[] NameTag;
+	}
+}
+
 void BreathActor::Tick(float DeltaTime)
 {
 	if (Input::GetController().GetKey(VK_NUMPAD9))

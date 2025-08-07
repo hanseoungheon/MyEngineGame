@@ -7,7 +7,10 @@ class Block : public Actor
 
 public:
 	Block(const Vector2& position,const char* Tag);
+	~Block();
+
 	virtual void Tick(float DeltaTime) override;
+
 
 	bool CheckTag(const char* name);
 private:

@@ -440,9 +440,9 @@ void GameLevel::Stage1_15(float DeltaTime)
 
 			if (speechUI != nullptr)
 			{
-				speechUI->SayTalking("흠..", Vector2(3, 2), 100, true);
+				speechUI->SayTalking("흠..", Vector2(3, 2), 100, true, "SansTalking");
 				Sleep(500);
-				speechUI->SayTalking("왜 다들 처음부터\n강한 공격을\n쓰지않는지\n모르겠다니까.", Vector2(3, 1), 10, true);
+				speechUI->SayTalking("왜 다들 처음부터\n강한 공격을\n쓰지않는지\n모르겠다니까.", Vector2(3, 1), 10, true, "SansTalking");
 			}
 		}
 	}
@@ -495,7 +495,7 @@ void GameLevel::Stage1_17(float DeltaTime)
 			{
 				speechUI->SayTalking(
 					"* 당신은 끔찍한 시간을\n  보내게 될 것 같은\n  기분이 든다.",
-					Vector2(-33, 15), 20, true);
+					Vector2(-33, 15), 20, true, "CharaTalking");
 			}
 
 			if (player != nullptr)

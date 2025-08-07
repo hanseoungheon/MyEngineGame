@@ -12,6 +12,8 @@ public:
 	Monster(const char* filePath, Color color, const
 		Vector2& position, const char* Tag = "default");
 
+	~Monster();
+
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void Render() override;

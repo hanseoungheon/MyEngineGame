@@ -13,6 +13,7 @@ Stat_UI::Stat_UI(const char* name,Color color
 	this->Tag = Tag;
 }
 
+
 void Stat_UI::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);

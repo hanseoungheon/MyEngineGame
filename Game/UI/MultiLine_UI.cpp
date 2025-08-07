@@ -46,6 +46,14 @@ MultiLine_UI::MultiLine_UI(const char* filePath, Color color,
 	}
 }
 
+MultiLine_UI::~MultiLine_UI()
+{
+	if (NameTag != nullptr)
+	{
+		delete[] NameTag;
+	}
+}
+
 void MultiLine_UI::Render()
 {
 	Utils::SetConsoleTextColor(color);

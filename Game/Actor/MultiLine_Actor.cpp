@@ -23,8 +23,7 @@ MultiLine_Actor::MultiLine_Actor(const char* filePath, Color color,
 	{
 		size_t length = strlen(buffer);
 		if (length > 0 && 
-			(buffer[length -1] == '\n' ||buffer[length - 1] == '\r')
-			)
+			(buffer[length -1] == '\n' || buffer[length - 1] == '\r'))
 		{
 			buffer[length] = '\0';
 			if (length > 1 && buffer[length - 2] == '\r')
@@ -58,6 +57,14 @@ MultiLine_Actor::MultiLine_Actor(const char* filePath, Color color,
 	}
 
 	JumpTick = 0;
+}
+
+MultiLine_Actor::~MultiLine_Actor()
+{
+	if (NameTag != nullptr)
+	{
+		delete[] NameTag;
+	}
 }
 
 

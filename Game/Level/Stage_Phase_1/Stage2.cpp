@@ -28,7 +28,7 @@ void GameLevel::Stage2_1(float DeltaTime)
 			if (speechUI != nullptr)
 			{
 				speechUI->SayTalking("뭐?\n내가 가만히 서서\n맞아 줄거라 생각했어?",
-					Vector2(3, 2), 20, true);
+					Vector2(3, 2), 20, true, "SansTalking");
 			}
 		}
 	}
@@ -96,7 +96,6 @@ void GameLevel::Stage2_4(float DeltaTime)
 
 	if (TStage_2_4.Update(DeltaTime))
 	{
-		CheckPlayerGravity();
 		TurnEnd();
 	}
 	TStage_2_5.Reset();
@@ -120,7 +119,7 @@ void GameLevel::Stage2_5(float DeltaTime)
 			{
 				speechUI->SayTalking(
 					"* 당신은 죄악이 등을 타고\n  오르는 것을 느꼈다.",
-					Vector2(-33, 15), 20, true);
+					Vector2(-33, 15), 20, true, "CharaTalking");
 			}
 		}
 	}

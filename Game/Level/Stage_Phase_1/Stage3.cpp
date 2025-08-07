@@ -28,7 +28,7 @@ void GameLevel::Stage3_1(float DeltaTime)
 			{
 				speechUI->SayTalking(
 					"우린 시공간의\n연속성에\n막대한 변칙이\n있다는걸 발견했어",
-					Vector2(3, 1), 20, true);
+					Vector2(3, 1), 20, true, "SansTalking");
 			}
 		}
 	}
@@ -54,7 +54,7 @@ void GameLevel::Stage3_2(float DeltaTime)
 			{
 				speechUI->SayTalking(
 					"시공간이 좌충우돌\n움직이고\n다시 시작하고...",
-					Vector2(3, 1), 20, true);
+					Vector2(3, 1), 20, true, "SansTalking");
 			}
 		}
 	}
@@ -86,7 +86,6 @@ void GameLevel::Stage3_4(float DeltaTime)
 		return;
 	}
 
-	CheckPlayerGravity();
 
 	//AddActor(new MultiLine_Actor("../Assets/Actor/bone.txt",
 	//	Color::SkyBlue, Vector2(51, 18), "BlueBoneLeft"));
@@ -94,6 +93,8 @@ void GameLevel::Stage3_4(float DeltaTime)
 	//	Color::SkyBlue, Vector2(41, 17), "BlueBoneRight"));
 	AddActor(new MultiLine_Actor("../Assets/Actor/Stage3/bone_stage3_mini.txt",
 		Color::White, Vector2(74, 22), "Left"));
+
+	//Sleep(1000);
 
 }
 

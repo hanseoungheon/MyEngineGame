@@ -10,6 +10,13 @@ Block::Block(const Vector2& position,const char* Tag) : Actor("[===]",Color::Int
 		strcpy_s(NameTag, length, Tag);
 	}
 }
+Block::~Block()
+{
+	if (NameTag != nullptr)
+	{
+		delete[] NameTag;
+	}
+}
 
 void Block::Tick(float DeltaTime)
 {
