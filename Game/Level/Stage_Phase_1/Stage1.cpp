@@ -442,7 +442,7 @@ void GameLevel::Stage1_15(float DeltaTime)
 			{
 				speechUI->SayTalking("흠..", Vector2(3, 2), 100, true, "SansTalking");
 				Sleep(500);
-				speechUI->SayTalking("왜 다들 처음부터\n강한 공격을\n쓰지않는지\n모르겠다니까.", Vector2(3, 1), 10, true, "SansTalking");
+				speechUI->SayTalking("왜 다들 처음부터\n강한 공격을\n쓰지않는지\n모르겠다니까.", Vector2(3, 1), 20, true, "SansTalking");
 			}
 		}
 	}

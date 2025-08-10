@@ -133,9 +133,9 @@ GameLevel::GameLevel()
 	TStage_3_2.SetTargetTime(0.5f);
 	TStage_3_3.SetTargetTime(0.1f);
 	TStage_3_4.SetTargetTime(0.5f);
-	TStage_3_5.SetTargetTime(0.5f);
-	TStage_3_6.SetTargetTime(0.5f);
-	TStage_3_7.SetTargetTime(0.5f);
+	TStage_3_5.SetTargetTime(0.3f);
+	TStage_3_6.SetTargetTime(0.3f);
+	TStage_3_7.SetTargetTime(0.3f);
 	TStage_3_8.SetTargetTime(1.0f);
 	TStage_3_9.SetTargetTime(0.5f);
 
@@ -916,6 +916,10 @@ void GameLevel::GameOver(float DeltaTime)
 
 	if (player && player->GetHp() <= 0)
 	{
+		mciSendStringW(L"stop bgm", NULL, 0, NULL);
+		mciSendStringW(L"close bgm", NULL, 0, NULL);
+		mciSendStringW(L"stop se", NULL, 0, NULL);
+		mciSendStringW(L"close se", NULL, 0, NULL);
 		// 한 번만 실행
 		bGameOverTriggered = true;
 
@@ -930,7 +934,7 @@ void GameLevel::GameOver(float DeltaTime)
 		if (speechUI) {
 			speechUI->SayTalking(
 				"Chara! 의지를 가져야 한다.\n어서 일어나렴!",
-				Vector2(-33, 15), 50, true, "CharaTalking");
+				Vector2(-33, 15), 100, true, "CharaTalking");
 		}
 
 		// 종료 대기 타이머 리셋
