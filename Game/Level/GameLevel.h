@@ -25,6 +25,7 @@ private:
 	void MakeAttackUIFile();
 
 	void CheckPlayerGravity();
+	void SettingPlayerGravity(bool SetBool);
 	void UIController();
 	void ProcessCollisionPlayerAndEnemyObject();
 	void ProcessCollisionPlayerAndBlock();
@@ -52,10 +53,17 @@ private:
 	bool AttackTrigger = false;
 
 	bool HadEatenFood;
-	bool EatFoodTwo;
+	bool TurnTwoFristFoodCheck = false;
 
 	//bool isonblock = false;
+	bool bGameOverTriggered = false;
+	Timer GameOverDelay{ 2.0f };
+	bool DieToDark = false;
 public:
+
+	void GameOver(float DeltaTime);
+	void Die();
+	void DieToClearFront();
 	void DeleteMap();
 	void DeleteAttackUI();
 
@@ -111,6 +119,22 @@ public:
 	void Stage3_8(float DeltaTime);
 	void Stage3_9(float DeltaTime);
 
+	//스테이지 4
+	void Stage4_1(float DeltaTime);
+	void Stage4_2(float DeltaTime);
+	void Stage4_3(float DeltaTime);
+	void Stage4_3_1(float DeltaTime);
+	void Stage4_4(float DeltaTime);
+	void Stage4_5(float DeltaTime);
+	void Stage4_6(float DeltaTime);
+	void Stage4_7(float DeltaTime);
+
+	//스테이지 5
+	void Stage5_1(float DeltaTime);
+	void Stage5_2(float DeltaTime);
+	void Stage5_3(float DeltaTime);
+	void Stage5_4(float DeltaTime);
+
 private:
 
 	//반복시 반복재생을 위한 카운트변수
@@ -164,9 +188,28 @@ private:
 	Timer TStage_3_8;
 	Timer TStage_3_9;
 
+	//스테이지 4 타이머
+	Timer TStage_4_1;
+	Timer TStage_4_2;
+	Timer TStage_4_3;
+	Timer TStage_4_3_1;
+	Timer TStage_4_4;
+	Timer TStage_4_5;
+	Timer TStage_4_6;
+	Timer TStage_4_7;
+
+	//스테이지 5 타이머
+	Timer TStage_5_1;
+	Timer TStage_5_2;
+	Timer TStage_5_3;
+	Timer TStage_5_4;
+
+
 	//턴 카운트
 	int TurnCount;
 	bool bSansIsMoving = false;
+	
+	//게임 오버 체크
 	//bool bSansLeftRight = true;
 public:
 	void Attack();

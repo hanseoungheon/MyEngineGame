@@ -26,6 +26,7 @@ void Player::Tick(float DeltaTime)
 	//std::cout << "IsMoving :" << IsMoving;
 	//IsOnTheBlock = false;
 	
+
 	//중력구현
 	if (IsGravity && !IsOnTheBlock && !Input::GetController().GetKey(VK_UP) && JumpTick % 2 == 0)
 	{
@@ -162,6 +163,16 @@ void Player::ChangeToIsGravity()
 		SetColor(Color::Red);
 }
 
+void Player::SettingToGravity(bool SetGravity)
+{
+	IsGravity = SetGravity;
+
+	if (IsGravity)
+		SetColor(Color::Blue);
+	else
+		SetColor(Color::Red);
+}
+
 bool Player::GetIsTurn() const
 {
 	return IsTurn;
@@ -190,6 +201,16 @@ bool Player::GetIsMoving() const
 void Player::SetIsOnTheBlock(const bool IsOnTheBlock)
 {
 	this->IsOnTheBlock = IsOnTheBlock;
+}
+
+bool Player::GetDieCheck() const
+{
+	return DieCheck;
+}
+
+void Player::SetDieCheck(const bool DieCheck)
+{
+	this->DieCheck = DieCheck;
 }
 
 void Player::SwitchTurn()

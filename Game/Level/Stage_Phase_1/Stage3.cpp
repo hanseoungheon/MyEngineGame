@@ -169,6 +169,12 @@ void GameLevel::Stage3_8(float DeltaTime)
 
 	if (TStage_3_8.Update(DeltaTime))
 	{
+		if (HadEatenFood == true)
+		{
+			HadEatenFood = false;
+			//EatFoodTwo = !EatFoodTwo;
+		}
+
 		TurnEnd();
 	}
 	TStage_3_9.Reset();

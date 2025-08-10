@@ -93,10 +93,9 @@ GameLevel::GameLevel()
 	UIcontrollerNum = 1;
 	bSansIsMoving = false;
 	HadEatenFood = false;
-	EatFoodTwo = false;
+	//EatFoodTwo = false;
 	//testUImode = false;
 	//levelTimer.SetTargetTime(2.0f);
-
 
 	//인트로
 	IntroTimer.SetTargetTime(0.1f);
@@ -125,7 +124,7 @@ GameLevel::GameLevel()
 	//스테이지 2
 	TStage_2_1.SetTargetTime(1.0f); //턴 2 시작 공격실패 샌즈의 턴
 	TStage_2_2.SetTargetTime(2.0f); //턴 2 시작 공격실패 샌즈의 턴
-	TStage_2_3.SetTargetTime(0.7f); //턴 2 샌즈의 공격
+	TStage_2_3.SetTargetTime(0.5f); //턴 2 샌즈의 공격
 	TStage_2_4.SetTargetTime(2.0f); //턴 2 샌즈의 턴 종료
 	TStage_2_5.SetTargetTime(0.5f); //턴 2 끝 플레이어의 차례
 
@@ -139,6 +138,23 @@ GameLevel::GameLevel()
 	TStage_3_7.SetTargetTime(0.5f);
 	TStage_3_8.SetTargetTime(1.0f);
 	TStage_3_9.SetTargetTime(0.5f);
+
+	//스테이지 4
+	TStage_4_1.SetTargetTime(1.0f); //턴 4 시작 공격실패 샌즈의 턴
+	TStage_4_2.SetTargetTime(0.5f); 
+	TStage_4_3.SetTargetTime(0.5f); 
+	TStage_4_3_1.SetTargetTime(1.0f); 
+	TStage_4_4.SetTargetTime(0.5f); 
+	TStage_4_5.SetTargetTime(1.0f); 
+	TStage_4_6.SetTargetTime(2.0f); 
+	TStage_4_7.SetTargetTime(0.5f); 
+
+	//스테이지 5
+	TStage_5_1.SetTargetTime(1.0f); 
+	TStage_5_2.SetTargetTime(1.0f);
+	TStage_5_3.SetTargetTime(1.0f);
+	TStage_5_4.SetTargetTime(1.0f);
+
 
 	AttackTrigger = false;
 }
@@ -159,13 +175,9 @@ void GameLevel::BeginPlay()
 
 void GameLevel::Tick(float DeltaTime)
 {
-	std::cout << EatFoodTwo;
-
-	//if (HadEatenFood)
-	//	__debugbreak();
-
 	Super::Tick(DeltaTime);
-
+	GameOver(DeltaTime);
+	DieToClearFront();
 	//LevelTest(DeltaTime);
 
 	//if (Input::GetController().GetKeyDown(VK_CONTROL))
@@ -206,84 +218,84 @@ void GameLevel::Tick(float DeltaTime)
 	}
 
 	//Stage1 타이머
-	//if (!IntroTimer.IsTimeOut())
-	//{
-	//	Intro(DeltaTime);
-	//}
-	//else if (!BurningToHell.IsTimeOut())
-	//{
-	//	BlackOut_1(DeltaTime);
-	//}
-	//else if (!TStage_1_1.IsTimeOut())
-	//{
-	//	Stage1_1(DeltaTime);
-	//}
-	//else if (!TStage_1_2.IsTimeOut())
-	//{
-	//	Stage1_2(DeltaTime);
-	//}
-	//else if (!TStage_1_3.IsTimeOut())
-	//{
-	//	Stage1_3(DeltaTime);
-	//}
-	//else if (!TStage_1_4.IsTimeOut())
-	//{
-	//	Stage1_4(DeltaTime);
-	//}
-	//else if (!TStage_1_5.IsTimeOut())
-	//{
-	//	Stage1_5(DeltaTime);
-	//}
-	//else if (!TStage_1_5_Array.IsTimeOut() && TimerArrayCount == 1)
-	//{
-	//	Stage1_5_1(DeltaTime);
-	//}
-	//else if (!TStage_1_5_Array.IsTimeOut() && TimerArrayCount == 2)
-	//{
-	//	Stage1_5_2(DeltaTime);
-	//}
-	//else if (!TStage_1_5_Array.IsTimeOut() && TimerArrayCount == 3)
-	//{
-	//	Stage1_5_3(DeltaTime);
-	//}
-	///////////////////////////////////////////////
-	//else if (!TStage_1_6.IsTimeOut())
-	//{
-	//	Stage1_6(DeltaTime);
-	//}
-	//else if (!TStage_1_7.IsTimeOut())
-	//{
-	//	Stage1_7(DeltaTime);
-	//}
-	//else if (!TStage_1_8.IsTimeOut())
-	//{
-	//	Stage1_8(DeltaTime);
-	//}
-	//else if (!TStage_1_9.IsTimeOut())
-	//{
-	//	Stage1_9(DeltaTime);
-	//}
-	//else if (!TStage_1_10.IsTimeOut())
-	//{
-	//	Stage1_10(DeltaTime);
-	//}
-	//else if (!TStage_1_11.IsTimeOut())
-	//{
-	//	Stage1_11(DeltaTime);
-	//}
-	//else if (!TStage_1_12.IsTimeOut())
-	//{
-	//	Stage1_12(DeltaTime);
-	//}
-	//else if (!TStage_1_13.IsTimeOut())
-	//{
-	//	Stage1_13(DeltaTime);
-	//}
-	//else if (!TStage_1_14.IsTimeOut())
-	//{
-	//	Stage1_14(DeltaTime);
-	//}
-	if (!TStage_1_15.IsTimeOut())
+	if (!IntroTimer.IsTimeOut())
+	{
+		Intro(DeltaTime);
+	}
+	else if (!BurningToHell.IsTimeOut())
+	{
+		BlackOut_1(DeltaTime);
+	}
+	else if (!TStage_1_1.IsTimeOut())
+	{
+		Stage1_1(DeltaTime);
+	}
+	else if (!TStage_1_2.IsTimeOut())
+	{
+		Stage1_2(DeltaTime);
+	}
+	else if (!TStage_1_3.IsTimeOut())
+	{
+		Stage1_3(DeltaTime);
+	}
+	else if (!TStage_1_4.IsTimeOut())
+	{
+		Stage1_4(DeltaTime);
+	}
+	else if (!TStage_1_5.IsTimeOut())
+	{
+		Stage1_5(DeltaTime);
+	}
+	else if (!TStage_1_5_Array.IsTimeOut() && TimerArrayCount == 1)
+	{
+		Stage1_5_1(DeltaTime);
+	}
+	else if (!TStage_1_5_Array.IsTimeOut() && TimerArrayCount == 2)
+	{
+		Stage1_5_2(DeltaTime);
+	}
+	else if (!TStage_1_5_Array.IsTimeOut() && TimerArrayCount == 3)
+	{
+		Stage1_5_3(DeltaTime);
+	}
+	/////////////////////////////////////////////
+	else if (!TStage_1_6.IsTimeOut())
+	{
+		Stage1_6(DeltaTime);
+	}
+	else if (!TStage_1_7.IsTimeOut())
+	{
+		Stage1_7(DeltaTime);
+	}
+	else if (!TStage_1_8.IsTimeOut())
+	{
+		Stage1_8(DeltaTime);
+	}
+	else if (!TStage_1_9.IsTimeOut())
+	{
+		Stage1_9(DeltaTime);
+	}
+	else if (!TStage_1_10.IsTimeOut())
+	{
+		Stage1_10(DeltaTime);
+	}
+	else if (!TStage_1_11.IsTimeOut())
+	{
+		Stage1_11(DeltaTime);
+	}
+	else if (!TStage_1_12.IsTimeOut())
+	{
+		Stage1_12(DeltaTime);
+	}
+	else if (!TStage_1_13.IsTimeOut())
+	{
+		Stage1_13(DeltaTime);
+	}
+	else if (!TStage_1_14.IsTimeOut())
+	{
+		Stage1_14(DeltaTime);
+	}
+	else if (!TStage_1_15.IsTimeOut())
 	{
 		Stage1_15(DeltaTime);
 	}
@@ -356,7 +368,53 @@ void GameLevel::Tick(float DeltaTime)
 		Stage3_9(DeltaTime);
 	}
 
+	//스테이지4
+	else if (!TStage_4_1.IsTimeOut() && TurnCount == 4)
+	 {
+		 Stage4_1(DeltaTime);
+	 }
+	else if (!TStage_4_2.IsTimeOut() && TurnCount == 4)
+	 {
+		 Stage4_2(DeltaTime);
+	 }
+	else if (!TStage_4_3.IsTimeOut() && TurnCount == 4)
+	 {
+		 Stage4_3(DeltaTime);
+	 }
+	else if (!TStage_4_4.IsTimeOut() && TurnCount == 4)
+	 {
+		 Stage4_4(DeltaTime);
+	 }
+	else if (!TStage_4_5.IsTimeOut() && TurnCount == 4)
+	 {
+		 Stage4_5(DeltaTime);
+	 }
+	else if (!TStage_4_6.IsTimeOut() && TurnCount == 4)
+	 {
+		 Stage4_6(DeltaTime);
+	 }
+	else if (!TStage_4_7.IsTimeOut() && TurnCount == 4)
+	 {
+		 Stage4_7(DeltaTime);
+	 }
 
+	//스테이지5
+	else if (!TStage_5_1.IsTimeOut() && TurnCount == 5)
+	 {
+		 Stage5_1(DeltaTime);
+	 }
+	else if (!TStage_5_2.IsTimeOut() && TurnCount == 5)
+	 {
+		 Stage5_2(DeltaTime);
+	 }
+	else if (!TStage_5_3.IsTimeOut() && TurnCount == 5)
+	 {
+		 Stage5_3(DeltaTime);
+	 }
+	else if (!TStage_5_4.IsTimeOut() && TurnCount == 5)
+	 {
+		 Stage5_4(DeltaTime);
+	 }
 	
 
 	//테스트 용도
@@ -559,6 +617,15 @@ void GameLevel::CheckPlayerGravity()
 	}
 }
 
+void GameLevel::SettingPlayerGravity(bool SetBool)
+{
+	for (Actor* actor : actors)
+	{
+		if (auto* player = actor->As<Player>())
+			player->SettingToGravity(SetBool);
+	}
+}
+
 void GameLevel::UIController()
 {
 	//플레이어가 턴인지 가져와서 레벨에 저장
@@ -650,7 +717,10 @@ void GameLevel::UIController()
 			EatItem();
 
 			if (TurnCount == 1)
+			{
 				TurnCount++;
+				TurnTwoFristFoodCheck = true;
+			}
 
 			AttackAndStartTurn(TurnCount);
 		}
@@ -676,6 +746,7 @@ void GameLevel::UIController()
 		else if(TurnCount >= 2)
 		{
 			TurnCount++;
+			bSansIsMoving = true;
 			DeleteAttackUI();
 			AttackAndStartTurn(TurnCount);
 			for (Actor* actor : actors)
@@ -822,6 +893,75 @@ void GameLevel::ProcessCollisionPlayerAndBlock()
 
 
 
+void GameLevel::GameOver(float DeltaTime)
+{
+	if (bGameOverTriggered) {
+		// 이미 게임오버 트리거된 상태: 타이머만 진행
+		GameOverDelay.Tick(DeltaTime);
+		if (GameOverDelay.IsTimeOut()) {
+			Die(); // 여기서 한 번만 종료
+		}
+		return;
+	}
+
+	// 아직 게임오버 트리거 안 됨: 플레이어 HP 체크
+	Player* player = nullptr;
+	Speech_UI* speechUI = nullptr;
+
+	for (Actor* actor : actors)
+	{
+		if (!player)    player = actor->As<Player>();
+		if (!speechUI)  speechUI = actor->As<Speech_UI>();
+	}
+
+	if (player && player->GetHp() <= 0)
+	{
+		// 한 번만 실행
+		bGameOverTriggered = true;
+
+		// 입력/턴 등 멈추기
+		player->SwitchTurn();
+
+		// 화면/맵 정리 (한 번만)
+		DeleteMap();
+		system("cls");
+
+		// 대사 띄우기
+		if (speechUI) {
+			speechUI->SayTalking(
+				"Chara! 의지를 가져야 한다.\n어서 일어나렴!",
+				Vector2(-33, 15), 50, true, "CharaTalking");
+		}
+
+		// 종료 대기 타이머 리셋
+		GameOverDelay.Reset();
+
+		// 이 프레임엔 바로 종료하지 않음
+		player->SetDieCheck(true); // 상태 표시는 하되 Die()는 나중에
+	}
+}
+
+
+void GameLevel::Die()
+{
+	DieToDark = true;
+	// 실제 종료는 여기서 한 번만
+	Player* player = nullptr;
+	for (Actor* actor : actors)
+		if (!player) player = actor->As<Player>();
+
+	if (player && player->GetDieCheck())
+	{
+		player->QuitGame();
+	}
+}
+
+void GameLevel::DieToClearFront()
+{
+	if (DieToDark)
+		system("cls");
+}
+
 void GameLevel::DeleteMap()
 {
 	for (Actor* actor : actors)
@@ -927,7 +1067,10 @@ void GameLevel::AttackSans()
 		Monster* sans = actor->As<Monster>();
 
 		if (sans != nullptr)
+		{
 			sans->SetSansLeftRight(true);
+		}
+
 	}
 }
 
@@ -975,7 +1118,7 @@ void GameLevel::AttackAndStartTurn(int TurnCount)
 	{
 		if (HadEatenFood == false)
 		{
-			EatFoodTwo = false;
+			//EatFoodTwo = false;
 			TStage_2_1.Reset();
 			TStage_2_2.ForceTimeOut();
 		}
@@ -988,24 +1131,56 @@ void GameLevel::AttackAndStartTurn(int TurnCount)
 	}
 	else if (TurnCount == 3)
 	{
+		if (TurnTwoFristFoodCheck == true)
+		{
+			this->TurnCount = 2;
+			TStage_2_1.Reset();
+			TStage_2_2.ForceTimeOut();
+		}
+		else
+		{
+			if (HadEatenFood == false)
+			{
+				//EatFoodTwo = false;
+				TStage_3_1.Reset();
+				TStage_3_2.ForceTimeOut();
+
+			}
+			else if (HadEatenFood == true)
+			{
+				TStage_3_3.Reset();
+				TStage_3_1.ForceTimeOut();
+				TStage_3_2.ForceTimeOut();
+			}
+		}
+
+	}
+	else if (TurnCount == 4)
+	{
 		if (HadEatenFood == false)
 		{
-			EatFoodTwo = false;
-			TStage_3_1.Reset();
-			TStage_3_2.ForceTimeOut();
-
+			TStage_4_1.Reset();
+			TStage_4_2.ForceTimeOut();
 		}
 		else if (HadEatenFood == true)
 		{
-			//EatFoodTwo = false;
-			TStage_3_2.Reset();
-			TStage_3_1.ForceTimeOut();
+			TStage_4_2.Reset();
+			TStage_4_1.ForceTimeOut();
 		}
 	}
-	//else if (TurnCount == 4)
-	//{
-
-	//}
+	else if (TurnCount == 5)
+	{
+		if (HadEatenFood == false)
+		{
+			TStage_4_1.Reset();
+			TStage_4_2.ForceTimeOut();
+		}
+		else if (HadEatenFood == true)
+		{
+			TStage_4_2.Reset();
+			TStage_4_1.ForceTimeOut();
+		}
+	}
 }
 
 //4방향 블래스터

@@ -158,6 +158,8 @@
     <ClCompile Include="Level\Stage_Phase_1\Stage1.cpp" />
     <ClCompile Include="Level\Stage_Phase_1\Stage2.cpp" />
     <ClCompile Include="Level\Stage_Phase_1\Stage3.cpp" />
+    <ClCompile Include="Level\Stage_Phase_1\Stage4.cpp" />
+    <ClCompile Include="Level\Stage_Phase_1\Stage5.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="UI\Attack_UI\AttackUI_DoubleLine.cpp" />
     <ClCompile Include="UI\Attack_UI\AttackUI_Mini_Length.cpp" />

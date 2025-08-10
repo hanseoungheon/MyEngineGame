@@ -14,6 +14,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	void ChangeToIsGravity();
+	void SettingToGravity(bool SetGravity);
 
 	bool GetIsTurn() const;
 	void SetIsTurn(bool IsTurn);
@@ -25,6 +26,9 @@ public:
 
 	void SetIsOnTheBlock(const bool IsOnTheBlock);
 
+	bool GetDieCheck() const;
+	void SetDieCheck(const bool DieCheck);
+
 	void SwitchTurn();
 private:
 	int hp;
@@ -35,5 +39,6 @@ private:
 	bool IsMoving = false;
 	bool IsOnTheBlock = false;
 	int TestMoving;
+	bool DieCheck = false;
 	Vector2 velocity = Vector2(0,1);
 };

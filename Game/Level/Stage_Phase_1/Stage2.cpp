@@ -10,28 +10,6 @@
 #include "Actor/Actor.h"
 
 
-//void GameLevel::Stage2_0(float DeltaTime)
-//{
-//	TStage_2_0.Tick(DeltaTime);
-//
-//	if (!TStage_2_0.IsTimeOut())
-//	{
-//		return;
-//	}
-//	if (Input::GetController().GetKeyDown(VK_RETURN) && AttackTrigger == true)
-//	{
-//		DeleteAttackUI();
-//		bSansIsMoving = true;
-//		TStage_2_1.Reset();
-//	}
-//	if (TStage_2_0.Update(DeltaTime))
-//	{
-//		DeleteAttackUI();
-//		bSansIsMoving = true;
-//	}
-//	TStage_2_1.Reset();
-//}
-
 void GameLevel::Stage2_1(float DeltaTime)
 {
 	TStage_2_1.Tick(DeltaTime);
@@ -52,6 +30,7 @@ void GameLevel::Stage2_1(float DeltaTime)
 				speechUI->SayTalking("뭐?\n내가 가만히 서서\n맞아 줄거라 생각했어?",
 					Vector2(3, 2), 20, true, "SansTalking");
 			}
+			TurnTwoFristFoodCheck = false;
 		}
 	}
 	TStage_2_2.Reset();
@@ -70,17 +49,7 @@ void GameLevel::Stage2_2(float DeltaTime)
 	{
 
 		TurnStart();
-
-		if (EatFoodTwo)
-		{
-			TStage_2_3.Reset();
-			EatFoodTwo = false;
-			return;
-		}
-		else
-		{
-			CheckPlayerGravity();
-		}
+		SettingPlayerGravity(true);
 	}
 	TStage_2_3.Reset();
 }
@@ -130,8 +99,7 @@ void GameLevel::Stage2_4(float DeltaTime)
 	{
 		if (HadEatenFood == true)
 		{
-			HadEatenFood = true;
-			EatFoodTwo = !EatFoodTwo;
+			HadEatenFood = false;
 		}
 
 		TurnEnd();
