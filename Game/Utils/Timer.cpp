@@ -53,3 +53,10 @@ void Timer::SetIsPause()
 {
 	IsPause = !IsPause;
 }
+
+void Timer::ForceTimeOut()
+{
+	elaspedTime = targetTime;
+	IsComplete = true;
+	IsPause = false;
+}

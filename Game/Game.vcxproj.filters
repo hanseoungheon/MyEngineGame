@@ -87,6 +87,9 @@
     <ClCompile Include="UI\Attack_UI\AttackUI_DoubleLine.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Level\Intro\Intro.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Game.h">

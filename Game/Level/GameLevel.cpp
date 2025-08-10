@@ -85,17 +85,21 @@ GameLevel::GameLevel()
 	for (Actor* actor : actors)
 	{
 		Player* player = actor->As<Player>();
-		player->SetHp(92);
+		
+		if(player != nullptr)
+			player->SetHp(92);
 	}
 
 	UIcontrollerNum = 1;
 	bSansIsMoving = false;
+	HadEatenFood = false;
+	EatFoodTwo = false;
 	//testUImode = false;
 	//levelTimer.SetTargetTime(2.0f);
 
 
 	//인트로
-	IntroTimer.SetTargetTime(1.0f);
+	IntroTimer.SetTargetTime(0.1f);
 	BurningToHell.SetTargetTime(1.0f);
 
 	//스테이지1
@@ -155,7 +159,10 @@ void GameLevel::BeginPlay()
 
 void GameLevel::Tick(float DeltaTime)
 {
-	//std::cout << "TurnCount: " << TurnCount;
+	std::cout << EatFoodTwo;
+
+	//if (HadEatenFood)
+	//	__debugbreak();
 
 	Super::Tick(DeltaTime);
 
@@ -199,84 +206,84 @@ void GameLevel::Tick(float DeltaTime)
 	}
 
 	//Stage1 타이머
-	if (!IntroTimer.IsTimeOut())
-	{
-		Intro(DeltaTime);
-	}
-	else if (!BurningToHell.IsTimeOut())
-	{
-		BlackOut_1(DeltaTime);
-	}
-	else if (!TStage_1_1.IsTimeOut())
-	{
-		Stage1_1(DeltaTime);
-	}
-	else if (!TStage_1_2.IsTimeOut())
-	{
-		Stage1_2(DeltaTime);
-	}
-	else if (!TStage_1_3.IsTimeOut())
-	{
-		Stage1_3(DeltaTime);
-	}
-	else if (!TStage_1_4.IsTimeOut())
-	{
-		Stage1_4(DeltaTime);
-	}
-	else if (!TStage_1_5.IsTimeOut())
-	{
-		Stage1_5(DeltaTime);
-	}
-	else if (!TStage_1_5_Array.IsTimeOut() && TimerArrayCount == 1)
-	{
-		Stage1_5_1(DeltaTime);
-	}
-	else if (!TStage_1_5_Array.IsTimeOut() && TimerArrayCount == 2)
-	{
-		Stage1_5_2(DeltaTime);
-	}
-	else if (!TStage_1_5_Array.IsTimeOut() && TimerArrayCount == 3)
-	{
-		Stage1_5_3(DeltaTime);
-	}
-	/////////////////////////////////////////////
-	else if (!TStage_1_6.IsTimeOut())
-	{
-		Stage1_6(DeltaTime);
-	}
-	else if (!TStage_1_7.IsTimeOut())
-	{
-		Stage1_7(DeltaTime);
-	}
-	else if (!TStage_1_8.IsTimeOut())
-	{
-		Stage1_8(DeltaTime);
-	}
-	else if (!TStage_1_9.IsTimeOut())
-	{
-		Stage1_9(DeltaTime);
-	}
-	else if (!TStage_1_10.IsTimeOut())
-	{
-		Stage1_10(DeltaTime);
-	}
-	else if (!TStage_1_11.IsTimeOut())
-	{
-		Stage1_11(DeltaTime);
-	}
-	else if (!TStage_1_12.IsTimeOut())
-	{
-		Stage1_12(DeltaTime);
-	}
-	else if (!TStage_1_13.IsTimeOut())
-	{
-		Stage1_13(DeltaTime);
-	}
-	else if (!TStage_1_14.IsTimeOut())
-	{
-		Stage1_14(DeltaTime);
-	}
-	else if (!TStage_1_15.IsTimeOut())
+	//if (!IntroTimer.IsTimeOut())
+	//{
+	//	Intro(DeltaTime);
+	//}
+	//else if (!BurningToHell.IsTimeOut())
+	//{
+	//	BlackOut_1(DeltaTime);
+	//}
+	//else if (!TStage_1_1.IsTimeOut())
+	//{
+	//	Stage1_1(DeltaTime);
+	//}
+	//else if (!TStage_1_2.IsTimeOut())
+	//{
+	//	Stage1_2(DeltaTime);
+	//}
+	//else if (!TStage_1_3.IsTimeOut())
+	//{
+	//	Stage1_3(DeltaTime);
+	//}
+	//else if (!TStage_1_4.IsTimeOut())
+	//{
+	//	Stage1_4(DeltaTime);
+	//}
+	//else if (!TStage_1_5.IsTimeOut())
+	//{
+	//	Stage1_5(DeltaTime);
+	//}
+	//else if (!TStage_1_5_Array.IsTimeOut() && TimerArrayCount == 1)
+	//{
+	//	Stage1_5_1(DeltaTime);
+	//}
+	//else if (!TStage_1_5_Array.IsTimeOut() && TimerArrayCount == 2)
+	//{
+	//	Stage1_5_2(DeltaTime);
+	//}
+	//else if (!TStage_1_5_Array.IsTimeOut() && TimerArrayCount == 3)
+	//{
+	//	Stage1_5_3(DeltaTime);
+	//}
+	///////////////////////////////////////////////
+	//else if (!TStage_1_6.IsTimeOut())
+	//{
+	//	Stage1_6(DeltaTime);
+	//}
+	//else if (!TStage_1_7.IsTimeOut())
+	//{
+	//	Stage1_7(DeltaTime);
+	//}
+	//else if (!TStage_1_8.IsTimeOut())
+	//{
+	//	Stage1_8(DeltaTime);
+	//}
+	//else if (!TStage_1_9.IsTimeOut())
+	//{
+	//	Stage1_9(DeltaTime);
+	//}
+	//else if (!TStage_1_10.IsTimeOut())
+	//{
+	//	Stage1_10(DeltaTime);
+	//}
+	//else if (!TStage_1_11.IsTimeOut())
+	//{
+	//	Stage1_11(DeltaTime);
+	//}
+	//else if (!TStage_1_12.IsTimeOut())
+	//{
+	//	Stage1_12(DeltaTime);
+	//}
+	//else if (!TStage_1_13.IsTimeOut())
+	//{
+	//	Stage1_13(DeltaTime);
+	//}
+	//else if (!TStage_1_14.IsTimeOut())
+	//{
+	//	Stage1_14(DeltaTime);
+	//}
+	if (!TStage_1_15.IsTimeOut())
 	{
 		Stage1_15(DeltaTime);
 	}
@@ -288,6 +295,7 @@ void GameLevel::Tick(float DeltaTime)
 	{
 		Stage1_17(DeltaTime);
 	}
+
 	//스테이지 2
 	else if (!TStage_2_1.IsTimeOut() && TurnCount == 2)
 	{
@@ -622,50 +630,38 @@ void GameLevel::UIController()
 		UIcontrollerNum++;
 	}
 	//엔터키 누를시 해당 UI작동
+
+	//전처리
+	if (!PlayerIsTurn && Input::GetController().GetKeyUp(VK_RETURN))
+	{
+		if(UIcontrollerNum == 1)
+			AttackTrigger = !AttackTrigger;
+	}
+
 	if (!PlayerIsTurn && Input::GetController().GetKeyDown(VK_RETURN) && AttackTrigger == false)
 	{
-		if (UIcontrollerNum == 1 && TurnCount < 2)
+		if (UIcontrollerNum == 1)
 		{
-			MakeAttackUIFile();
-			AddActor(new MultiLine_Actor("../Assets/Actor/stick.txt",
-			Color::White, Vector2(41, 17), "Stick"));
+			Attack();
 		}	
-		else if (UIcontrollerNum == 1 && TurnCount == 2)
-		{
-			MakeAttackUIFile();
-			AddActor(new MultiLine_Actor("../Assets/Actor/stick.txt",
-				Color::White, Vector2(41, 17), "Stick"));
-		}
-		else if (UIcontrollerNum == 1 && TurnCount == 3)
-		{
-			MakeAttackUIFile();
-
-		}
-		//else if (UIcontrollerNum == 1 && TurnCount == 4)
-		//{
-		//	AttakSans();
-		//	TurnCount = 5;
-		//}
 
 		if (UIcontrollerNum == 3)
 		{
 			EatItem();
+
+			if (TurnCount == 1)
+				TurnCount++;
+
+			AttackAndStartTurn(TurnCount);
 		}
 	}
-
-	if (!PlayerIsTurn && Input::GetController().GetKeyUp(VK_RETURN))
-	{
-		AttackTrigger = !AttackTrigger;
-	}
-
-	if (!PlayerIsTurn && Input::GetController().GetKeyDown(VK_RETURN) && AttackTrigger == true)
+	else if (!PlayerIsTurn && Input::GetController().GetKeyDown(VK_RETURN) && AttackTrigger == true)
 	{
 		if (TurnCount < 2)
 		{
-			DeleteAttackUI();
 			TurnCount++;
-			TStage_2_1.Reset();
-
+			DeleteAttackUI();
+			AttackAndStartTurn(TurnCount);
 			for (Actor* actor : actors)
 			{
 				MultiLine_Actor* stick = actor->As<MultiLine_Actor>();
@@ -677,12 +673,11 @@ void GameLevel::UIController()
 
 			bSansIsMoving = true;
 		}
-		else if (TurnCount == 2)
+		else if(TurnCount >= 2)
 		{
+			TurnCount++;
 			DeleteAttackUI();
-			TurnCount = 3;
-			TStage_3_1.Reset();
-
+			AttackAndStartTurn(TurnCount);
 			for (Actor* actor : actors)
 			{
 				MultiLine_Actor* stick = actor->As<MultiLine_Actor>();
@@ -692,13 +687,7 @@ void GameLevel::UIController()
 				}
 			}
 
-			AttakSans();
-		}
-		else if (TurnCount == 3)
-		{
-			DeleteAttackUI();
-			TurnCount = 4;
-			AttakSans();
+			AttackSans();
 		}
 	}
 }
@@ -888,6 +877,7 @@ void GameLevel::TurnStart()
 	DeleteMap();
 	ReadMapFile("map.txt");
 
+
 	for (Actor* actor : actors)
 	{
 		Player* player = actor->As<Player>();
@@ -930,7 +920,7 @@ void GameLevel::TurnEnd()
 	ReadMapFile("map_talking.txt");
 }
 
-void GameLevel::AttakSans()
+void GameLevel::AttackSans()
 {
 	for (Actor* actor : actors)
 	{
@@ -943,6 +933,8 @@ void GameLevel::AttakSans()
 
 void GameLevel::EatItem()
 {
+	HadEatenFood = true;
+
 	for (Actor* actor : actors)
 	{
 		Player* player = actor->As<Player>();
@@ -965,92 +957,55 @@ void GameLevel::EatItem()
 		{
 			speechUI->SayTalking(
 				"* 스테이크를 먹었다!\n   체력을 50 회복했다!",
-				Vector2(-33, 15), 20, true, "CharaTalking");
+				Vector2(-33, 15), 20, true, "CharaTalkingAndEatFood");
 		}
 	}
 }
 
-//void GameLevel::LevelTest(float DeltaTime)
-//{
-//	levelTimer.Tick(DeltaTime);
-//
-//	if (!levelTimer.IsTimeOut())
-//	{
-//		return;
-//	}
-//
-//	/*levelTimer.Reset();*/
-//
-//	for (Actor* actor : actors)
-//	{
-//		Player* player = actor->As<Player>();
-//
-//		if (player != nullptr)
-//		{
-//			player->ChangeToIsGravity();
-//		}
-//	}
-//
-//}
-
-void GameLevel::Intro(float DeltaTime)
+void GameLevel::Attack()
 {
-	IntroTimer.Tick(DeltaTime);
-
-	if (!IntroTimer.IsTimeOut())
-	{
-		return;
-	}
-	//IntroTimer.Reset();
-
-	if (IntroTimer.Update(DeltaTime))
-	{
-		for (Actor* actor : actors)
-		{
-
-			Speech_UI* speechUI = actor->As<Speech_UI>();
-			if (speechUI != nullptr)
-			{
-				speechUI->SetIsVisible(true);
-				speechUI->SayTalking
-				("오늘은 정말 \n아름다운날이야", Vector2(3, 2), 100, true,"SansTalking");
-				Sleep(100);
-				speechUI->SayTalking
-				("새들은 지저귀고 \n꽃들은 피어나고", Vector2(3, 2), 100, true,"SansTalking");
-				Sleep(100);
-				speechUI->SayTalking
-				("이런날엔, 너같은\n꼬마들은...", Vector2(3, 2), 100, true,"SansTalking");
-				speechUI->BlackOut();
-			}
-		}
-	}
-	BurningToHell.Reset();
+	MakeAttackUIFile();
+	AddActor(new MultiLine_Actor("../Assets/Actor/stick.txt",
+		Color::White, Vector2(41, 17), "Stick"));
 }
 
-void GameLevel::BlackOut_1(float DeltaTime)
+void GameLevel::AttackAndStartTurn(int TurnCount)
 {
-	BurningToHell.Tick(DeltaTime);
-
-	if (!BurningToHell.IsTimeOut())
+	if (TurnCount == 2)
 	{
-		return;
-	}
-
-	if (BurningToHell.Update(DeltaTime))
-	{
-
-		for (Actor* actor : actors)
+		if (HadEatenFood == false)
 		{
-			Speech_UI* speechUI = actor->As<Speech_UI>();
+			EatFoodTwo = false;
+			TStage_2_1.Reset();
+			TStage_2_2.ForceTimeOut();
+		}
+		else if (HadEatenFood == true)
+		{
+			TStage_2_2.Reset();
+			TStage_2_1.ForceTimeOut();
+		}
 
-			if (speechUI != nullptr)
-			{
-				speechUI->SayTalking
-				("지옥에서 \n불타야해", Vector2(3, 2), 200, false,"SansTalking");
-			}
+	}
+	else if (TurnCount == 3)
+	{
+		if (HadEatenFood == false)
+		{
+			EatFoodTwo = false;
+			TStage_3_1.Reset();
+			TStage_3_2.ForceTimeOut();
+
+		}
+		else if (HadEatenFood == true)
+		{
+			//EatFoodTwo = false;
+			TStage_3_2.Reset();
+			TStage_3_1.ForceTimeOut();
 		}
 	}
-	TStage_1_1.Reset();
+	//else if (TurnCount == 4)
+	//{
+
+	//}
 }
 
 //4방향 블래스터

@@ -135,7 +135,7 @@ void Speech_UI::SayTalking(const char* say, Vector2 position,DWORD talkSpeed,
 	if(EndSleep == true)
 		Sleep(500);
 
-	if (CheckTag("SansTalking"))
+	if (CheckTag("SansTalking") || CheckTag("CharaTalkingAndEatFood"))
 	{
 		for (int row = 0; row < lineoffset; ++row)
 		{

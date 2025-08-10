@@ -68,9 +68,19 @@ void GameLevel::Stage2_2(float DeltaTime)
 
 	if (TStage_2_2.Update(DeltaTime))
 	{
+
 		TurnStart();
 
-		CheckPlayerGravity();
+		if (EatFoodTwo)
+		{
+			TStage_2_3.Reset();
+			EatFoodTwo = false;
+			return;
+		}
+		else
+		{
+			CheckPlayerGravity();
+		}
 	}
 	TStage_2_3.Reset();
 }
@@ -118,6 +128,12 @@ void GameLevel::Stage2_4(float DeltaTime)
 
 	if (TStage_2_4.Update(DeltaTime))
 	{
+		if (HadEatenFood == true)
+		{
+			HadEatenFood = true;
+			EatFoodTwo = !EatFoodTwo;
+		}
+
 		TurnEnd();
 	}
 	TStage_2_5.Reset();

@@ -35,5 +35,5 @@ private:
 	bool IsMoving = false;
 	bool IsOnTheBlock = false;
 	int TestMoving;
-	Vector2 velocity = Vector2(0, 1);
+	Vector2 velocity = Vector2(0,1);
 };

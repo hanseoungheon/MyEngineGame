@@ -154,6 +154,7 @@
     <ClCompile Include="Actor\ActorWall_Width.cpp" />
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="Level\GameLevel.cpp" />
+    <ClCompile Include="Level\Intro\Intro.cpp" />
     <ClCompile Include="Level\Stage_Phase_1\Stage1.cpp" />
     <ClCompile Include="Level\Stage_Phase_1\Stage2.cpp" />
     <ClCompile Include="Level\Stage_Phase_1\Stage3.cpp" />

@@ -25,8 +25,9 @@ void Player::Tick(float DeltaTime)
 	JumpTick++; //틱을 받아서 나머지를 받아서 틱을 느리게 하는 용도
 	//std::cout << "IsMoving :" << IsMoving;
 	//IsOnTheBlock = false;
+	
 	//중력구현
-	if (IsGravity && !IsOnTheBlock && !Input::GetController().GetKey(VK_UP))
+	if (IsGravity && !IsOnTheBlock && !Input::GetController().GetKey(VK_UP) && JumpTick % 2 == 0)
 	{
 		Vector2 playerPosition = GetActorPosition();
 		playerPosition = playerPosition + velocity;
@@ -84,7 +85,7 @@ void Player::Tick(float DeltaTime)
 	if (IsTurn)
 	{
 		//이동 키 매핑
-		if (Input::GetController().GetKey(VK_LEFT) && JumpTick % 4 == 0)
+		if (Input::GetController().GetKey(VK_LEFT) && JumpTick % 6 == 0)
 		{
 			IsMoving = true;
 			Vector2 playerPosition = GetActorPosition();
@@ -120,7 +121,7 @@ void Player::Tick(float DeltaTime)
 		}
 
 		if (Input::GetController().GetKey(VK_UP) && IsGravity == true
-			&& JumpTick % 4 == 0)
+			&& JumpTick % 6 == 0)
 		{
 			IsMoving = true;
 			Vector2 playerPosition = GetActorPosition();

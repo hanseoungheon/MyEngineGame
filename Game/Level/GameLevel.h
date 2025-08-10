@@ -51,6 +51,9 @@ private:
 
 	bool AttackTrigger = false;
 
+	bool HadEatenFood;
+	bool EatFoodTwo;
+
 	//bool isonblock = false;
 public:
 	void DeleteMap();
@@ -60,7 +63,7 @@ public:
 	void TurnStart_MiniMap();
 	void TurnEnd();
 
-	void AttakSans();
+	void AttackSans();
 
 	void EatItem();
 	//인트로
@@ -166,6 +169,8 @@ private:
 	bool bSansIsMoving = false;
 	//bool bSansLeftRight = true;
 public:
+	void Attack();
+	void AttackAndStartTurn(int TurnCount);
 	//4방향 블래스터 & 4방향 브레스
 	void MakeBlaster4();
 	void DeleteBlaster4(Monster* monsterActor);
