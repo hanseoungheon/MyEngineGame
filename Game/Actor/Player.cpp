@@ -65,23 +65,23 @@ void Player::Tick(float DeltaTime)
 	//	//SetColor(Color::Blue);
 	//}	
 
-	if (Input::GetController().GetKey(VK_BACK))
-	{
-		--hp;
-	}
-
-	//if (Input::GetController().GetKey(VK_RETURN))
+	//if (Input::GetController().GetKey(VK_BACK))
 	//{
-	//	hp = 80;
+	//	--hp;
 	//}
 
-	if (Input::GetController().GetKey(VK_LBUTTON))
-	{
-		if (hp < 92)
-		{
-			++hp;
-		}
-	}
+	////if (Input::GetController().GetKey(VK_RETURN))
+	////{
+	////	hp = 80;
+	////}
+
+	//if (Input::GetController().GetKey(VK_LBUTTON))
+	//{
+	//	if (hp < 92)
+	//	{
+	//		++hp;
+	//	}
+	//}
 	//IsMoving = false;
 	if (IsTurn)
 	{

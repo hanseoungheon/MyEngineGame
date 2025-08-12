@@ -90,10 +90,7 @@ void GameLevel::Stage5_4(float DeltaTime)
 
 	if (TStage_5_4.Update(DeltaTime))
 	{
-		TurnStart();
+		AddActor(new Block(Vector2(41,20),"Right"));
 	}
 
-	if (TStage_5_3.Update(DeltaTime))
-	{
-	}
 }

@@ -51,6 +51,7 @@ Monster::Monster(const char* filePath, Color color,
 	//¾ÈÁö¿öÁü? 
 	IsSansMoving = true;
 	LeftRight = true;
+	JumpTick = 0;
 }
 
 Monster::~Monster()
@@ -65,17 +66,17 @@ Monster::~Monster()
 void Monster::Tick(float DeltaTime)
 {
 
-	if (Input::GetController().GetKey(VK_NUMPAD4))
-	{
-		//actorPosition.x += -1;
-		//SetPosition(actorPosition);
-		LeftRight = true;
-	}
-	if (Input::GetController().GetKey(VK_NUMPAD6))
-	{
-		actorPosition.x += 1;
-		SetPosition(actorPosition);
-	}
+	//if (Input::GetController().GetKey(VK_NUMPAD4))
+	//{
+	//	//actorPosition.x += -1;
+	//	//SetPosition(actorPosition);
+	//	LeftRight = true;
+	//}
+	//if (Input::GetController().GetKey(VK_NUMPAD6))
+	//{
+	//	actorPosition.x += 1;
+	//	SetPosition(actorPosition);
+	//}
 
 	++JumpTick;
 

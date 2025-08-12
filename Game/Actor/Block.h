@@ -11,8 +11,10 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
+	virtual void Render() override;
 
 	bool CheckTag(const char* name);
 private:
 	char* NameTag = nullptr;
+	int JumpTick;
 };

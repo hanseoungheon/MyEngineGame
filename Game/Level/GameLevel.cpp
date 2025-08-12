@@ -49,7 +49,7 @@ GameLevel::GameLevel()
 	//	Color::White, Vector2(64, 18), "Bone"));
 
 
-	//AddActor(new Block(Vector2(60,20),"Default"));
+	//AddActor(new Block(Vector2(60,20),"Right"));
 	//MakeAttackUIFile();
 	//UI
 	//공격 UI
@@ -143,7 +143,7 @@ GameLevel::GameLevel()
 	TStage_4_1.SetTargetTime(1.0f); //턴 4 시작 공격실패 샌즈의 턴
 	TStage_4_2.SetTargetTime(0.5f); 
 	TStage_4_3.SetTargetTime(0.5f); 
-	TStage_4_3_1.SetTargetTime(1.0f); 
+	TStage_4_3_1.SetTargetTime(0.5f); 
 	TStage_4_4.SetTargetTime(0.5f); 
 	TStage_4_5.SetTargetTime(1.0f); 
 	TStage_4_6.SetTargetTime(2.0f); 
@@ -210,6 +210,11 @@ void GameLevel::Tick(float DeltaTime)
 
 			}
 		}
+	}
+
+	if (Input::GetController().GetKeyDown(VK_NUMPAD1))
+	{
+		Start = true;
 	}
 
 	if (Input::GetController().GetKeyDown(VK_NUMPAD2))
@@ -381,6 +386,10 @@ void GameLevel::Tick(float DeltaTime)
 	 {
 		 Stage4_3(DeltaTime);
 	 }
+	else if (!TStage_4_3_1.IsTimeOut() && TurnCount == 4)
+	 {
+		 Stage4_3_1(DeltaTime);
+	 }
 	else if (!TStage_4_4.IsTimeOut() && TurnCount == 4)
 	 {
 		 Stage4_4(DeltaTime);
@@ -453,9 +462,6 @@ void GameLevel::Render()
 {
 	Super::Render();
 }
-
-
-
 
 void GameLevel::ReadMapFile(const char* fileName)
 {
@@ -1170,19 +1176,20 @@ void GameLevel::AttackAndStartTurn(int TurnCount)
 		{
 			TStage_4_2.Reset();
 			TStage_4_1.ForceTimeOut();
+			//TStage_4_3_1.ForceTimeOut();
 		}
 	}
 	else if (TurnCount == 5)
 	{
 		if (HadEatenFood == false)
 		{
-			TStage_4_1.Reset();
-			TStage_4_2.ForceTimeOut();
+			TStage_5_1.Reset();
+			TStage_5_2.ForceTimeOut();
 		}
 		else if (HadEatenFood == true)
 		{
-			TStage_4_2.Reset();
-			TStage_4_1.ForceTimeOut();
+			TStage_5_2.Reset();
+			TStage_5_1.ForceTimeOut();
 		}
 	}
 }
@@ -1284,4 +1291,6 @@ void GameLevel::DeleteBreath(BreathActor* breaths)
 	if (breaths->CheckTag("breath"))
 		breaths->Destroy();
 }
+
+
 

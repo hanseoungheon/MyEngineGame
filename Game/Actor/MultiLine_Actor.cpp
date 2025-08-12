@@ -79,27 +79,34 @@ void MultiLine_Actor::Tick(float DeltaTime)
 	//Á¡ÇÁÆ½
 	JumpTick++;
 
-	if (Input::GetController().GetKey(VK_NUMPAD4) && JumpTick % 2 == 0)
-	{
-		Vector2 newPosition = actorPosition + Vector2(-1, 0);
-		SetPosition(newPosition);
-	}
+	//if (Input::GetController().GetKey(VK_NUMPAD4) && JumpTick % 2 == 0)
+	//{
+	//	Vector2 newPosition = actorPosition + Vector2(-1, 0);
+	//	SetPosition(newPosition);
+	//}
 
 	if (Input::GetController().GetKey(VK_NUMPAD5))
 	{
 		Destroy();
 	}
-	if (Input::GetController().GetKey(VK_NUMPAD6) && JumpTick % 2 == 0)
-	{
-		Vector2 newPosition = actorPosition + Vector2(1, 0);
-		SetPosition(newPosition);
-	}
+	//if (Input::GetController().GetKey(VK_NUMPAD6) && JumpTick % 2 == 0)
+	//{
+	//	Vector2 newPosition = actorPosition + Vector2(1, 0);
+	//	SetPosition(newPosition);
+	//}
 
 	if ((CheckTag("Right") || CheckTag("BlueBoneRight")) && JumpTick % 2 == 0)
 	{
 		Vector2 newPosition = actorPosition + Vector2(1, 0);
 		SetPosition(newPosition);
 	}
+
+	if ((CheckTag("Right_Lower") || CheckTag("BlueBoneRight_Lower")) && JumpTick % 3 == 0)
+	{
+		Vector2 newPosition = actorPosition + Vector2(1, 0);
+		SetPosition(newPosition);
+	}
+
 	if ((CheckTag("Stick")) && JumpTick % 2 == 0)
 	{
 		Vector2 newPosition = actorPosition + Vector2(1, 0);
@@ -107,6 +114,12 @@ void MultiLine_Actor::Tick(float DeltaTime)
 	}
 
 	if ((CheckTag("Left") || CheckTag("BlueBoneLeft")) && JumpTick % 2 == 0)
+	{
+		Vector2 newPosition = actorPosition + Vector2(-1, 0);
+		SetPosition(newPosition);
+	}
+
+	if ((CheckTag("Left_Lower") || CheckTag("BlueBoneLeft_Lower")) && JumpTick % 3 == 0)
 	{
 		Vector2 newPosition = actorPosition + Vector2(-1, 0);
 		SetPosition(newPosition);

@@ -120,7 +120,7 @@ void GameLevel::Stage1_5(float DeltaTime)
 		}
 
 		AddActor(new MultiLine_Actor("../Assets/Actor/Stage1/bone_array_1.txt",
-			Color::White, Vector2(51, 16), "Right"));
+			Color::White, Vector2(51, 16), "Right_Lower"));
 	}
 	TimerArrayCount = 1;
 	TimerEndCount++;
@@ -139,7 +139,7 @@ void GameLevel::Stage1_5_1(float DeltaTime)
 	if (TStage_1_5_Array.Update(DeltaTime))
 	{
 		AddActor(new MultiLine_Actor("../Assets/Actor/Stage1/bone_array_2.txt",
-			Color::White, Vector2(51, 16), "Right"));
+			Color::White, Vector2(51, 16), "Right_Lower"));
 	}
 	TimerArrayCount = 2;
 	TimerEndCount++;
@@ -158,7 +158,7 @@ void GameLevel::Stage1_5_2(float DeltaTime)
 	if (TStage_1_5_Array.Update(DeltaTime))
 	{
 		AddActor(new MultiLine_Actor("../Assets/Actor/Stage1/bone_array_3.txt",
-			Color::White, Vector2(51, 16), "Right"));
+			Color::White, Vector2(51, 16), "Right_Lower"));
 	}
 	TimerArrayCount = 3;
 	TimerEndCount++;
@@ -177,7 +177,7 @@ void GameLevel::Stage1_5_3(float DeltaTime)
 	if (TStage_1_5_Array.Update(DeltaTime))
 	{
 		AddActor(new MultiLine_Actor("../Assets/Actor/Stage1/bone_array_4.txt",
-			Color::White, Vector2(51, 16), "Right"));
+			Color::White, Vector2(51, 16), "Right_Lower"));
 	}
 	TimerArrayCount = 1;
 	TimerEndCount++;

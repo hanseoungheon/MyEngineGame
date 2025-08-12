@@ -208,7 +208,7 @@ private:
 	//턴 카운트
 	int TurnCount;
 	bool bSansIsMoving = false;
-	
+	bool Start = false;
 	//게임 오버 체크
 	//bool bSansLeftRight = true;
 public:
@@ -230,5 +230,7 @@ public:
 	void BreathBig();
 
 	void DeleteBreath(BreathActor* breaths);
+
+	void Pause();
 
 };

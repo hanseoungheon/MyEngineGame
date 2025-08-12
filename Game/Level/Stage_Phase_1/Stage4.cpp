@@ -47,7 +47,6 @@ void GameLevel::Stage4_2(float DeltaTime)
 	if (TStage_4_2.Update(DeltaTime))
 	{
 		TurnStart();
-
 	}
 
 	TStage_4_3.Reset();
@@ -86,11 +85,11 @@ void GameLevel::Stage4_3_1(float DeltaTime)
 		return;
 	}
 
-	if (TStage_4_3_1.Update(DeltaTime))
-	{
+	//if (TStage_4_3_1.Update(DeltaTime))
+	//{
 
-	}
-
+	//}
+	
 	TStage_4_4.Reset();
 }
 
@@ -164,7 +163,6 @@ void GameLevel::Stage4_6(float DeltaTime)
 		if (HadEatenFood == true)
 		{
 			HadEatenFood = false;
-			//EatFoodTwo = !EatFoodTwo;
 		}
 
 		TurnEnd();
